@@ -4,8 +4,8 @@ import numpy as np
 import os
 from PIL import Image
 
-from normalization.normalization import Normalization
-from normalization._utilities import get_sorted_list_images, average_df
+from NeuNorm.normalization import Normalization
+from NeuNorm._utilities import get_sorted_list_images, average_df
 
 
 class TestUtilites(unittest.TestCase):

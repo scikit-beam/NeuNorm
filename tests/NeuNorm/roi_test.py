@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import os
 
-from normalization.roi import ROI
+from NeuNorm.roi import ROI
 
 
 class TestRoi(unittest.TestCase):

@@ -4,8 +4,8 @@ import numpy as np
 import os
 from PIL import Image
 
-from normalization.normalization import Normalization
-from normalization.roi import ROI
+from NeuNorm.normalization import Normalization
+from NeuNorm.roi import ROI
 
 
 class TestLoading(unittest.TestCase):

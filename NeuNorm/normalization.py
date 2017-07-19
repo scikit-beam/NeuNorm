@@ -4,9 +4,9 @@ import os
 import warnings
 import copy
 
-from normalization.loader import load_hdf, load_tiff, load_fits
-from normalization.roi import ROI
-from normalization._utilities import get_sorted_list_images, average_df
+from NeuNorm.loader import load_hdf, load_tiff, load_fits
+from NeuNorm.roi import ROI
+from NeuNorm._utilities import get_sorted_list_images, average_df
 
 class Normalization(object):
 
