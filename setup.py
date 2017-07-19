@@ -14,6 +14,7 @@ setup(
         'pyfits',
         'pillow',
         'pathlib',
+        'astropy',
         'scipy',
     ],
     dependency_links = [
