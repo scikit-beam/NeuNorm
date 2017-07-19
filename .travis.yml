@@ -26,7 +26,6 @@ install:
   - source activate testenv
   - pip install -U pytest
   - pip install pytest-cov
-  - pip install codecov
   - pip install pathlib
   - python setup.py install
 
