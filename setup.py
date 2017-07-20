@@ -2,10 +2,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = "ImagingReso",
+    name = "NeuNorm",
     version = "1.0.0",
-    author = "Yuxuan (Shawn) Zhang, Jean Bilheux",
-    author_email = "zhangy6@ornl.gov, bilheuxjm@ornl.gov",
+    author = "Jean Bilheux",
+    author_email = "bilheuxjm@ornl.gov",
     packages = find_packages(exclude=['tests', 'notebooks']),
     include_package_data = True,
     test_suite = 'tests',
@@ -19,10 +19,10 @@ setup(
     ],
     dependency_links = [
     ],
-    description = "resonance imaging neutron data",
+    description = "neutron normalization data",
     license = 'BSD',
-    keywords = "neutron resonance imaging",
-    url = "https://github.com/ornlneutronimaging/ImagingReso",
+    keywords = "neutron normalization imaging",
+    url = "https://github.com/ornlneutronimaging/NeuNorm",
     classifiers = ['Development Status :: 3 - Alpha',
                    'Topic :: Scientific/Engineering :: Physics',
                    'Intended Audience :: Developers',
