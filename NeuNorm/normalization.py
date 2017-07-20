@@ -43,6 +43,7 @@ class Normalization(object):
         self.data['sample'] = self.dict_image
         self.data['ob'] = self.dict_ob
         self.data['df'] = self.dict_df
+        self.data['normalized'] = []
     
     def load(self, file='', folder='', data_type='sample'):
         '''
@@ -197,6 +198,19 @@ class Normalization(object):
         self.data['sample']['data'] = _sample_corrected_normalized
         self.data['ob']['data'] = _ob_corrected_normalized
             
+        # produce normalized data
+        sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
+        normalized_data = []
+        for [_sample, _ob] in sample_ob:
+            _working_ob = _ob.copy()
+            _working_ob[_working_ob == 0] = np.NaN
+            _norm = np.divide(_sample, _working_ob)
+            _norm[np.isnan(_norm)] = 0
+            _norm[np.isinf(_norm)] = 0
+            normalized_data.append(_norm)
+
+        self.data['normalized'] = normalized_data
+
         return True
     
     def data_loaded_have_matching_shape(self):

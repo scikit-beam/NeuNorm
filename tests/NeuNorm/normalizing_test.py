@@ -329,5 +329,39 @@ class TestApplyingROI(unittest.TestCase):
         o_norm.load(file=df1, data_type='df')
         self.assertRaises(ValueError, o_norm.normalization)
         
+    def test_full_normalization_sample_divide_by_ob_works(self):
+        '''assert the full normalization works (when sample is divided by ob)'''
 
-    
+        # without normalization roi
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=df_path, data_type='df')
+        o_norm.normalization()
+        _norm_expected = np.ones((5,5))
+        _norm_expected[:,2] = 2
+        _norm_expected[:,3] = 3
+        _norm_expected[:,4] = 4
+        _norm_returned = o_norm.data['normalized']
+        self.assertTrue((_norm_expected == _norm_returned).all())
+        
+        # with normalization roi
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=df_path, data_type='df')
+        _roi = ROI(x0=0, y0=0, x1=2, y1=2)
+        o_norm.normalization(roi=_roi)
+        _norm_expected = np.ones((5,5))
+        _norm_expected.fill(0.8125)
+        _norm_expected[:,2] = 1.625
+        _norm_expected[:,3] = 2.4375
+        _norm_expected[:,4] = 3.25
+        _norm_returned = o_norm.data['normalized']
+        self.assertTrue((_norm_expected == _norm_returned).all())
