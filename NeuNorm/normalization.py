@@ -339,6 +339,16 @@ class Normalization(object):
                   _data in self.data['ob']['data']]
         self.data['ob']['data'] = new_ob        
         
+        if not (self.data['df']['data'] == []):
+            new_df = [_data[_y0:_y1+1, _x0:_x1+1] for 
+                      _data in self.data['df']['data']]
+            self.data['df']['data'] = new_df
+            
+        if not (self.data['normalized'] == []):
+            new_normalized = [_data[_y0:_y1+1, _x0:_x1+1] for 
+                              _data in self.data['normalized']]
+            self.data['normalized'] = new_normalized        
+        
         return True
     
    
