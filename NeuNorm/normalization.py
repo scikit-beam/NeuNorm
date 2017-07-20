@@ -351,4 +351,18 @@ class Normalization(object):
         
         return True
     
+    def get_normalized_data(self):
+        '''return the normalized data'''
+        return self.data['normalized']
+    
+    def get_sample_data(self):
+        '''return the sample data'''
+        return self.data['sample']['data']
    
+    def get_ob_data(self):
+        '''return the ob data'''
+        return self.data['ob']['data']
+    
+    def get_df_data(self):
+        '''return the df data'''
+        return self.data['df']['data']    

@@ -365,3 +365,39 @@ class TestApplyingROI(unittest.TestCase):
         _norm_expected[:,4] = 3.25
         _norm_returned = o_norm.data['normalized']
         self.assertTrue((_norm_expected == _norm_returned).all())
+        
+    def test_various_data_type_correctly_returned(self):
+        '''assert normalized, sample, ob and df data are correctly returned'''
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=df_path, data_type='df')
+        
+        # sample
+        _data_expected = o_norm.data['sample']['data'][0]
+        _data_returned = o_norm.get_sample_data()[0]
+        self.assertTrue((_data_expected == _data_returned).all())
+        
+        # ob
+        _ob_expected = o_norm.data['ob']['data']
+        _ob_returned = o_norm.get_ob_data()[0]
+        self.assertTrue((_ob_expected == _ob_returned).all())
+        
+        # df
+        _df_expected = o_norm.data['df']['data']
+        _df_returned = o_norm.get_df_data()
+        self.assertTrue(_df_expected == _df_returned)
+        
+        # normalized is empty before normalization
+        self.assertTrue(o_norm.get_normalized_data() == [])
+        
+        # run normalization
+        o_norm.normalization()
+        
+        _norm_expected = o_norm.data['normalized'][0]
+        _norm_returned = o_norm.get_normalized_data()[0]
+        self.assertTrue((_norm_expected == _norm_returned).all())
+        
