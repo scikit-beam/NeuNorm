@@ -9,6 +9,8 @@ $ pip install NeuNorm
 Then in your python environment, import 
 
 >>> import NeuNorm as neunorm
+>>> from NeuNorm.normalization import Normalization
+>>> from NeuNorm.roi import ROI
 
 First thing to do is to let the program know where are the sample, open beam (OB) and dark field (DF) images. 
 Two options are available to load them:
@@ -28,7 +30,7 @@ Let's pretend that our images are in the folder **/Users/me/sample/** and named
 - image002.fits
 - image003.fits
 
->>> o_norm = neunorm.Normalization()
+>>> o_norm = Normalization()
 >>> o_norm.load(file='/Users/me/sample/image001.fits', data_type='sample')
 >>> o_norm.load(file='/Users/me/sample/image002.fits', data_type='sample')
 >>> o_norm.load(file='/Users/me/sample/image003.fits', data_type='sample')
@@ -99,7 +101,7 @@ Let's use the following region
 - x1 = 50
 - y1 = 50
 
->>> my_norm_roi = neunorm.ROI(x0=10, y0=10, x1=50, y1=50)
+>>> my_norm_roi = ROI(x0=10, y0=10, x1=50, y1=50)
 
 then the normalization can be run
 
@@ -137,7 +139,7 @@ let's use the first method and let's pretend the ROI is defined by
 - x1 = 200
 - y1 = 250
 
->>> my_crop_roi = neunorm.ROI(x0=5, y0=5, x1=200, y1=250)
+>>> my_crop_roi = ROI(x0=5, y0=5, x1=200, y1=250)
 >>> o_norm.crop(roi=my_crop_roi)
 
 Full Normalization

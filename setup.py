@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "NeuNorm",
-    version = "1.0.0",
+    version = "1.1.1",
     author = "Jean Bilheux",
     author_email = "bilheuxjm@ornl.gov",
     packages = find_packages(exclude=['tests', 'notebooks']),
