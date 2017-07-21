@@ -11,6 +11,8 @@ from NeuNorm._utilities import get_sorted_list_images, average_df
 
 class Normalization(object):
 
+    gamma_filter_threshold = 0.1
+
     def __init__(self):
         self.shape = {'width': np.NaN,
                       'height': np.NaN}
@@ -114,19 +116,17 @@ class Normalization(object):
         else:
             raise OSError("The file name does not exist")
 
-    def _gamma_filtering(self, data=[], threshold=0.1):
+    def _gamma_filtering(self, data=[]):
         '''perform gamma filtering on the data
         
         Algorithm looks for all the very hight counts
         
-        if threshold * pixels[x,y] > mean_counts(data) then this pixel counts
+        if self.gamma_filter_threshold * pixels[x,y] > mean_counts(data) then this pixel counts
         is replaced by the average value of the 8 pixels surrounding him
         
         Parameters:
         ===========
         data: numpy 2D array
-        threshold: float (default 0.1) defines the cut off when to consider
-        a pixel counts as gamma or not        
         
         Returns:
         =======
@@ -140,7 +140,7 @@ class Normalization(object):
         # find mean counts
         mean_counts = np.mean(data_gamma_filtered)
         
-        thresolded_data_gamma_filtered = data_gamma_filtered * threshold
+        thresolded_data_gamma_filtered = data_gamma_filtered * self.gamma_filter_threshold
         
         # get pixels where value is above threshold
         position = []

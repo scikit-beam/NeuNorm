@@ -263,5 +263,3 @@ class TestGammaFiltering(unittest.TestCase):
         _returned_sample = o_norm.data['sample']['data']
         self.assertTrue((_expected_sample == _returned_sample).all())
         
-    
-    
