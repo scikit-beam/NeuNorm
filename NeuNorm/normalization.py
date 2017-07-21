@@ -3,6 +3,7 @@ import numpy as np
 import os
 import warnings
 import copy
+from scipy.ndimage import convolve
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
 from NeuNorm.roi import ROI
@@ -45,7 +46,7 @@ class Normalization(object):
         self.data['df'] = self.dict_df
         self.data['normalized'] = []
     
-    def load(self, file='', folder='', data_type='sample'):
+    def load(self, file='', folder='', data_type='sample', gamma_filter=True):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -54,6 +55,7 @@ class Normalization(object):
            file: full path to file
            folder: full path to folder containing files to load
            data_type: ['sample', 'ob', 'df]
+           gamma_filter: boolean (default True) apply or not gamma filtering to the data loaded
 
         Algorithm won't be allowed to run if any of the main algorithm have been run already, such as
         oscillation, crop, binning, df_correction.
@@ -71,9 +73,9 @@ class Normalization(object):
             list_images = get_sorted_list_images(folder=folder)
             for _image in list_images:
                 full_path_image = os.path.join(folder, _image)
-                self.load_file(file=full_path_image, data_type=data_type)
+                self.load_file(file=full_path_image, data_type=data_type, gamma_filter=gamma_filter)
         
-    def load_file(self, file='', data_type='sample'):
+    def load_file(self, file='', data_type='sample', gamma_filter=True):
         """
         Function to read data from the specified path, it can read FITS, TIFF and HDF.
     
@@ -82,6 +84,7 @@ class Normalization(object):
         file : string_like
             Path of the input file with his extention.
         data_type: ['sample', 'df']
+        gamma_filter: Boolean (default True) apply or not gamma filtering
     
         Notes
         -----
@@ -101,12 +104,62 @@ class Normalization(object):
             else:
                 raise OSError('file extension not yet implemented....Do it your own way!')     
 
+            if gamma_filter:
+                data = self._gamma_filtering(data=data)
+
             self.data[data_type]['data'].append(data)
             self.data[data_type]['file_name'].append(file)
             self.save_or_check_shape(data=data, data_type=data_type)
 
         else:
             raise OSError("The file name does not exist")
+
+    def _gamma_filtering(self, data=[], threshold=0.1):
+        '''perform gamma filtering on the data
+        
+        Algorithm looks for all the very hight counts
+        
+        if threshold * pixels[x,y] > mean_counts(data) then this pixel counts
+        is replaced by the average value of the 8 pixels surrounding him
+        
+        Parameters:
+        ===========
+        data: numpy 2D array
+        threshold: float (default 0.1) defines the cut off when to consider
+        a pixel counts as gamma or not        
+        
+        Returns:
+        =======
+        numpy 2D array 
+        '''
+        if data == []:
+            raise ValueError("Data array is empty!")
+
+        data_gamma_filtered = np.copy(data)
+            
+        # find mean counts
+        mean_counts = np.mean(data_gamma_filtered)
+        
+        thresolded_data_gamma_filtered = data_gamma_filtered * threshold
+        
+        # get pixels where value is above threshold
+        position = []
+        [height, width] = np.shape(data_gamma_filtered)
+        for _x in np.arange(width):
+            for _y in np.arange(height):
+                if thresolded_data_gamma_filtered[_y, _x] > mean_counts:
+                    position.append([_y, _x])
+                    
+        # convolve entire image using 3x3 kerne
+        mean_kernel = np.array([[1,1,1], [1,0,1], [1,1,1]]) / 8.0
+        convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
+        
+        # replace only pixel above threshold by convolved data
+        for _coordinates in position:
+            [_y, _x] = _coordinates
+            data_gamma_filtered[_y, _x] = convolved_data[_y, _x]
+            
+        return data_gamma_filtered        
 
     def save_or_check_shape(self, data=[], data_type='sample'):
         '''save the shape for the first data loaded (of each type) otherwise

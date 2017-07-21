@@ -220,3 +220,48 @@ class TestLoading(unittest.TestCase):
         o_norm.normalization()
         new_sample_tif_file = self.data_path + '/tif/sample/image002.tif'
         self.assertRaises(IOError, o_norm.load, file=new_sample_tif_file)
+        
+class TestGammaFiltering(unittest.TestCase):
+
+    def setUp(self):    
+        _file_path = os.path.dirname(__file__)
+        self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
+
+    def test_gamma_filtered_raises_error_when_array_is_empty(self):
+        '''assert gamma filtering complains when no data provided'''
+        path = self.data_path + '/tif/sample'
+        o_norm = Normalization()
+        o_norm.load(folder=path, data_type='sample')
+        data_0 = o_norm.data['sample']['data']
+        self.assertRaises(ValueError, o_norm._gamma_filtering, data=data_0)
+
+    def test_gamma_filtered_works(self):
+        '''assert gamma filtering works'''
+        path = self.data_path + '/tif/sample_with_gamma/'
+
+        # gamma filter is True
+        o_norm = Normalization()
+        o_norm.load(folder=path, data_type='sample')
+        data_gamma_filtered = o_norm.data['sample']['data']
+        _expected_sample = np.ones((5,5))
+        _expected_sample[0,0] = 0.375
+        _expected_sample[:,2] = 2
+        _expected_sample[:,3] = 3
+        _expected_sample[:,4] = 4
+        _returned_sample = o_norm.data['sample']['data']
+        self.assertTrue((_expected_sample == _returned_sample).all())
+        
+        # gamma filter is False
+        o_norm = Normalization()
+        o_norm.load(folder=path, data_type='sample', gamma_filter=False)
+        data_gamma_filtered = o_norm.data['sample']['data']
+        _expected_sample = np.ones((5,5))
+        _expected_sample[0,0] = 1000
+        _expected_sample[:,2] = 2
+        _expected_sample[:,3] = 3
+        _expected_sample[:,4] = 4
+        _returned_sample = o_norm.data['sample']['data']
+        self.assertTrue((_expected_sample == _returned_sample).all())
+        
+    
+    
