@@ -66,6 +66,17 @@ For this library, DF are optional but for the sake of this exercise, let's load 
 
 >>> o_norm.load(folder='/Users/me/df', data_type='df')
 
+By default, a gamma filtering will take place when you load your data. You can manually turn off
+this filtering by adding the following False flag
+
+>>> o_norm.load(folder='/Users/me/df', data_type='df', gamma_filter=False)
+
+The gamma filtering is an algorithm that replaces all the very bright pixel counts with the average value
+of the 8 neighbors. What do we mean by very bright? The pixel counts that have 10% of their value above the average
+counts of the entire image. The threshold value can be change by doing
+
+>>> o_norm.gamma_filter_threshold = 0.2
+
 **WARNING:**
 #1 From this point, any operation on your data will overwrite the inital data loaded. Those
 data can be retrieved at any point by doing

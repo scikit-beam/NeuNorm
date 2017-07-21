@@ -102,6 +102,17 @@ Two options are available to load them:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;/Users/me/df&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>By default, a gamma filtering will take place when you load your data. You can manually turn off
+this filtering by adding the following False flag</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;/Users/me/df&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">gamma_filter</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The gamma filtering is an algorithm that replaces all the very bright pixel counts with the average value
+of the 8 neighbors. What do we mean by very bright? The pixel counts that have 10% of their value above the average
+counts of the entire image. The threshold value can be change by doing</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">gamma_filter_threshold</span> <span class="o">=</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
 <p><strong>WARNING:</strong>
 #1 From this point, any operation on your data will overwrite the inital data loaded. Those
 data can be retrieved at any point by doing
