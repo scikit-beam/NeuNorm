@@ -20,3 +20,4 @@ def average_df(df=[]):
     '''if more than 1 DF have been provided, we need to average them'''
     mean_average = np.mean(df, axis=0)
     return mean_average
+

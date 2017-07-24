@@ -6,8 +6,10 @@ import copy
 from scipy.ndimage import convolve
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
+from NeuNorm.exporter import make_fits, make_tif
 from NeuNorm.roi import ROI
 from NeuNorm._utilities import get_sorted_list_images, average_df
+
 
 class Normalization(object):
 
@@ -47,6 +49,7 @@ class Normalization(object):
         self.data['ob'] = self.dict_ob
         self.data['df'] = self.dict_df
         self.data['normalized'] = []
+        self.export_file_name = []
     
     def load(self, file='', folder='', data_type='sample', gamma_filter=True):
         '''
@@ -403,6 +406,86 @@ class Normalization(object):
             self.data['normalized'] = new_normalized        
         
         return True
+    
+    def export(self, folder='./', data_type='normalized', file_type='tif'):
+        '''export all the data from the type specified into a folder
+        
+        Parameters:
+        ===========
+        folder: String (default is './') where to create all the images. Folder must exist otherwise an error is raised
+        data_type: String (default is 'normalized'). Must be one of the following 'sample','ob','df','normalized'
+        file_type: String (default is 'tif') format in which to export the data. Must be either 'tif' or 'fits'
+
+        Raises:
+        =======
+        IOError if the folder does not exist
+        KeyError if data_type can not be found in the list ['normalized','sample','ob','df']
+
+        '''
+        if not os.path.exists(folder):
+            raise IOError("Folder '{}' does not exist!".format(folder))
+
+        if not data_type in ['normalized','sample','ob','df']:
+            raise KeyError("data_type '{}' is wrong".format(data_type))
+
+        data = []
+        prefix = ''
+        if data_type == 'normalized':
+            data = self.get_normalized_data()
+            prefix = 'normalized'
+            data_type = 'sample'
+        else:
+            data = self.data[data_type]['data']
+
+        if data ==[]:
+            return False
+
+        list_file_name_raw = self.data[data_type]['file_name']
+        self.__create_list_file_names(initial_list=list_file_name_raw,
+                                      output_folder = folder,
+                                      prefix=prefix,
+                                      suffix=file_type)
+        
+        self.__export_data(data=data,
+                           output_file_names = self._export_file_name,
+                           suffix=file_type)
+        
+    
+    def __export_data(self, data=[], output_file_names=[], suffix='tif'):
+        '''save the list of files with the data specified
+        
+        Parameters:
+        ===========
+        data: numpy array that contains the array of data to save
+        output_file_names: numpy array of string of full file names        
+        suffix: String (default is 'tif') format in which the file will be created
+        '''
+        name_data_array = zip(output_file_names, data)
+        for _file_name, _data in name_data_array:
+            if suffix == 'tif':
+                make_tif(data=_data, file_name=_file_name)
+            elif suffix == 'fits':
+                make_fits(data=_data, file_name=_file_name)
+    
+    def __create_list_file_names(self, initial_list=[], output_folder='', prefix='', suffix=''):
+        '''create a list of the new file name used to export the images
+        
+        Parameters:
+        ==========
+        initial_list: array of full file name 
+           ex: ['/users/me/image001.tif',/users/me/image002.tif',/users/me/image003.tif']
+        output_folder: String (default is ./ as specified by calling function) where we want to create the data
+        prefix: String. what to add to the output file name in front of base name
+           ex: 'normalized' will produce 'normalized_image001.tif'
+        suffix: String. extenstion to file. 'tif' for TIFF and 'fits' for FITS
+        '''
+        _base_name = [os.path.basename(_file) for _file in initial_list]
+        _raw_name = [os.path.splitext(_file)[0] for _file in _base_name]
+        _prefix = ''
+        if prefix:
+            _prefix = prefix + '_'
+        full_file_names = [os.path.join(output_folder, _prefix + _file + '.' + suffix) for _file in _raw_name]
+        self._export_file_name = full_file_names
     
     def get_normalized_data(self):
         '''return the normalized data'''
