@@ -29,7 +29,7 @@ class TestExportingPhase1(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(folder=sample_path)
         o_norm.load(folder=ob_path, data_type='ob')
-        self.assertRaises(IOError, o_norm.export, data_type='not_real_type')
+        self.assertRaises(KeyError, o_norm.export, data_type='not_real_type')
         
     def test_do_nothing_if_nothing_to_export(self):
         '''assert do nothing if nothing to export'''
