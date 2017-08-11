@@ -1,30 +1,25 @@
-******************
-Loading via arrays
-******************
+***************************
+Loading via list file names
+***************************
+  
+  
+  
+  
+  
   
 Let's pretend that our images are in the folder **/Users/me/sample/** and named 
 
-- image001.tif
-- image002.tif
-- image003.tif
+- image001.fits
+- image002.fits
+- image003.fits
 
-In order to load the arrays, we first need to load ourselves the data
-
->>> data = []
->>> from PIL import Image
->>> _data1 = Image.open('/Users/me/sample/image001.tif')
->>> data.append(_data1)
->>> _data2 = Image.open('/Users/me/sample/image002.tif')
->>> data.append(_data2)
->>> _data3 = Image.open('/Users/me/sample/image003.tif')
->>> data.append(_data3)
-
-Now, we can load the data
-
+>>> sample_folder = '/Users/me/sample/'
 >>> o_norm = Normalization()
->>> o_norm.load(data=data)
+>>> o_norm.load(file='/Users/me/sample/image001.fits')
+>>> o_norm.load(file='/Users/me/sample/image002.fits')
+>>> o_norm.load(file='/Users/me/sample/image003.fits')
 
-At this point all the sample data have been loaded in memory and can be accessed as followed
+At this point all the data have been loaded in memory and can be accessed as followed
 
 >>> image001 = o_norm.data['sample']['data'][0]
 >>> image002 = o_norm.data['sample']['data'][1]
@@ -37,16 +32,13 @@ Let's now load the rest of our data, the OB and the DF
 
 Our OB are in the folder **/Users/me/ob/** and named
 
-- ob001.tif
-- ob002.tif
-- ob003.tif
+- ob001.fits
+- ob002.fits
+- ob003.fits
 
->>> _ob1 = Image.open('/Users/me/sample/ob001.tif')
->>> o_norm.load(data=_ob1, data_type='ob')
->>> _ob2 = Image.open('/Users/me/sample/ob002.tif')
->>> o_norm.load(data=_ob2, data_type='ob')
->>> _ob3 = Image.open('/Users/me/sample/ob003.tif')
->>> o_norm.load(data=_ob3, data_type='ob')
+>>> o_norm.load(file='/Users/me/ob/ob001.fits', data_type='ob')
+>>> o_norm.load(file='/Users/me/ob/ob002.fits', data_type='ob')
+>>> o_norm.load(file='/Users/me/ob/ob003.fits', data_type='ob')
 
 again, all the data can be retrieved as followed
 
@@ -55,18 +47,16 @@ again, all the data can be retrieved as followed
 
 For this library, DF are optional but for the sake of this exercise, let's load them 
 
-- df001.tif
-- df002.tif
+- df001.fits
+- df002.fits
 
->>> _df1 = Image.open('/Users/me/sample/df001.tif')
->>> o_norm.load(data=_df1, data_type='df')
->>> _df2 = Image.open('/Users/me/sample/df002.tif')
->>> o_norm.load(data=_df2, data_type='df')
+>>> o_norm.load(file='/Users/me/df/df001.fits', data_type='df')
+>>> o_norm.load(file='/Users/me/df/df002.fits', data_type='df')
 
 By default, a gamma filtering will take place when you load your data. You can manually turn off
 this filtering by adding the following False flag
 
->>> o_norm.load(data=_df2, data_type='df', gamma_filter=False)
+>>> o_norm.load(file='/Users/me/df/df002.fits', data_type='df', gamma_filter=False)
 
 The gamma filtering is an algorithm that replaces all the very bright pixel counts with the average value
 of the 8 neighbors. What do we mean by very bright? The pixel counts that have 10% of their value above the average

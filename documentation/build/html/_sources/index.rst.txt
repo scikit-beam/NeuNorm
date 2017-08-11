@@ -9,9 +9,16 @@ Welcome to Normalization's documentation!
 .. toctree::
    :maxdepth: 2
    
-   tutorial_loading_via_folders
-   
-
+   installation
+   loading_via_folders
+   loading_via_individual_file_name
+   loading_via_arrays
+   dark_field_correction
+   normalization_without_roi
+   normalization_with_roi
+   cropping_data
+   retrieve_normalized_data
+   export_data
 
 
 Indices and tables

@@ -2,6 +2,9 @@
 Cropping Data
 *************
 
+Cropping the data (optional)
+****************************
+
 You have the option to crop the data but if you do, this must be done after running the normalization. 
 The algorithm only cropped the normalized sample and ob data
 

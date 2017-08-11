@@ -12,6 +12,7 @@ Welcome to Normalization's documentation!
    installation
    loading_via_folders
    loading_via_individual_file_name
+   loading_via_list_file_names
    loading_via_arrays
    dark_field_correction
    normalization_without_roi

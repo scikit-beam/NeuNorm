@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Normalization with ROI &#8212; Normalization 0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cropping Data" href="cropping_data.html" />
+    <link rel="prev" title="Normalization without ROI" href="normalization_without_roi.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="normalization-with-roi">
+<h1>Normalization with ROI<a class="headerlink" href="#normalization-with-roi" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="normalization-using-roi-optional">
+<h2>Normalization using ROI (optional)<a class="headerlink" href="#normalization-using-roi-optional" title="Permalink to this headline">¶</a></h2>
+<p>If you want to specify a region of your sample to match with the OB</p>
+<p>Let’s use the following region</p>
+<ul class="simple">
+<li>x0 = 10</li>
+<li>y0 = 10</li>
+<li>x1 = 50</li>
+<li>y1 = 50</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_norm_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then the normalization can be run</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">norm_roi</span><span class="o">=</span><span class="n">my_norm_roi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>How to get the normalized data</p>
+<p>Each of the data set in the sample and ob will then be normalized.
+If a norm_roi has been provided, the sample arrays will be divided by the average of the
+region defined. Same thing for the ob. Those normalized array can be retrieved this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_normalized_array</span> <span class="o">=</span> <span class="n">o_gretting</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Normalization</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_folders.html">Loading via folders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_individual_file_name.html">Loading via individual file name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_arrays.html">Loading via arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dark_field_correction.html">Dark Field Correction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalization_without_roi.html">Normalization without ROI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Normalization with ROI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#normalization-using-roi-optional">Normalization using ROI (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="normalization_without_roi.html" title="previous chapter">Normalization without ROI</a></li>
+      <li>Next: <a href="cropping_data.html" title="next chapter">Cropping Data</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jean Bilheux.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/normalization_with_roi.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

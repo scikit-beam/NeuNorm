@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Normalization &#8212; Normalization 0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="normalization">
+<h1>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="normalization-using-roi-optional">
+<h2>Normalization using ROI (optional)<a class="headerlink" href="#normalization-using-roi-optional" title="Permalink to this headline">¶</a></h2>
+<p>If you want to specify a region of your sample to match with the OB</p>
+<p>Let’s use the following region</p>
+<ul class="simple">
+<li>x0 = 10</li>
+<li>y0 = 10</li>
+<li>x1 = 50</li>
+<li>y1 = 50</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_norm_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then the normalization can be run</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">norm_roi</span><span class="o">=</span><span class="n">my_norm_roi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="normalization-without-roi-optional">
+<h2>Normalization without ROI (optional)<a class="headerlink" href="#normalization-without-roi-optional" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t want any normalization ROI, simply run the normalization</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>How to get the normalized data</p>
+<p>Each of the data set in the sample and ob will then be normalized.
+If a norm_roi has been provided, the sample arrays will be divided by the average of the
+region defined. Same thing for the ob. Those normalized array can be retrieved this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_normalized_array</span> <span class="o">=</span> <span class="n">o_gretting</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cropping-the-data-optional">
+<h2>Cropping the data (optional)<a class="headerlink" href="#cropping-the-data-optional" title="Permalink to this headline">¶</a></h2>
+<p>You have the option to crop the data but if you do, this must be done after running the normalization.
+The algorithm only cropped the normalized sample and ob data</p>
+<ul class="simple">
+<li>the 4 corners of the region of interest (ROI)</li>
+<li>the top left corner coordinates, width and height of the ROI</li>
+</ul>
+<p>let’s use the first method and let’s pretend the ROI is defined by</p>
+<ul class="simple">
+<li>x0 = 5</li>
+<li>y0 = 5</li>
+<li>x1 = 200</li>
+<li>y1 = 250</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_crop_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">roi</span><span class="o">=</span><span class="n">my_crop_roi</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="full-normalization">
+<h3>Full Normalization<a class="headerlink" href="#full-normalization" title="Permalink to this headline">¶</a></h3>
+<p>The sample/OB normalized data can be recovered this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_data</span> <span class="o">=</span> <span class="n">neunorm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalized&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieve-data">
+<h3>Retrieve data<a class="headerlink" href="#retrieve-data" title="Permalink to this headline">¶</a></h3>
+<p>You can retrieve the data using either this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">norm</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalization&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_sample_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_ob_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_df_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_normalized_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="export-data">
+<h3>Export Data<a class="headerlink" href="#export-data" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to export any of the data you worked on (sample, ob, df or normalized) either
+as a ‘tif’ or as a ‘fits’ file (default being ‘tif’)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;/users/my_output_folder&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or if you prefer ‘fits’</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;fits&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Normalization</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_folders.html">Loading via folders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_individual_file_name.html">Loading via individual file name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_via_arrays.html">Loading via arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dark_field_correction.html">Dark Field Correction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalization_without_roi.html">Normalization without ROI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalization_with_roi.html">Normalization with ROI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jean Bilheux.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/normalization.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
