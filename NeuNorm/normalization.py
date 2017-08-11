@@ -25,6 +25,7 @@ class Normalization(object):
         self.dict_ob = {'data': [],
                         'oscilation': [],
                         'file_name': [],
+                        'data_mean': [],
                         'shape': self.shape.copy()}
         self.dict_df = {'data': [],
                         'data_average': [],
@@ -241,12 +242,6 @@ class Normalization(object):
         # make sure we loaded some ob data
         if self.data['ob']['data'] == []:
             raise IOError("No normalization available as no OB have been loaded")
-
-        # make sure that the length of the sample and ob data do match
-        nbr_sample = len(self.data['sample']['file_name'])
-        nbr_ob = len(self.data['ob']['file_name'])
-        if nbr_sample != nbr_ob:
-            raise IOError("Number of sample and ob do not match!")
               
         # make sure the data loaded have the same size
         if not self.data_loaded_have_matching_shape():
@@ -281,16 +276,33 @@ class Normalization(object):
         self.data['sample']['data'] = _sample_corrected_normalized
         self.data['ob']['data'] = _ob_corrected_normalized
             
-        # produce normalized data
-        sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
-        normalized_data = []
-        for [_sample, _ob] in sample_ob:
-            _working_ob = _ob.copy()
+        # if the number of sample and ob do not match, use mean of obs
+        nbr_sample = len(self.data['sample']['file_name'])
+        nbr_ob = len(self.data['ob']['file_name'])
+        if nbr_sample != nbr_ob: # work with mean ob
+            _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
+            self.data['ob']['data_mean'] = _ob_corrected_normalized
+            _working_ob = _ob_corrected_normalized.copy()
             _working_ob[_working_ob == 0] = np.NaN
-            _norm = np.divide(_sample, _working_ob)
-            _norm[np.isnan(_norm)] = 0
-            _norm[np.isinf(_norm)] = 0
-            normalized_data.append(_norm)
+
+            normalized_data = []
+            for _sample in self.data['sample']['data']:
+                _norm = np.divide(_sample, _working_ob)
+                _norm[np.isnan(_norm)] = 0
+                _norm[np.isinf(_norm)] = 0
+                normalized_data.append(_norm)
+            
+        else: # 1 ob for each sample
+            # produce normalized data
+            sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
+            normalized_data = []
+            for [_sample, _ob] in sample_ob:
+                _working_ob = _ob.copy()
+                _working_ob[_working_ob == 0] = np.NaN
+                _norm = np.divide(_sample, _working_ob)
+                _norm[np.isnan(_norm)] = 0
+                _norm[np.isinf(_norm)] = 0
+                normalized_data.append(_norm)
 
         self.data['normalized'] = normalized_data
 

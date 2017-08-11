@@ -162,6 +162,21 @@ class TestNormalization(unittest.TestCase):
         _returned = o_norm.data['ob']['data'][0]
         self.assertTrue((_expected == _returned).all())  
   
+    def test_normalization_with_fewer_ob_than_sample_works(self):
+        '''assert normalization works when number of ob and sample is different'''
+        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif' 
+        ob2 = self.data_path + '/tif/ob/ob002.tif' 
+        df1 = self.data_path + '/tif/df/df001.tif'
+        o_norm = Normalization()
+        o_norm.load(folder=samples_path)
+        o_norm.load(file=[ob1, ob2], data_type='ob')
+        o_norm.load(file=df1, data_type='df')
+        o_norm.df_correction()
+        o_norm.normalization()
+        expected_normalized_array = np.zeros((5,5))
+        expected_normalized_array[0,0] = 1
+        self.assertTrue((o_norm.data['normalized']== expected_normalized_array).all())
  
 class TestDFCorrection(unittest.TestCase):
     
