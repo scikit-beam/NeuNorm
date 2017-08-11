@@ -23,6 +23,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cropping Data" href="cropping_data.html" />
+    <link rel="prev" title="Dark Field Correction" href="dark_field_correction.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -73,63 +75,6 @@ region defined. Same thing for the ob. Those normalized array can be retrieved t
 </pre></div>
 </div>
 </div>
-<div class="section" id="cropping-the-data-optional">
-<h2>Cropping the data (optional)<a class="headerlink" href="#cropping-the-data-optional" title="Permalink to this headline">¶</a></h2>
-<p>You have the option to crop the data but if you do, this must be done after running the normalization.
-The algorithm only cropped the normalized sample and ob data</p>
-<ul class="simple">
-<li>the 4 corners of the region of interest (ROI)</li>
-<li>the top left corner coordinates, width and height of the ROI</li>
-</ul>
-<p>let’s use the first method and let’s pretend the ROI is defined by</p>
-<ul class="simple">
-<li>x0 = 5</li>
-<li>y0 = 5</li>
-<li>x1 = 200</li>
-<li>y1 = 250</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_crop_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">roi</span><span class="o">=</span><span class="n">my_crop_roi</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="full-normalization">
-<h3>Full Normalization<a class="headerlink" href="#full-normalization" title="Permalink to this headline">¶</a></h3>
-<p>The sample/OB normalized data can be recovered this way</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_data</span> <span class="o">=</span> <span class="n">neunorm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalized&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="retrieve-data">
-<h3>Retrieve data<a class="headerlink" href="#retrieve-data" title="Permalink to this headline">¶</a></h3>
-<p>You can retrieve the data using either this way</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">norm</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalization&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>or</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_sample_data</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_ob_data</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_df_data</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_normalized_data</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="export-data">
-<h3>Export Data<a class="headerlink" href="#export-data" title="Permalink to this headline">¶</a></h3>
-<p>It is possible to export any of the data you worked on (sample, ob, df or normalized) either
-as a ‘tif’ or as a ‘fits’ file (default being ‘tif’)</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;/users/my_output_folder&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;tif&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>or if you prefer ‘fits’</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;fits&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 </div>
 
 
@@ -148,14 +93,15 @@ as a ‘tif’ or as a ‘fits’ file (default being ‘tif’)</p>
 
 
 <h3>Navigation</h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loading_via_folders.html">Loading via folders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loading_via_individual_file_name.html">Loading via individual file name</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loading_via_arrays.html">Loading via arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading.html">Loading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dark_field_correction.html">Dark Field Correction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normalization_without_roi.html">Normalization without ROI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normalization_with_roi.html">Normalization with ROI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#normalization-using-roi-optional">Normalization using ROI (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normalization-without-roi-optional">Normalization without ROI (optional)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
@@ -165,6 +111,8 @@ as a ‘tif’ or as a ‘fits’ file (default being ‘tif’)</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="dark_field_correction.html" title="previous chapter">Dark Field Correction</a></li>
+      <li>Next: <a href="cropping_data.html" title="next chapter">Cropping Data</a></li>
   </ul></li>
 </ul>
 </div>
