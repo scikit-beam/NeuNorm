@@ -1,0 +1,295 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tutorial - Loading via folders &#8212; Normalization 0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Normalization’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial-loading-via-folders">
+<h1>Tutorial - Loading via folders<a class="headerlink" href="#tutorial-loading-via-folders" title="Permalink to this headline">¶</a></h1>
+<p>First you need to install the NeuNorm library</p>
+<p>$ pip install NeuNorm</p>
+<p>Then in your python environment, import</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">NeuNorm</span> <span class="k">as</span> <span class="nn">neunorm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">NeuNorm.normalization</span> <span class="k">import</span> <span class="n">Normalization</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">NeuNorm.roi</span> <span class="k">import</span> <span class="n">ROI</span>
+</pre></div>
+</div>
+<p>First thing to do is to let the program know where are the sample, open beam (OB) and dark field (DF) images.
+Two options are available to load them:</p>
+<ul class="simple">
+<li>file by file</li>
+<li>full folder at once</li>
+</ul>
+<div class="section" id="loading">
+<h2>Loading<a class="headerlink" href="#loading" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="loading-images-file-by-file">
+<h3>Loading images file by file<a class="headerlink" href="#loading-images-file-by-file" title="Permalink to this headline">¶</a></h3>
+<p>Let’s pretend that our images are in the folder <strong>/Users/me/sample/</strong> and named</p>
+<ul class="simple">
+<li>image001.fits</li>
+<li>image002.fits</li>
+<li>image003.fits</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span> <span class="o">=</span> <span class="n">Normalization</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;/Users/me/sample/image001.fits&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;/Users/me/sample/image002.fits&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;/Users/me/sample/image003.fits&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At this point all the data have been loaded in memory and can be accessed as followed</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image001</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image002</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>and the file names</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image003_file_name</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;file_name&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Let’s use the second method to retrieve files for the OB</p>
+</div>
+<div class="section" id="loading-all-images-at-once">
+<h3>Loading all images at once<a class="headerlink" href="#loading-all-images-at-once" title="Permalink to this headline">¶</a></h3>
+<p>Our OB are in the folder <strong>/Users/me/ob/</strong> and named</p>
+<ul class="simple">
+<li>ob001.fits</li>
+<li>ob002.fits</li>
+<li>ob003.fits</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;/Users/me/ob&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>again, all the data can be retrieved as followed</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ob1</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob2_file_name</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;file_name&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For this library, DF are optional but for the sake of this exercise, let’s load them</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;/Users/me/df&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, a gamma filtering will take place when you load your data. You can manually turn off
+this filtering by adding the following False flag</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;/Users/me/df&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">gamma_filter</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The gamma filtering is an algorithm that replaces all the very bright pixel counts with the average value
+of the 8 neighbors. What do we mean by very bright? The pixel counts that have 10% of their value above the average
+counts of the entire image. The threshold value can be change by doing</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">gamma_filter_threshold</span> <span class="o">=</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
+<p><strong>WARNING:</strong>
+#1 From this point, any operation on your data will overwrite the inital data loaded. Those
+data can be retrieved at any point by doing
+#2 The program won’t let you run the same algorithm twice (normalization, df_correction,
+oscillation, rebin). But it’s possible to overwrite this option by making a flag <strong>force</strong>
+equal to True. Use this feature at your own risk!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dark-field-correction">
+<h2>Dark Field Correction<a class="headerlink" href="#dark-field-correction" title="Permalink to this headline">¶</a></h2>
+<p>If you loaded a set of Dark Field (DF) images, you probably want to correct all your
+images (sample and OB) for dark field correction</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">df_correction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In case you did not loaded a set of DF, this correction will leave the images untouched</p>
+</div>
+<div class="section" id="normalization">
+<h2>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="normalization-using-roi-optional">
+<h3>Normalization using ROI (optional)<a class="headerlink" href="#normalization-using-roi-optional" title="Permalink to this headline">¶</a></h3>
+<p>If you want to specify a region of your sample to match with the OB</p>
+<p>Let’s use the following region</p>
+<ul class="simple">
+<li>x0 = 10</li>
+<li>y0 = 10</li>
+<li>x1 = 50</li>
+<li>y1 = 50</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_norm_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then the normalization can be run</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">norm_roi</span><span class="o">=</span><span class="n">my_norm_roi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="normalization-without-roi-optional">
+<h3>Normalization without ROI (optional)<a class="headerlink" href="#normalization-without-roi-optional" title="Permalink to this headline">¶</a></h3>
+<p>If you don’t want any normalization ROI, simply run the normalization</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>How to get the normalized data</p>
+<p>Each of the data set in the sample and ob will then be normalized.
+If a norm_roi has been provided, the sample arrays will be divided by the average of the
+region defined. Same thing for the ob. Those normalized array can be retrieved this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob_normalized_array</span> <span class="o">=</span> <span class="n">o_gretting</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cropping-the-data-optional">
+<h3>Cropping the data (optional)<a class="headerlink" href="#cropping-the-data-optional" title="Permalink to this headline">¶</a></h3>
+<p>You have the option to crop the data but if you do, this must be done after running the normalization.
+The algorithm only cropped the normalized sample and ob data</p>
+<ul class="simple">
+<li>the 4 corners of the region of interest (ROI)</li>
+<li>the top left corner coordinates, width and height of the ROI</li>
+</ul>
+<p>let’s use the first method and let’s pretend the ROI is defined by</p>
+<ul class="simple">
+<li>x0 = 5</li>
+<li>y0 = 5</li>
+<li>x1 = 200</li>
+<li>y1 = 250</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_crop_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">roi</span><span class="o">=</span><span class="n">my_crop_roi</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="full-normalization">
+<h4>Full Normalization<a class="headerlink" href="#full-normalization" title="Permalink to this headline">¶</a></h4>
+<p>The sample/OB normalized data can be recovered this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_data</span> <span class="o">=</span> <span class="n">neunorm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalized&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="retrieve-data">
+<h4>Retrieve data<a class="headerlink" href="#retrieve-data" title="Permalink to this headline">¶</a></h4>
+<p>You can retrieve the data using either this way</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">norm</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;normalization&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_sample_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_ob_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_df_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">get_normalized_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="export-data">
+<h4>Export Data<a class="headerlink" href="#export-data" title="Permalink to this headline">¶</a></h4>
+<p>It is possible to export any of the data you worked on (sample, ob, df or normalized) either
+as a ‘tif’ or as a ‘fits’ file (default being ‘tif’)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;/users/my_output_folder&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or if you prefer ‘fits’</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="s1">&#39;fits&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Normalization</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Loading via folders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#loading">Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dark-field-correction">Dark Field Correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normalization">Normalization</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Normalization’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jean Bilheux.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/tutorial_loading_via_folders.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

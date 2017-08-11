@@ -1,6 +1,6 @@
-********
-Tutorial
-********
+******************************
+Tutorial - Loading via folders
+******************************
 
 First you need to install the NeuNorm library
 

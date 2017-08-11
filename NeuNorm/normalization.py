@@ -51,7 +51,7 @@ class Normalization(object):
         self.data['normalized'] = []
         self.export_file_name = []
     
-    def load(self, file='', folder='', data_type='sample', gamma_filter=True):
+    def load(self, file='', folder='', data=[], data_type='sample', gamma_filter=True):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -59,6 +59,7 @@ class Normalization(object):
         Parameters:
            file: full path to file
            folder: full path to folder containing files to load
+           data: numpy array
            data_type: ['sample', 'ob', 'df]
            gamma_filter: boolean (default True) apply or not gamma filtering to the data loaded
 
@@ -79,6 +80,28 @@ class Normalization(object):
             for _image in list_images:
                 full_path_image = os.path.join(folder, _image)
                 self.load_file(file=full_path_image, data_type=data_type, gamma_filter=gamma_filter)
+        
+        if not data == []:
+            self.load_data(data=data, data_type=data_type)
+            
+    def load_data(self, data=[], data_type='sample'):
+        '''Function to save the data already loaded
+
+        Paramters:
+        ==========
+        data: np array 2D or 3D 
+        data_type: string ('sample')
+        '''
+        if len(np.shape(data)) > 2:
+            for _data in data:
+                self.__load_individual_data(data=_data, data_type=data_type)
+        else:
+            self.__load_individual_data(data=data, data_type=data_type)
+            
+    def __load_individual_data(self, data=[], data_type='sample'):
+        self.data[data_type]['data'].append(data)
+        self.data[data_type]['file_name'].append("'N/A")
+        self.save_or_check_shape(data=data, data_type=data_type)        
         
     def load_file(self, file='', data_type='sample', gamma_filter=True):
         """

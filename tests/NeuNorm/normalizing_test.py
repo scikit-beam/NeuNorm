@@ -13,6 +13,48 @@ class TestNormalization(unittest.TestCase):
         _file_path = os.path.dirname(__file__)
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
         
+    def test_initialization_using_array_with_data(self):
+        '''assert initialization using arrays with data'''
+        sample_01 = self.data_path + '/tif/sample/image001.tif'
+        sample_02 = self.data_path + '/tif/sample/image002.tif'
+        data = []
+        data.append(np.asarray(Image.open(sample_01)))
+        data.append(np.asarray(Image.open(sample_02)))
+        o_norm = Normalization()
+        o_norm.load(data=data)
+
+        data_returned = o_norm.data['sample']['data']
+        self.assertEqual((2,5,5), np.shape(data_returned))
+        
+    def test_initialization_using_array_with_data_one_by_one(self):
+        '''assert initialization using arrays with data one by one'''
+        o_norm = Normalization()
+
+        sample_01 = self.data_path + '/tif/sample/image001.tif'
+        _data = np.asarray(Image.open(sample_01))
+        o_norm.load(data=_data)
+        
+        sample_02 = self.data_path + '/tif/sample/image002.tif'
+        _data = np.asarray(Image.open(sample_01))
+        o_norm.load(data=_data)
+
+        data_returned = o_norm.data['sample']['data']
+        self.assertEqual((2,5,5), np.shape(data_returned))
+
+
+    def test_initialization_using_array_with_ob(self):
+        '''assert initialization using arrays with ob'''
+        ob_01 = self.data_path + '/tif/ob/ob001.tif'
+        ob_02 = self.data_path + '/tif/ob/ob002.tif'
+        data = []
+        data.append(np.asarray(Image.open(ob_01)))
+        data.append(np.asarray(Image.open(ob_02)))
+        o_norm = Normalization()
+        o_norm.load(data=data, data_type='ob')
+
+        data_returned = o_norm.data['ob']['data']
+        self.assertEqual((2,5,5), np.shape(data_returned))
+        
     def test_normalization_raises_error_if_no_ob_or_sample(self):
         '''assert error raises when no ob or sample provided'''
         path = self.data_path + '/tif/sample'

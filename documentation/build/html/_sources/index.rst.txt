@@ -9,7 +9,7 @@ Welcome to Normalization's documentation!
 .. toctree::
    :maxdepth: 2
    
-   tutorial
+   tutorial_loading_via_folders
    
 
 
