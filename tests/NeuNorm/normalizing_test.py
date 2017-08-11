@@ -13,6 +13,16 @@ class TestNormalization(unittest.TestCase):
         _file_path = os.path.dirname(__file__)
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
         
+    def test_loading_list_of_files(self):
+        '''assert initialization using list of files'''
+        list_files = [self.data_path + '/tif/sample/image001.tif',
+                      self.data_path + '/tif/sample/image002.tif',
+                      self.data_path + '/tif/sample/image003.tif']
+        o_norm = Normalization()
+        o_norm.load(file=list_files)
+        data_returned = o_norm.data['sample']['data']
+        self.assertEqual((3,5,5), np.shape(data_returned))
+        
     def test_initialization_using_array_with_data(self):
         '''assert initialization using arrays with data'''
         sample_01 = self.data_path + '/tif/sample/image001.tif'

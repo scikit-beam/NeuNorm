@@ -72,8 +72,12 @@ class Normalization(object):
             raise IOError("Operation not allowed as you already worked on this data set!")
         
         if not file == '':
-            self.load_file(file=file, data_type=data_type)
-        
+            if isinstance(file, str):
+                self.load_file(file=file, data_type=data_type)
+            elif isinstance(file, list):
+                for _file in file:
+                    self.load_file(file=_file, data_type=data_type)
+
         if not folder == '':
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
