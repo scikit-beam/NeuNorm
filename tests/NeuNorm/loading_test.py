@@ -35,17 +35,6 @@ class TestLoading(unittest.TestCase):
         self.assertEqual([], dict_df['file_name'])
         self.assertEqual([], data['df']['data'])
         self.assertEqual([], data['df']['file_name'])
-        
-    def test_same_number_of_images_loaded_in_sample_and_ob(self):
-        '''assert sample and ob have the same number of images loaded'''
-        sample_tif_file_1 = self.data_path + '/tif/sample/image001.tif'
-        sample_tif_file_2 = self.data_path + '/tif/sample/image002.tif'
-        o_norm = Normalization()
-        o_norm.load(file=sample_tif_file_1, data_type='sample')
-        o_norm.load(file=sample_tif_file_2, data_type='sample')
-        ob_tif_file_1 = self.data_path + '/tif/ob/ob001.tif'
-        o_norm.load(file=ob_tif_file_1, data_type='ob')
-        self.assertRaises(IOError, o_norm.normalization)  
 
     def test_loading_bad_single_files(self):
         '''assert error is raised when inexisting file is given'''
