@@ -14,7 +14,7 @@ from NeuNorm._utilities import get_sorted_list_images, average_df
 class Normalization(object):
 
     gamma_filter_threshold = 0.1
-
+    
     def __init__(self):
         self.shape = {'width': np.NaN,
                       'height': np.NaN}
