@@ -107,7 +107,8 @@ class Normalization(object):
             
     def __load_individual_data(self, data=[], data_type='sample'):
         self.data[data_type]['data'].append(data)
-        self.data[data_type]['file_name'].append("'N/A")
+        index = len(self.data[data_type]['data'])
+        self.data[data_type]['file_name'].append("image_{:04}".format(index))
         self.save_or_check_shape(data=data, data_type=data_type)        
         
     def load_file(self, file='', data_type='sample', gamma_filter=True):
