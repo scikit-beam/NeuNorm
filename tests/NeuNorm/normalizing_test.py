@@ -117,6 +117,29 @@ class TestNormalization(unittest.TestCase):
         _returned_second_time = o_norm.data['sample']['data'][0]
         self.assertFalse((_returned_first_time == _returned_second_time).all())
   
+    def test_normalization_works_if_input_arrays_are_type_int(self):
+        '''assert normalization works when input arrays are type int'''
+        o_norm = Normalization()
+        
+        sample_01 = self.data_path + '/tif/sample/image001.tif'
+        _data = np.asarray(Image.open(sample_01), dtype=int)
+        o_norm.load(data=_data)
+        
+        sample_02 = self.data_path + '/tif/sample/image002.tif'
+        _data = np.asarray(Image.open(sample_01), dtype=int)
+        o_norm.load(data=_data)
+
+        ob_01 = self.data_path + '/tif/ob/ob001.tif'
+        _data = np.asarray(Image.open(ob_01), dtype=int)
+        _data[0,0] = 0
+        o_norm.load(data=_data, data_type='ob')
+    
+        ob_02 = self.data_path + '/tif/ob/ob002.tif'
+        _data = np.asarray(Image.open(ob_01), dtype=int)
+        o_norm.load(data=_data, data_type='ob')
+
+        o_norm.normalization()
+
     def test_normalization_works(self):
         '''assert sample and ob normalization works with and without roi'''
         sample_tif_folder = self.data_path + '/tif/sample'

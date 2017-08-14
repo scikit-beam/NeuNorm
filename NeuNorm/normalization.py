@@ -99,8 +99,10 @@ class Normalization(object):
         '''
         if len(np.shape(data)) > 2:
             for _data in data:
+                _data = _data.astype(float)
                 self.__load_individual_data(data=_data, data_type=data_type)
         else:
+            data = data.astype(float)
             self.__load_individual_data(data=data, data_type=data_type)
             
     def __load_individual_data(self, data=[], data_type='sample'):
