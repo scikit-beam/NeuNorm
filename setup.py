@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
+import NeuNorm
 
 setup(
     name = "NeuNorm",
-    version = "1.3.3",
+    version = NeuNorm.__version__,
     author = "Jean Bilheux",
     author_email = "bilheuxjm@ornl.gov",
     packages = find_packages(exclude=['tests', 'notebooks']),
