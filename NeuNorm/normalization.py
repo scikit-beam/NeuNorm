@@ -52,7 +52,8 @@ class Normalization(object):
         self.data['normalized'] = []
         self.export_file_name = []
     
-    def load(self, file='', folder='', data=[], data_type='sample', gamma_filter=True):
+    def load(self, file='', folder='', data=[], data_type='sample', 
+             gamma_filter=True, notebook=False):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -63,7 +64,9 @@ class Normalization(object):
            data: numpy array
            data_type: ['sample', 'ob', 'df]
            gamma_filter: boolean (default True) apply or not gamma filtering to the data loaded
-
+           notebooks: boolean (default False) turn on this option if you run the library from a
+             notebook to have a progress bar displayed showing you the progress of the loading
+           
         Algorithm won't be allowed to run if any of the main algorithm have been run already, such as
         oscillation, crop, binning, df_correction.
 
@@ -71,36 +74,83 @@ class Normalization(object):
         list_exec_flag = [_flag for _flag in self.__exec_process_status.values()]
         if True in list_exec_flag:
             raise IOError("Operation not allowed as you already worked on this data set!")
+       
+        if notebook:
+            from ipywidgets.widgets import interact
+            from ipywidgets import widgets
+            from IPython.core.display import display, HTML            
         
         if not file == '':
             if isinstance(file, str):
                 self.load_file(file=file, data_type=data_type)
             elif isinstance(file, list):
-                for _file in file:
+                if notebook:
+                    # turn on progress bar
+                    _message = "Loading {}".format(data_type)
+                    box1 = widgets.HBox([widgets.Label(_message,
+                                                       layout=widgets.Layout(width='20%')),
+                                         widgets.IntProgress(max=len(file))])
+                    display(box1)
+                    w1 = box1.children[1]                    
+                
+                for _index, _file in enumerate(file):
                     self.load_file(file=_file, data_type=data_type)
+                    if notebook:
+                        w1.value = _index+1
 
         if not folder == '':
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
-            for _image in list_images:
+            if notebook:
+                # turn on progress bar
+                _message = "Loading {}".format(data_type)
+                box1 = widgets.HBox([widgets.Label(_message,
+                                                   layout=widgets.Layout(width='20%')),
+                                     widgets.IntProgress(max=len(list_images))])
+                display(box1)
+                w1 = box1.children[1]   
+            
+            for _index, _image in enumerate(list_images):
                 full_path_image = os.path.join(folder, _image)
                 self.load_file(file=full_path_image, data_type=data_type, gamma_filter=gamma_filter)
+                if notebook:
+                    # update progress bar
+                    w1.value = _index+1
         
         if not data == []:
             self.load_data(data=data, data_type=data_type)
             
-    def load_data(self, data=[], data_type='sample'):
-        '''Function to save the data already loaded
+    def load_data(self, data=[], data_type='sample', notebook=False):
+        '''Function to save the data already loaded as arrays
 
         Paramters:
         ==========
         data: np array 2D or 3D 
         data_type: string ('sample')
+        notebook: boolean (default False) turn on this option if you run the library from a
+             notebook to have a progress bar displayed showing you the progress of the loading
         '''
+        if notebook:
+            from ipywidgets.widgets import interact
+            from ipywidgets import widgets
+            from IPython.core.display import display, HTML     
+
         if len(np.shape(data)) > 2:
-            for _data in data:
+            if notebook:
+                _message = "Loading {}".format(data_type)
+                box1 = widgets.HBox([widgets.Label(_message,
+                                                               layout=widgets.Layout(width='20%')),
+                                                 widgets.IntProgress(max=len(list_images))])
+                display(box1)
+                w1 = box1.children[1]   
+
+            for _index, _data in enumerate(data):
                 _data = _data.astype(float)
                 self.__load_individual_data(data=_data, data_type=data_type)
+                if notebook:
+                    # update progress bar
+                    w1.value = _index+1
+                    
         else:
             data = data.astype(float)
             self.__load_individual_data(data=data, data_type=data_type)
@@ -215,7 +265,7 @@ class Normalization(object):
             if (not (_prev_width == width)) or (not (_prev_height == height)):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
-    def normalization(self, roi=None, force=False):
+    def normalization(self, roi=None, force=False, notebook=False):
         '''normalization of the data 
                 
         Parameters:
@@ -224,6 +274,8 @@ class Normalization(object):
         in intensity
         force: boolean (default False) that if True will force the normalization to occur, even if it had been
         run before with the same data set
+        notebook: boolean (default False) turn on this option if you run the library from a
+             notebook to have a progress bar displayed showing you the progress of the loading
 
         Raises:
         =======
@@ -257,6 +309,11 @@ class Normalization(object):
             if not self.__roi_fit_into_sample(roi=roi):
                 raise ValueError("roi does not fit into sample image!")
         
+        if notebook:
+            from ipywidgets.widgets import interact
+            from ipywidgets import widgets
+            from IPython.core.display import display, HTML                
+        
         if roi:
             _x0 = roi.x0
             _y0 = roi.y0
@@ -288,24 +345,49 @@ class Normalization(object):
             _working_ob = _ob_corrected_normalized.copy()
             _working_ob[_working_ob == 0] = np.NaN
 
+            if notebook:
+                # turn on progress bar
+                _message = "Loading {}".format(data_type)
+                box1 = widgets.HBox([widgets.Label(_message,
+                                                   layout=widgets.Layout(width='20%')),
+                                     widgets.IntProgress(max=len(self.data['sample']['data']))])
+                display(box1)
+                w1 = box1.children[1]    
+
             normalized_data = []
-            for _sample in self.data['sample']['data']:
+            for _index, _sample in enumerate(self.data['sample']['data']):
                 _norm = np.divide(_sample, _working_ob)
                 _norm[np.isnan(_norm)] = 0
                 _norm[np.isinf(_norm)] = 0
                 normalized_data.append(_norm)
+
+                if notebook:
+                    w1.value = _index+1                
             
         else: # 1 ob for each sample
             # produce normalized data
             sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
+
+            if notebook:
+                # turn on progress bar
+                _message = "Loading {}".format(data_type)
+                box1 = widgets.HBox([widgets.Label(_message,
+                                                   layout=widgets.Layout(width='20%')),
+                                     widgets.IntProgress(max=len(self.data['sample']['data']))])
+                display(box1)
+                w1 = box1.children[1]    
+
             normalized_data = []
-            for [_sample, _ob] in sample_ob:
+            for _index, [_sample, _ob] in enumerate(sample_ob):
                 _working_ob = _ob.copy()
                 _working_ob[_working_ob == 0] = np.NaN
                 _norm = np.divide(_sample, _working_ob)
                 _norm[np.isnan(_norm)] = 0
                 _norm[np.isinf(_norm)] = 0
                 normalized_data.append(_norm)
+                
+                if notebook:
+                    w1.value = _index+1                                
 
         self.data['normalized'] = normalized_data
 
