@@ -18,7 +18,7 @@ Let's use the following region
 
 then the normalization can be run
 
->>> o_norm.normalization(norm_roi=my_norm_roi)
+>>> o_norm.normalization(roi=my_norm_roi)
 
 
 Normalization without ROI (optional)
