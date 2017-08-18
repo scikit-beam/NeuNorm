@@ -347,7 +347,7 @@ class Normalization(object):
 
             if notebook:
                 # turn on progress bar
-                _message = "Normalization {}".format(data_type)
+                _message = "Normalization"
                 box1 = widgets.HBox([widgets.Label(_message,
                                                    layout=widgets.Layout(width='20%')),
                                      widgets.IntProgress(max=len(self.data['sample']['data']))])
@@ -370,7 +370,7 @@ class Normalization(object):
 
             if notebook:
                 # turn on progress bar
-                _message = "Normalization {}".format(data_type)
+                _message = "Normalization"
                 box1 = widgets.HBox([widgets.Label(_message,
                                                    layout=widgets.Layout(width='20%')),
                                      widgets.IntProgress(max=len(self.data['sample']['data']))])

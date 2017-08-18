@@ -16,6 +16,7 @@ Welcome to Normalization's documentation!
    cropping_data
    retrieve_normalized_data
    export_data
+   notebook
 
 
 Indices and tables
