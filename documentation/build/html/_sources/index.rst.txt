@@ -7,7 +7,7 @@ Welcome to Normalization's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    
    installation
    loading
@@ -17,7 +17,7 @@ Welcome to Normalization's documentation!
    retrieve_normalized_data
    export_data
    notebook
-
+   tutorial_using_folder_input
 
 Indices and tables
 ==================
