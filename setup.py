@@ -12,7 +12,6 @@ setup(
     test_suite = 'tests',
     install_requires = [
         'numpy',
-        'pyfits',
         'pillow',
         'pathlib',
         'astropy',
