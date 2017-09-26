@@ -100,16 +100,15 @@
 <li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Using library from a Notebook</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">tutorial_using_folder_input</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Set-up-system">Set up system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Data-Folders">Data Folders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Loading-Data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Dark-Field-(DF)-correction">Dark Field (DF) correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Normalization-of-the-data">Normalization of the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Recovering-the-normalized-data">Recovering the normalized data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Crop">Crop</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">tutorial_using_folder_input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Welcome-to-NeuNorm">Welcome to NeuNorm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Set-up-system">Set up system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Data-Folders">Data Folders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Loading-Data">Loading Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Dark-Field-(DF)-correction">Dark Field (DF) correction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Normalization-of-the-data">Normalization of the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Recovering-the-normalized-data">Recovering the normalized data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Crop">Crop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial_using_array_input.html">Tutorial using array input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial_normalization_with_fewer_ob_than_sample.html">Tutorial normalization with fewer ob than sample</a></li>
 </ul>
@@ -371,6 +370,9 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="tutorial_using_folder_input">
 <h1>tutorial_using_folder_input<a class="headerlink" href="#tutorial_using_folder_input" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="Welcome-to-NeuNorm">
+<h1>Welcome to NeuNorm<a class="headerlink" href="#Welcome-to-NeuNorm" title="Permalink to this headline">¶</a></h1>
 <p>Package to normalize data using Open Beam (OB) and, optionally Dark
 Field (DF).</p>
 <p>The program allows you to select a background region to allow data to be
@@ -378,11 +380,12 @@ normalized by OB that do not have the same acquisition time. Cropping
 the image is also possible using the <em>crop</em> method</p>
 <p>This notebook will illustrate the use of the NeuNorm library by going
 through a typical normalization</p>
+</div>
 <div class="section" id="Set-up-system">
-<h2>Set up system<a class="headerlink" href="#Set-up-system" title="Permalink to this headline">¶</a></h2>
+<h1>Set up system<a class="headerlink" href="#Set-up-system" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -414,7 +417,7 @@ through a typical normalization</p>
 </div>
 </div>
 <div class="section" id="Data-Folders">
-<h2>Data Folders<a class="headerlink" href="#Data-Folders" title="Permalink to this headline">¶</a></h2>
+<h1>Data Folders<a class="headerlink" href="#Data-Folders" title="Permalink to this headline">¶</a></h1>
 <p>Open Beam data path</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -453,7 +456,7 @@ through a typical normalization</p>
 </div>
 </div>
 <div class="section" id="Loading-Data">
-<h2>Loading Data<a class="headerlink" href="#Loading-Data" title="Permalink to this headline">¶</a></h2>
+<h1>Loading Data<a class="headerlink" href="#Loading-Data" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [6]:
@@ -486,7 +489,7 @@ Data type cannot be displayed:</div>
 </div>
 </div>
 <div class="section" id="Dark-Field-(DF)-correction">
-<h2>Dark Field (DF) correction<a class="headerlink" href="#Dark-Field-(DF)-correction" title="Permalink to this headline">¶</a></h2>
+<h1>Dark Field (DF) correction<a class="headerlink" href="#Dark-Field-(DF)-correction" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [8]:
@@ -499,7 +502,7 @@ Data type cannot be displayed:</div>
 </div>
 </div>
 <div class="section" id="Normalization-of-the-data">
-<h2>Normalization of the data<a class="headerlink" href="#Normalization-of-the-data" title="Permalink to this headline">¶</a></h2>
+<h1>Normalization of the data<a class="headerlink" href="#Normalization-of-the-data" title="Permalink to this headline">¶</a></h1>
 <p>We will use a normalization ROI.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">y0</span> <span class="o">=</span> <span class="mi">5</span>
@@ -538,7 +541,7 @@ Data type cannot be displayed:</div>
 </div>
 </div>
 <div class="section" id="Recovering-the-normalized-data">
-<h2>Recovering the normalized data<a class="headerlink" href="#Recovering-the-normalized-data" title="Permalink to this headline">¶</a></h2>
+<h1>Recovering the normalized data<a class="headerlink" href="#Recovering-the-normalized-data" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [20]:
@@ -571,7 +574,7 @@ Data type cannot be displayed:</div>
 </div>
 </div>
 <div class="section" id="Crop">
-<h2>Crop<a class="headerlink" href="#Crop" title="Permalink to this headline">¶</a></h2>
+<h1>Crop<a class="headerlink" href="#Crop" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -604,7 +607,6 @@ Data type cannot be displayed:</div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>
 </pre></div>
-</div>
 </div>
 </div>
 </div>
