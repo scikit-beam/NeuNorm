@@ -19,6 +19,8 @@ Welcome to Normalization's documentation!
    export_data
    notebook
    tutorial_using_folder_input
+   tutorial_using_array_input
+   tutorial_normalization_with_fewer_ob_than_sample
 
 Indices and tables
 ==================

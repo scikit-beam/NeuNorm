@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "#tutorial_using_folder_input"
+    "# tutorial_using_folder_input"
    ]
   },
   {
@@ -16,8 +16,6 @@
     }
    },
    "source": [
-    "# Welcome to NeuNorm\n",
-    "\n",
     "Package to normalize data using Open Beam (OB) and, optionally Dark Field (DF).\n",
     "\n",
     "The program allows you to select a background region to allow data to be normalized by OB that do not have the same acquisition time. \n",
@@ -45,12 +43,12 @@
     }
    },
    "source": [
-    "# Set up system"
+    "## Set up system"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": null,
    "metadata": {
     "run_control": {
      "frozen": false,
@@ -109,7 +107,7 @@
     }
    },
    "source": [
-    "# Data Folders"
+    "## Data Folders"
    ]
   },
   {
@@ -202,7 +200,7 @@
     }
    },
    "source": [
-    "# Loading Data "
+    "## Loading Data "
    ]
   },
   {
@@ -231,11 +229,7 @@
    },
    "outputs": [
     {
-     "data": {
-      "application/vnd.jupyter.widget-view+json": {
-       "model_id": "fe2da909f4b04468a7730f5e2c94c135"
-      }
-     },
+     "data": {},
      "metadata": {},
      "output_type": "display_data"
     }
@@ -254,7 +248,7 @@
     }
    },
    "source": [
-    "# Dark Field (DF) correction "
+    "## Dark Field (DF) correction "
    ]
   },
   {
@@ -280,7 +274,7 @@
     }
    },
    "source": [
-    "# Normalization of the data "
+    "## Normalization of the data "
    ]
   },
   {
@@ -312,11 +306,7 @@
    },
    "outputs": [
     {
-     "data": {
-      "application/vnd.jupyter.widget-view+json": {
-       "model_id": "2e42d80098494637ba122a667d51aca4"
-      }
-     },
+     "data": {},
      "metadata": {},
      "output_type": "display_data"
     },
@@ -345,7 +335,7 @@
     }
    },
    "source": [
-    "# Recovering the normalized data"
+    "## Recovering the normalized data"
    ]
   },
   {
@@ -396,7 +386,7 @@
     }
    },
    "source": [
-    "# Crop "
+    "## Crop "
    ]
   },
   {
@@ -475,7 +465,7 @@
    "navigate_menu": true,
    "number_sections": true,
    "sideBar": true,
-   "threshold": 4,
+   "threshold": 4.0,
    "toc_cell": false,
    "toc_section_display": "block",
    "toc_window_display": false
