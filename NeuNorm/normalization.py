@@ -1,7 +1,6 @@
 from pathlib import Path
 import numpy as np
 import os
-import warnings
 import copy
 from scipy.ndimage import convolve
 
@@ -72,13 +71,13 @@ class Normalization(object):
 
         '''
         list_exec_flag = [_flag for _flag in self.__exec_process_status.values()]
+        box1 = None
         if True in list_exec_flag:
             raise IOError("Operation not allowed as you already worked on this data set!")
        
         if notebook:
-            from ipywidgets.widgets import interact
             from ipywidgets import widgets
-            from IPython.core.display import display, HTML            
+            from IPython.core.display import display
         
         if not file == '':
             if isinstance(file, str):
@@ -98,6 +97,9 @@ class Normalization(object):
                     if notebook:
                         w1.value = _index+1
 
+                if notebook:
+                    box1.close()
+
         if not folder == '':
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
@@ -116,6 +118,9 @@ class Normalization(object):
                 if notebook:
                     # update progress bar
                     w1.value = _index+1
+
+            if notebook:
+                box1.close()
         
         if not data == []:
             self.load_data(data=data, data_type=data_type)
@@ -131,9 +136,8 @@ class Normalization(object):
              notebook to have a progress bar displayed showing you the progress of the loading
         '''
         if notebook:
-            from ipywidgets.widgets import interact
             from ipywidgets import widgets
-            from IPython.core.display import display, HTML     
+            from IPython.core.display import display
 
         if len(np.shape(data)) > 2:
             if notebook:
@@ -150,6 +154,9 @@ class Normalization(object):
                 if notebook:
                     # update progress bar
                     w1.value = _index+1
+
+            if notebook:
+                box1.close()
                     
         else:
             data = data.astype(float)

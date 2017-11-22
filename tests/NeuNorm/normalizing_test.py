@@ -21,7 +21,7 @@ class TestNormalization(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(file=list_files)
         data_returned = o_norm.data['sample']['data']
-        self.assertEqual((3,5,5), np.shape(data_returned))
+        assert (3,5,5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data(self):
         '''assert initialization using arrays with data'''
@@ -34,7 +34,7 @@ class TestNormalization(unittest.TestCase):
         o_norm.load(data=data)
 
         data_returned = o_norm.data['sample']['data']
-        self.assertEqual((2,5,5), np.shape(data_returned))
+        assert (2,5,5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data_one_by_one(self):
         '''assert initialization using arrays with data one by one'''
@@ -49,8 +49,7 @@ class TestNormalization(unittest.TestCase):
         o_norm.load(data=_data)
 
         data_returned = o_norm.data['sample']['data']
-        self.assertEqual((2,5,5), np.shape(data_returned))
-
+        assert (2,5,5) == np.shape(data_returned)
 
     def test_initialization_using_array_with_ob(self):
         '''assert initialization using arrays with ob'''
@@ -63,7 +62,7 @@ class TestNormalization(unittest.TestCase):
         o_norm.load(data=data, data_type='ob')
 
         data_returned = o_norm.data['ob']['data']
-        self.assertEqual((2,5,5), np.shape(data_returned))
+        assert (2,5,5) == np.shape(data_returned)
         
     def test_normalization_raises_error_if_no_ob_or_sample(self):
         '''assert error raises when no ob or sample provided'''
