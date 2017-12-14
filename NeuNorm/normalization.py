@@ -189,11 +189,11 @@ class Normalization(object):
         if my_file.is_file():
             data = []
             if file.lower().endswith('.fits'):
-                data = load_fits(my_file)
+                data = np.array(load_fits(my_file), dtype=np.float)
             elif file.lower().endswith(('.tiff','.tif')) :
-                data = load_tiff(my_file)
+                data = np.array(load_tiff(my_file), dtype=np.float)
             elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')): 
-                data = load_hdf(my_file)
+                data = np.array(load_hdf(my_file), dtype=np.float)
             else:
                 raise OSError('file extension not yet implemented....Do it your own way!')     
 

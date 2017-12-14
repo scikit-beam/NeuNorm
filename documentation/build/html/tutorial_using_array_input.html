@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial using array input &mdash; Normalization 0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Normalization 0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Normalization 0 documentation" href="index.html"/>
-        <link rel="next" title="Tutorial normalization with fewer ob than sample" href="tutorial_normalization_with_fewer_ob_than_sample.html"/>
-        <link rel="prev" title="tutorial_using_folder_input" href="tutorial_using_folder_input.html"/> 
+        <link rel="next" title="&lt;no title&gt;" href="tutorial_normalization_with_fewer_ob_than_sample.html"/>
+        <link rel="prev" title="&lt;no title&gt;" href="tutorial_using_folder_input.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -91,7 +91,7 @@
             
             
               <p class="caption"><span class="caption-text">Contents</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loading.html">Loading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dark_field_correction.html">Dark Field Correction</a></li>
@@ -100,26 +100,6 @@
 <li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Using library from a Notebook</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html">tutorial_using_folder_input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Welcome-to-NeuNorm">Welcome to NeuNorm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Set-up-system">Set up system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Data-Folders">Data Folders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Loading-Data">Loading Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Dark-Field-(DF)-correction">Dark Field (DF) correction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Normalization-of-the-data">Normalization of the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Recovering-the-normalized-data">Recovering the normalized data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_using_folder_input.html#Crop">Crop</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial using array input</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Set-up-system">Set up system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Loading-Data-Manually">Loading Data Manually</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Adding-the-data-to-the-Object">Adding the data to the Object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Dark-Field-(DF)-correction">Dark Field (DF) correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Normalization-of-the-data">Normalization of the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Recovering-the-normalized-data">Recovering the normalized data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Crop">Crop</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_normalization_with_fewer_ob_than_sample.html">Tutorial normalization with fewer ob than sample</a></li>
 </ul>
 
             
@@ -164,7 +144,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Tutorial using array input</li>
+      <li>&lt;no title&gt;</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -343,7 +323,11 @@ div.nboutput div.output_area.stderr {
 .ansi-white-intense-fg { color: #A1A6B2; }
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
 .ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
 
 /* CSS overrides for sphinx_rtd_theme */
 
@@ -377,19 +361,6 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="Tutorial-using-array-input">
-<h1>Tutorial using array input<a class="headerlink" href="#Tutorial-using-array-input" title="Permalink to this headline">¶</a></h1>
-<p>Package to normalize data using Open Beam (OB) and, optionally Dark
-Field (DF).</p>
-<p>The program allows you to select a background region to allow data to be
-normalized by OB that do not have the same acquisition time. Cropping
-the image is also possible using the <em>crop</em> method</p>
-<p>This notebook will illustrate the use of the NeuNorm library by going
-through a typical normalization.</p>
-<p><strong>In this notebook, we supposed that the data have already been loaded
-in memory</strong></p>
-<div class="section" id="Set-up-system">
-<h2>Set up system<a class="headerlink" href="#Set-up-system" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -408,7 +379,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-<p>Add NeuNorm to python path</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
@@ -423,10 +393,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Loading-Data-Manually">
-<h2>Loading Data Manually<a class="headerlink" href="#Loading-Data-Manually" title="Permalink to this headline">¶</a></h2>
-<p>Open Beam</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [10]:
@@ -442,7 +408,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-<p>Sample data path</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [11]:
@@ -458,7 +423,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-<p>Dark Current data path</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [12]:
@@ -474,9 +438,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Adding-the-data-to-the-Object">
-<h2>Adding the data to the Object<a class="headerlink" href="#Adding-the-data-to-the-Object" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [16]:
@@ -490,9 +451,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Dark-Field-(DF)-correction">
-<h2>Dark Field (DF) correction<a class="headerlink" href="#Dark-Field-(DF)-correction" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [17]:
@@ -502,16 +460,6 @@ in memory</strong></p>
 <span></span><span class="n">o_norm</span><span class="o">.</span><span class="n">df_correction</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="Normalization-of-the-data">
-<h2>Normalization of the data<a class="headerlink" href="#Normalization-of-the-data" title="Permalink to this headline">¶</a></h2>
-<p>We will use a normalization ROI.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">y0</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">height</span> <span class="o">=</span> <span class="mi">40</span>
-</pre></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -534,9 +482,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Recovering-the-normalized-data">
-<h2>Recovering the normalized data<a class="headerlink" href="#Recovering-the-normalized-data" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [19]:
@@ -567,9 +512,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Crop">
-<h2>Crop<a class="headerlink" href="#Crop" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [21]:
@@ -614,8 +556,6 @@ in memory</strong></p>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
 
 
            </div>
@@ -627,10 +567,10 @@ in memory</strong></p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorial_normalization_with_fewer_ob_than_sample.html" class="btn btn-neutral float-right" title="Tutorial normalization with fewer ob than sample" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial_normalization_with_fewer_ob_than_sample.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorial_using_folder_input.html" class="btn btn-neutral" title="tutorial_using_folder_input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorial_using_folder_input.html" class="btn btn-neutral" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
