@@ -277,7 +277,7 @@ class Normalization(object):
                 
         Parameters:
         ===========
-        roi: ROI object that defines the region of the sample and OB that have to match 
+        roi: ROI object or list of ROI objects that defines the region of the sample and OB that have to match
         in intensity
         force: boolean (default False) that if True will force the normalization to occur, even if it had been
         run before with the same data set
@@ -309,33 +309,64 @@ class Normalization(object):
         if not self.data_loaded_have_matching_shape():
             raise ValueError("Data loaded do not have the same shape!")
               
-        # make sure, if provided, roi has the rigth type and fits into the images
+        # make sure, if provided, roi has the right type and fits into the images
+        b_list_roi = False
         if roi:
-            if not type(roi) == ROI:
+            if type(roi) is list:
+                for _roi in roi:
+                    if not type(_roi) == ROI:
+                        raise ValueError("roi must be a ROI object!")
+                    if not self.__roi_fit_into_sample(roi=_roi):
+                        raise ValueError("roi does not fit into sample image!")
+                b_list_roi = True
+
+            elif not type(roi) == ROI:
                 raise ValueError("roi must be a ROI object!")
-            if not self.__roi_fit_into_sample(roi=roi):
-                raise ValueError("roi does not fit into sample image!")
+            else:
+                if not self.__roi_fit_into_sample(roi=roi):
+                    raise ValueError("roi does not fit into sample image!")
         
         if notebook:
             from ipywidgets.widgets import interact
             from ipywidgets import widgets
             from IPython.core.display import display, HTML                
-        
-        if roi:
-            _x0 = roi.x0
-            _y0 = roi.y0
-            _x1 = roi.x1
-            _y1 = roi.y1
-        
+
         # heat normalization algorithm
         _sample_corrected_normalized = []
         _ob_corrected_normalized = []
-        
+
         if roi:
-            _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1]) 
-                                               for _sample in self.data['sample']['data']]
-            _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1+1, _x0:_x1+1])
-                                           for _ob in self.data['ob']['data']]
+            if b_list_roi:
+
+                for [_sample, _ob] in zip(self.data['sample']['data'], self.data['ob']['data']):
+                    sample_mean = []
+                    ob_mean = []
+                    for _roi in roi:
+                        _x0 = _roi.x0
+                        _y0 = _roi.y0
+                        _x1 = _roi.x1
+                        _y1 = _roi.y1
+
+                        sample_mean.append(np.mean(_sample[_y0:_y1+1, _x0:_x1+1]))
+                        ob_mean.append(np.mean(_ob[_y0:_y1+1, _x0: _x1+1]))
+
+                    full_sample_mean = np.mean(sample_mean)
+                    full_ob_mean = np.mean(ob_mean)
+
+                    _sample_corrected_normalized.append(_sample / full_sample_mean)
+                    _ob_corrected_normalized.append(_ob / full_ob_mean)
+
+            else:
+                _x0 = roi.x0
+                _y0 = roi.y0
+                _x1 = roi.x1
+                _y1 = roi.y1
+
+                _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+                                                for _sample in self.data['sample']['data']]
+                _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1+1, _x0:_x1+1])
+                                            for _ob in self.data['ob']['data']]
+
         else:
             _sample_corrected_normalized = copy.copy(self.data['sample']['data'])
             _ob_corrected_normalized = copy.copy(self.data['ob']['data'])

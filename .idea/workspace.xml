@@ -5,38 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="389784c2-beca-482f-942e-47a28ee7c972" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/NeuNorm.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/NeuNorm.egg-info/PKG-INFO" />
       <change beforePath="$PROJECT_DIR$/NeuNorm/__init__.py" afterPath="$PROJECT_DIR$/NeuNorm/__init__.py" />
       <change beforePath="$PROJECT_DIR$/NeuNorm/normalization.py" afterPath="$PROJECT_DIR$/NeuNorm/normalization.py" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/cropping_data.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/cropping_data.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/dark_field_correction.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/dark_field_correction.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/documentation/build/doctrees/environment.pickle" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/export_data.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/export_data.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/index.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/installation.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/installation.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/loading.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/loading.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/normalization.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/normalization.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/notebook.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/notebook.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/retrieve_normalized_data.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/retrieve_normalized_data.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_normalization_with_fewer_ob_than_sample.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_normalization_with_fewer_ob_than_sample.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_using_array_input.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_using_array_input.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_using_folder_input.doctree" afterPath="$PROJECT_DIR$/documentation/build/doctrees/tutorial_using_folder_input.doctree" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/cropping_data.html" afterPath="$PROJECT_DIR$/documentation/build/html/cropping_data.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/dark_field_correction.html" afterPath="$PROJECT_DIR$/documentation/build/html/dark_field_correction.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/export_data.html" afterPath="$PROJECT_DIR$/documentation/build/html/export_data.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/genindex.html" afterPath="$PROJECT_DIR$/documentation/build/html/genindex.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/index.html" afterPath="$PROJECT_DIR$/documentation/build/html/index.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/installation.html" afterPath="$PROJECT_DIR$/documentation/build/html/installation.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/loading.html" afterPath="$PROJECT_DIR$/documentation/build/html/loading.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/normalization.html" afterPath="$PROJECT_DIR$/documentation/build/html/normalization.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/notebook.html" afterPath="$PROJECT_DIR$/documentation/build/html/notebook.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/objects.inv" afterPath="$PROJECT_DIR$/documentation/build/html/objects.inv" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/retrieve_normalized_data.html" afterPath="$PROJECT_DIR$/documentation/build/html/retrieve_normalized_data.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/search.html" afterPath="$PROJECT_DIR$/documentation/build/html/search.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/searchindex.js" afterPath="$PROJECT_DIR$/documentation/build/html/searchindex.js" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/tutorial_normalization_with_fewer_ob_than_sample.html" afterPath="$PROJECT_DIR$/documentation/build/html/tutorial_normalization_with_fewer_ob_than_sample.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/tutorial_using_array_input.html" afterPath="$PROJECT_DIR$/documentation/build/html/tutorial_using_array_input.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/build/html/tutorial_using_folder_input.html" afterPath="$PROJECT_DIR$/documentation/build/html/tutorial_using_folder_input.html" />
+      <change beforePath="$PROJECT_DIR$/notebooks/tutorial_using_array_input.ipynb" afterPath="$PROJECT_DIR$/notebooks/tutorial_using_array_input.ipynb" />
+      <change beforePath="$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py" afterPath="$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,102 +24,94 @@
     <SUITE FILE_PATH="coverage/NeuNorm$py_test_in_tests.coverage" NAME="py.test in tests Coverage Results" MODIFIED="1506452502146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NeuNorm/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="normalizing_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="44" column="31" lean-forward="false" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NeuNorm/loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="normalization.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NeuNorm/normalization.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2247">
-              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/NeuNorm/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="clean.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clean.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cropping_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/NeuNorm/cropping_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="roi.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NeuNorm/roi.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="normalizing_test.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="407">
+                  <caret line="431" column="53" lean-forward="true" selection-start-line="431" selection-start-column="53" selection-end-line="431" selection-end-column="53" />
+                  <folding>
+                    <element signature="e#0#15#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="normalization.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/NeuNorm/normalization.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="287">
+                  <caret line="279" column="47" lean-forward="false" selection-start-line="279" selection-start-column="47" selection-end-line="279" selection-end-column="47" />
+                  <folding>
+                    <element signature="e#0#24#0" expanded="true" />
+                    <marker date="1515693140000" expanded="true" signature="13271:13425" ph="..." />
+                    <marker date="1515693140000" expanded="true" signature="14416:14527" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="normalization.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/NeuNorm/normalization.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-1041">
+                  <caret line="320" column="26" lean-forward="false" selection-start-line="320" selection-start-column="16" selection-end-line="320" selection-end-column="26" />
+                  <folding>
+                    <element signature="e#0#24#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="setup.cfg" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/setup.cfg">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/setup.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/NeuNorm/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="150">
+                  <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -175,11 +142,12 @@
         <option value="$PROJECT_DIR$/documentation/source/tutorial_using_array_input.ipynb" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/NeuNorm/main.py" />
-        <option value="$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py" />
         <option value="$PROJECT_DIR$/clean.sh.py" />
         <option value="$PROJECT_DIR$/clean.sh" />
         <option value="$PROJECT_DIR$/NeuNorm/normalization.py" />
+        <option value="$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py" />
         <option value="$PROJECT_DIR$/NeuNorm/__init__.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -190,9 +158,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1474" />
-    <option name="y" value="23" />
-    <option name="width" value="1566" />
+    <option name="x" value="18" />
+    <option name="y" value="24" />
+    <option name="width" value="2986" />
     <option name="height" value="1358" />
   </component>
   <component name="ProjectView">
@@ -221,7 +189,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -229,15 +196,11 @@
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="NeuNorm" type="cbb8eebc:String" user="NeuNorm" />
             </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="NeuNorm" type="cbb8eebc:String" user="NeuNorm" />
-              <item name="NeuNorm" type="cbb8eebc:String" user="NeuNorm" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -374,10 +337,10 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python tests.py.test in tests" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_ob" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization" />
-        <item index="3" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_data" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.py.test in normalizing_test.py" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.py.test in normalizing_test.py" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_ob" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_data" />
       </list>
     </recent_temporary>
   </component>
@@ -398,34 +361,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="py_test_for_normalizing_test_TestNormalization - 2017.10.16 at 16h 39m 38s.xml">
-      <configuration name="py.test for normalizing_test.TestNormalization" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_for_normalizing_test_TestNormalization - 2017.10.16 at 16h 40m 35s.xml">
-      <configuration name="py.test for normalizing_test.TestNormalization" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_for_normalizing_test_TestNormalization_test_initialization_using_array_with_data - 2017.10.16 at 16h 39m 48s.xml">
-      <configuration name="py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_data" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_for_normalizing_test_TestNormalization_test_initialization_using_array_with_data - 2017.10.16 at 16h 40m 07s.xml">
-      <configuration name="py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_data" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_for_normalizing_test_TestNormalization_test_initialization_using_array_with_ob - 2017.10.16 at 16h 41m 09s.xml">
-      <configuration name="py.test for normalizing_test.TestNormalization.test_initialization_using_array_with_ob" configurationId="tests" />
-    </history-entry>
-    <history-entry file="py_test_in_normalizing_test_py - 2017.10.16 at 16h 38m 56s.xml">
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 12h 55m 23s.xml">
       <configuration name="py.test in normalizing_test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_tests - 2017.09.14 at 13h 21m 24s.xml">
-      <configuration name="py.test in tests" configurationId="tests" />
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 12h 55m 51s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_tests - 2017.09.26 at 15h 01m 43s.xml">
-      <configuration name="py.test in tests" configurationId="tests" />
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 12h 56m 28s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_tests - 2017.10.16 at 16h 37m 59s.xml">
-      <configuration name="py.test in tests" configurationId="tests" />
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 12h 58m 38s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="py_test_in_tests - 2017.11.22 at 10h 23m 02s.xml">
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 13h 02m 10s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 13h 02m 36s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 13h 04m 38s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 13h 05m 53s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_normalizing_test_py - 2018.01.11 at 13h 06m 01s.xml">
+      <configuration name="py.test in normalizing_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="py_test_in_tests - 2018.01.11 at 13h 16m 32s.xml">
       <configuration name="py.test in tests" configurationId="tests" />
     </history-entry>
   </component>
@@ -439,28 +402,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1474" y="23" width="1566" height="1358" extended-state="0" />
+    <frame x="18" y="24" width="2986" height="1358" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17369309" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2467742" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1473851" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30725807" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27312014" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2467742" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497537" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27312014" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -476,13 +439,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/documentation/source/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="37" column="39" lean-forward="false" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/documentation/build/tutorial_using_folder_input.html" />
     <entry file="file://$PROJECT_DIR$/documentation/build/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -664,13 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.cfg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/documentation/source/tutorial_normalization_with_fewer_ob_than_sample.ipynb" />
     <entry file="file://$PROJECT_DIR$/documentation/source/tutorial_using_array_input.ipynb" />
     <entry file="file://$PROJECT_DIR$/documentation/source/tutorial_using_folder_input.ipynb" />
@@ -683,14 +632,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/documentation/readthedocs-environment.yml" />
     <entry file="file://$PROJECT_DIR$/readthedocs.yml" />
-    <entry file="file://$PROJECT_DIR$/NeuNorm/roi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/NeuNorm/exporter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -705,6 +646,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NeuNorm/loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clean.sh.py" />
     <entry file="file://$PROJECT_DIR$/NeuNorm/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -713,10 +663,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NeuNorm/loader.py">
+    <entry file="file://$PROJECT_DIR$/clean.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="12" />
+        <state relative-caret-position="225">
+          <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -726,34 +676,43 @@
         <state relative-caret-position="210">
           <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NeuNorm/roi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/NeuNorm/normalizing_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="44" column="31" lean-forward="false" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
+        <state relative-caret-position="407">
+          <caret line="431" column="53" lean-forward="true" selection-start-line="431" selection-start-column="53" selection-end-line="431" selection-end-column="53" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clean.sh.py" />
-    <entry file="file://$PROJECT_DIR$/clean.sh">
+    <entry file="file://$PROJECT_DIR$/NeuNorm/normalization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="-1041">
+          <caret line="320" column="26" lean-forward="false" selection-start-line="320" selection-start-column="16" selection-end-line="320" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NeuNorm/normalization.py">
+    <entry file="file://$PROJECT_DIR$/setup.cfg">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2247">
-          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -769,7 +728,15 @@
     <entry file="file://$PROJECT_DIR$/NeuNorm/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+          <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
           <folding />
         </state>
       </provider>

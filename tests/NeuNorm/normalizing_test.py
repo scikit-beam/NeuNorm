@@ -417,7 +417,26 @@ class TestApplyingROI(unittest.TestCase):
         o_norm.load(file=ob1, data_type='ob')
         o_norm.load(file=df1, data_type='df')
         self.assertRaises(ValueError, o_norm.normalization)
-        
+
+    def test_full_normalization_sample_with_several_roi(self):
+        '''assert the full normalization works with several roi selected'''
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+        o_norm.load(folder=ob_path, data_type='ob')
+        _roi_1 = ROI(x0=0, y0=0, x1=2, y1=2)
+        _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
+        o_norm.normalization(roi=[_roi_1, _roi_2])
+        _norm_returned = o_norm.data['normalized'][0]
+        _norm_expected = np.ones((5,5))*0.51162791
+        _norm_expected[:,2] = 1.02325581
+        _norm_expected[:,3] = 1.53488372
+        _norm_expected[:,4] = 2.04651163
+
+        self.assertAlmostEquals(_norm_expected[0,0], _norm_returned[0,0], delta=1e-8)
+
     def test_full_normalization_sample_divide_by_ob_works(self):
         '''assert the full normalization works (when sample is divided by ob)'''
 
