@@ -218,9 +218,8 @@ class TestLoading(unittest.TestCase):
         metadata = o_norm.data['sample']['metadata']
         metadata_1_expected = 'this is value a'
         metadata_1_returned = metadata[0][1]
-        print(type(metadata[0][1]))
-        print(metadata[0][1])
-        self.assertTrue(False)
+        if isinstance(metadata_1_returned, tuple):
+            metadata_1_returned = metadata_1_returned[0]
         self.assertEqual(metadata_1_expected, metadata_1_returned)
 
 class TestGammaFiltering(unittest.TestCase):
