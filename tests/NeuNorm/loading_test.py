@@ -209,7 +209,17 @@ class TestLoading(unittest.TestCase):
         o_norm.normalization()
         new_sample_tif_file = self.data_path + '/tif/sample/image002.tif'
         self.assertRaises(IOError, o_norm.load, file=new_sample_tif_file)
-        
+
+    def test_loading_tiff_metadata(self):
+        '''assert metadata of sample are correctly loaded'''
+        sample_tif_file = self.data_path + '/tif/sample/image001.tif'
+        o_norm = Normalization()
+        o_norm.load(file=sample_tif_file)
+        metadata = o_norm.data['sample']['metadata']
+        metadata_1_expected = 'this is value a'
+        metadata_1_returned = metadata[0][1][0]
+        self.assertEqual(metadata_1_expected, metadata_1_returned)
+
 class TestGammaFiltering(unittest.TestCase):
 
     def setUp(self):    

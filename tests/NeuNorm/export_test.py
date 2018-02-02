@@ -94,6 +94,20 @@ class TestExportingPhase2(unittest.TestCase):
         
         self.assertTrue((_sample_0 == _sample_reloaded).all())
 
+    def test_export_works_for_tiff_metadata(self):
+        '''assert file created using tif has the metadata as well'''
+        sample_path = self.data_path + '/tif/sample'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+        o_norm.export(folder=self.export_folder, data_type='sample')
+        input_metadata = o_norm.data['sample']['metadata'][0]
+
+        o_norm_2 = Normalization()
+        o_norm_2.load(folder=self.export_folder)
+        export_metadata = o_norm_2.data['sample']['metadata'][0]
+
+        self.assertTrue((input_metadata == export_metadata))
+
     def test_export_works_for_fits(self):
         '''assert the file created is correct for fits images'''
         sample_path = self.data_path + '/fits/sample'

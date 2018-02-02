@@ -1,0 +1,12 @@
+{
+  "tests/NeuNorm/cropping_test.py": true,
+  "tests/NeuNorm/export_test.py": true,
+  "tests/NeuNorm/loading_test.py": true,
+  "tests/NeuNorm/normalizing_test.py": true,
+  "tests/NeuNorm/roi_test.py::TestRoi::test_error_raised_when_x0_or_y0_not_provided": true,
+  "tests/NeuNorm/roi_test.py::TestRoi::test_error_raised_when_x1_and_width_or_y1_and_height_not_provided": true,
+  "tests/NeuNorm/roi_test.py::TestRoi::test_setting_roi_x0_y0_width_height": true,
+  "tests/NeuNorm/roi_test.py::TestRoi::test_setting_roi_x0_y0_x1_y1": true,
+  "tests/NeuNorm/roi_test.py::TestRoi::test_x_and_y_correctly_sorted": true,
+  "tests/NeuNorm/utilities_test.py": true
+}

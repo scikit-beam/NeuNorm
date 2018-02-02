@@ -20,13 +20,16 @@ class Normalization(object):
         self.dict_image = { 'data': [],
                             'oscilation': [],
                             'file_name': [],
+                            'metadata': [],
                             'shape': self.shape.copy()}
         self.dict_ob = {'data': [],
                         'oscilation': [],
+                        'metadata': [],
                         'file_name': [],
                         'data_mean': [],
                         'shape': self.shape.copy()}
         self.dict_df = {'data': [],
+                        'metadata': [],
                         'data_average': [],
                         'file_name': [],
                         'shape': self.shape.copy()}
@@ -187,12 +190,13 @@ class Normalization(object):
     
         my_file = Path(file)
         if my_file.is_file():
-            data = []
+            metadata = {}
             if file.lower().endswith('.fits'):
                 data = np.array(load_fits(my_file), dtype=np.float)
             elif file.lower().endswith(('.tiff','.tif')) :
-                data = np.array(load_tiff(my_file), dtype=np.float)
-            elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')): 
+                [data, metadata] = load_tiff(my_file)
+                data = np.array(data, dtype=np.float)
+            elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')):
                 data = np.array(load_hdf(my_file), dtype=np.float)
             else:
                 raise OSError('file extension not yet implemented....Do it your own way!')     
@@ -201,6 +205,7 @@ class Normalization(object):
                 data = self._gamma_filtering(data=data)
 
             self.data[data_type]['data'].append(data)
+            self.data[data_type]['metadata'].append(metadata)
             self.data[data_type]['file_name'].append(file)
             self.save_or_check_shape(data=data, data_type=data_type)
 
@@ -601,6 +606,7 @@ class Normalization(object):
 
         if data ==[]:
             return False
+        metadata = self.data[data_type]['metadata']
 
         list_file_name_raw = self.data[data_type]['file_name']
         self.__create_list_file_names(initial_list=list_file_name_raw,
@@ -609,11 +615,12 @@ class Normalization(object):
                                       suffix=file_type)
         
         self.__export_data(data=data,
+                           metadata=metadata,
                            output_file_names = self._export_file_name,
                            suffix=file_type)
         
     
-    def __export_data(self, data=[], output_file_names=[], suffix='tif'):
+    def __export_data(self, data=[], metadata=[], output_file_names=[], suffix='tif'):
         '''save the list of files with the data specified
         
         Parameters:
@@ -622,10 +629,10 @@ class Normalization(object):
         output_file_names: numpy array of string of full file names        
         suffix: String (default is 'tif') format in which the file will be created
         '''
-        name_data_array = zip(output_file_names, data)
-        for _file_name, _data in name_data_array:
+        name_data_metadata_array = zip(output_file_names, data, metadata)
+        for _file_name, _data, _metadata in name_data_metadata_array:
             if suffix == 'tif':
-                make_tif(data=_data, file_name=_file_name)
+                make_tif(data=_data, metadata=_metadata, file_name=_file_name)
             elif suffix == 'fits':
                 make_fits(data=_data, file_name=_file_name)
     
@@ -652,7 +659,7 @@ class Normalization(object):
     def get_normalized_data(self):
         '''return the normalized data'''
         return self.data['normalized']
-    
+
     def get_sample_data(self):
         '''return the sample data'''
         return self.data['sample']['data']

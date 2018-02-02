@@ -42,6 +42,9 @@ def load_tiff(file_name):
        full file name of tiff image
     '''
     try:
-        return np.asarray(Image.open(file_name))
+        _image = Image.open(file_name)
+        data = np.asarray(_image)
+        metadata = dict(_image.tag_v2)
+        return [data, metadata]
     except:
         raise OSError("Unable to read the TIFF file provided!")
