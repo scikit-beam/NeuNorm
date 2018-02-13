@@ -451,7 +451,7 @@ class TestApplyingROI(unittest.TestCase):
         _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
         o_norm.normalization(roi=[_roi_1, _roi_2])
         _norm_returned = o_norm.data['normalized'][0]
-        _norm_expected = np.ones((5,5))*0.51162791
+        _norm_expected = np.ones((5,5))
         _norm_expected[:,2] = 1.02325581
         _norm_expected[:,3] = 1.53488372
         _norm_expected[:,4] = 2.04651163

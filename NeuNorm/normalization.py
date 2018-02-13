@@ -341,26 +341,34 @@ class Normalization(object):
         _ob_corrected_normalized = []
 
         if roi:
+
             if b_list_roi:
 
-                for [_sample, _ob] in zip(self.data['sample']['data'], self.data['ob']['data']):
+                _sample_corrected_normalized = []
+                for _sample in self.data['sample']['data']:
                     sample_mean = []
+                    for _roi in roi:
+                        _x0 = _roi.x0
+                        _y0 = _roi.y0
+                        _x1 = _roi.x1
+                        _y1 = _roi.y1
+                        sample_mean.append(np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1]))
+
+                    full_sample_mean = np.mean(sample_mean)
+                    _sample_corrected_normalized.append(_sample/full_sample_mean)
+
+                _ob_corrected_normalized = []
+                for _ob in self.data['ob']['data']:
                     ob_mean = []
                     for _roi in roi:
                         _x0 = _roi.x0
                         _y0 = _roi.y0
                         _x1 = _roi.x1
                         _y1 = _roi.y1
+                        ob_mean.append(np.mean(_ob[_y0:_y1 + 1, _x0:_x1 + 1]))
 
-                        sample_mean.append(np.mean(_sample[_y0:_y1+1, _x0:_x1+1]))
-                        ob_mean.append(np.mean(_ob[_y0:_y1+1, _x0: _x1+1]))
-
-                    full_sample_mean = np.mean(sample_mean)
                     full_ob_mean = np.mean(ob_mean)
-
-                    _sample_corrected_normalized.append(_sample / full_sample_mean)
-                    _ob_corrected_normalized.append(_ob / full_ob_mean)
-                    print(len(_sample_corrected_normalized))
+                    _ob_corrected_normalized.append(_ob / full_sample_mean)
 
             else:
                 _x0 = roi.x0
