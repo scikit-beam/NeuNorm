@@ -12,7 +12,7 @@ class TestNormalization(unittest.TestCase):
     def setUp(self):    
         _file_path = os.path.dirname(__file__)
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
-        
+
     def test_loading_list_of_files(self):
         '''assert initialization using list of files'''
         list_files = [self.data_path + '/tif/sample/image001.tif',
@@ -199,7 +199,28 @@ class TestNormalization(unittest.TestCase):
         expected_normalized_array = np.zeros((5,5))
         expected_normalized_array[0,0] = 1
         self.assertTrue((o_norm.data['normalized']== expected_normalized_array).all())
- 
+
+    def test_nbr_data_files_same_after_normalization_by_list_roi(self):
+        '''assert the number of data files is the same after normalization by a list of ROI'''
+        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif'
+        ob2 = self.data_path + '/tif/ob/ob002.tif'
+        df1 = self.data_path + '/tif/df/df001.tif'
+        o_norm = Normalization()
+        o_norm.load(folder=samples_path)
+        o_norm.load(file=[ob1, ob2], data_type='ob')
+        o_norm.load(file=df1, data_type='df')
+        _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
+        _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
+        _list_roi = [_roi1, _roi2]
+        nbr_data_before = len(o_norm.data['sample']['data'])
+        o_norm.normalization(roi=_list_roi)
+        nbr_data_after = len(o_norm.data['sample']['data'])
+        self.assertEqual(nbr_data_after, nbr_data_before)
+
+
+
+
 class TestDFCorrection(unittest.TestCase):
     
     def setUp(self):    

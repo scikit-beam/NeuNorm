@@ -360,6 +360,7 @@ class Normalization(object):
 
                     _sample_corrected_normalized.append(_sample / full_sample_mean)
                     _ob_corrected_normalized.append(_ob / full_ob_mean)
+                    print(len(_sample_corrected_normalized))
 
             else:
                 _x0 = roi.x0
