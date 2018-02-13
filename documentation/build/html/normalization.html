@@ -98,6 +98,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Normalization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#normalization-using-roi-optional">Normalization using ROI (optional)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#normalization-without-roi-optional">Normalization without ROI (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forcing-normalization-by-mean-ob">Forcing normalization by mean OB</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
@@ -233,6 +234,14 @@ If a norm_roi has been provided, the sample arrays will be divided by the averag
 region defined. Same thing for the ob. Those normalized array can be retrieved this way</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_normalized_array</span> <span class="o">=</span> <span class="n">o_gretting</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="forcing-normalization-by-mean-ob">
+<h2>Forcing normalization by mean OB<a class="headerlink" href="#forcing-normalization-by-mean-ob" title="Permalink to this headline">¶</a></h2>
+<p>By default, if the number of sample and Ob is the same, each sample is normalized by the equivalent index ob. But
+it’s possible to force the normalization by the mean OB</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">force_mean_ob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

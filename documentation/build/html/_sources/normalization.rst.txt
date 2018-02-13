@@ -37,3 +37,11 @@ region defined. Same thing for the ob. Those normalized array can be retrieved t
 >>> sample_normalized_array = o_norm.data['sample']['data']
 >>> ob_normalized_array = o_gretting.data['ob']['data']
 
+
+Forcing normalization by mean OB
+################################
+
+By default, if the number of sample and Ob is the same, each sample is normalized by the equivalent index ob. But
+it's possible to force the normalization by the mean OB
+
+>>> o_norm.normalization(force_mean_ob=True)
