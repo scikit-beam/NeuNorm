@@ -217,7 +217,9 @@ class TestLoading(unittest.TestCase):
         o_norm.load(file=sample_tif_file)
         metadata = o_norm.data['sample']['metadata']
         metadata_1_expected = 'this is value a'
-        metadata_1_returned = metadata[0][1][0]
+        metadata_1_returned = metadata[0][1]
+        if isinstance(metadata_1_returned, tuple):
+            metadata_1_returned = metadata_1_returned[0]
         self.assertEqual(metadata_1_expected, metadata_1_returned)
 
 class TestGammaFiltering(unittest.TestCase):

@@ -100,11 +100,11 @@ class TestExportingPhase2(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(folder=sample_path)
         o_norm.export(folder=self.export_folder, data_type='sample')
-        input_metadata = o_norm.data['sample']['metadata'][0]
+        input_metadata = str(o_norm.data['sample']['metadata'][0])
 
         o_norm_2 = Normalization()
         o_norm_2.load(folder=self.export_folder)
-        export_metadata = o_norm_2.data['sample']['metadata'][0]
+        export_metadata = str(o_norm_2.data['sample']['metadata'][0])
 
         self.assertTrue((input_metadata == export_metadata))
 
