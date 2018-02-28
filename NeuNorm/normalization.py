@@ -92,14 +92,24 @@ class Normalization(object):
                     _message = "Loading {}".format(data_type)
                     box1 = widgets.HBox([widgets.Label(_message,
                                                        layout=widgets.Layout(width='20%')),
-                                         widgets.IntProgress(max=len(file))])
+                                         widgets.IntProgress(max=len(file)),
+                                         widgets.Label("Time remaining:",
+                                                       layout=widgets.Layout(width='10%')),
+                                         widgets.Label(" >> calculating << ")])
                     display(box1)
                     w1 = box1.children[1]                    
-                
+                    time_remaining_ui = box1.children[-1]
+
+                start_time = time.time()
                 for _index, _file in enumerate(file):
                     self.load_file(file=_file, data_type=data_type)
                     if notebook:
                         w1.value = _index+1
+                        end_time = time.time()
+                        takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
+                                                                                            time_it_took_so_far=end_time - start_time,
+                                                                                            total_number_of_loop=len(file))
+                        time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
                 if notebook:
                     box1.close()
