@@ -2,6 +2,7 @@ from pathlib import Path
 import numpy as np
 import os
 import copy
+import time
 from scipy.ndimage import convolve
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
@@ -91,14 +92,24 @@ class Normalization(object):
                     _message = "Loading {}".format(data_type)
                     box1 = widgets.HBox([widgets.Label(_message,
                                                        layout=widgets.Layout(width='20%')),
-                                         widgets.IntProgress(max=len(file))])
+                                         widgets.IntProgress(max=len(file)),
+                                         widgets.Label("Time remaining:",
+                                                       layout=widgets.Layout(width='10%')),
+                                         widgets.Label(" >> calculating << ")])
                     display(box1)
                     w1 = box1.children[1]                    
-                
+                    time_remaining_ui = box1.children[-1]
+
+                start_time = time.time()
                 for _index, _file in enumerate(file):
                     self.load_file(file=_file, data_type=data_type)
                     if notebook:
                         w1.value = _index+1
+                        end_time = time.time()
+                        takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
+                                                                                            time_it_took_so_far=end_time - start_time,
+                                                                                            total_number_of_loop=len(file))
+                        time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
                 if notebook:
                     box1.close()
@@ -111,23 +122,50 @@ class Normalization(object):
                 _message = "Loading {}".format(data_type)
                 box1 = widgets.HBox([widgets.Label(_message,
                                                    layout=widgets.Layout(width='20%')),
-                                     widgets.IntProgress(max=len(list_images))])
+                                     widgets.IntProgress(max=len(list_images)),
+                                     widgets.Label("Time remaining:",
+                                                   layout=widgets.Layout(width='10%')),
+                                     widgets.Label(" >> calculating << ")])
                 display(box1)
-                w1 = box1.children[1]   
-            
+                w1 = box1.children[1]
+                time_remaining_ui = box1.children[-1]
+
+            start_time = time.time()
             for _index, _image in enumerate(list_images):
                 full_path_image = os.path.join(folder, _image)
                 self.load_file(file=full_path_image, data_type=data_type, gamma_filter=gamma_filter)
                 if notebook:
                     # update progress bar
                     w1.value = _index+1
+                    end_time = time.time()
+                    takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index+1,
+                                                                                        time_it_took_so_far=end_time-start_time,
+                                                                                        total_number_of_loop=len(list_images))
+                    time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
             if notebook:
                 box1.close()
         
         if not data == []:
             self.load_data(data=data, data_type=data_type)
-            
+
+    def calculate_how_long_its_going_to_take(self, index_we_are=-1, time_it_took_so_far=0, total_number_of_loop=1):
+        time_per_loop = time_it_took_so_far / index_we_are
+        total_time_it_will_take = time_per_loop * total_number_of_loop
+        time_left = total_time_it_will_take - time_per_loop * index_we_are
+
+        # convert to nice format h mn and seconds
+        m, s = divmod(time_left, 60)
+        h, m = divmod(m, 60)
+
+        if h == 0:
+            if m == 0:
+                return "%02ds" %(s)
+            else:
+                return "%02dmn %02ds" %(m, s)
+        else:
+            return "%dh %02dmn %02ds" % (h, m, s)
+
     def load_data(self, data=[], data_type='sample', notebook=False):
         '''Function to save the data already loaded as arrays
 
