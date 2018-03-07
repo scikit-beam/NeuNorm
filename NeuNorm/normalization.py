@@ -204,6 +204,8 @@ class Normalization(object):
             if gamma_filter:
                 data = self._gamma_filtering(data=data)
 
+            data = np.squeeze(data)
+
             self.data[data_type]['data'].append(data)
             self.data[data_type]['metadata'].append(metadata)
             self.data[data_type]['file_name'].append(file)
@@ -523,14 +525,16 @@ class Normalization(object):
             _df = self.data['df']['data']
             if len(_df) > 1:
                 _df = average_df(df=_df)
-            self.data['df']['data_average'] = _df
+            self.data['df']['data_average'] = np.squeeze(_df)
+
         else:
-            _df = self.data['df']['data_average']
+            _df = np.squeeze(self.data['df']['data_average'])
 
         if np.shape(self.data[data_type]['data'][0]) != np.shape(self.data['df']['data'][0]):
-            raise IOError("{} and df data must have the same shpae!".format(data_type))
+            raise IOError("{} and df data must have the same shape!".format(data_type))
     
         _data_df_corrected = [_data - _df for _data in self.data[data_type]['data']]
+        _data_df_corrected = [np.squeeze(_data) for _data in _data_df_corrected]
         self.data[data_type]['data'] = _data_df_corrected
     
     def crop(self, roi=None, force=False):
