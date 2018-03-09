@@ -55,7 +55,7 @@ class Normalization(object):
         self.export_file_name = []
     
     def load(self, file='', folder='', data=[], data_type='sample', 
-             gamma_filter=False, notebook=False):
+             gamma_filter=False, notebook=False, threshold=0.1):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -85,7 +85,7 @@ class Normalization(object):
         
         if not file == '':
             if isinstance(file, str):
-                self.load_file(file=file, data_type=data_type)
+                self.load_file(file=file, data_type=data_type, threshold=threshold)
             elif isinstance(file, list):
                 if notebook:
                     # turn on progress bar
@@ -102,7 +102,9 @@ class Normalization(object):
 
                 start_time = time.time()
                 for _index, _file in enumerate(file):
-                    self.load_file(file=_file, data_type=data_type, gamma_filter=gamma_filter)
+                    self.load_file(file=_file, data_type=data_type,
+                                   gamma_filter=gamma_filter,
+                                   threshold=threshold)
                     if notebook:
                         w1.value = _index+1
                         end_time = time.time()
@@ -133,7 +135,9 @@ class Normalization(object):
             start_time = time.time()
             for _index, _image in enumerate(list_images):
                 full_path_image = os.path.join(folder, _image)
-                self.load_file(file=full_path_image, data_type=data_type, gamma_filter=gamma_filter)
+                self.load_file(file=full_path_image, data_type=data_type,
+                               gamma_filter=gamma_filter,
+                               threshold=threshold)
                 if notebook:
                     # update progress bar
                     w1.value = _index+1
@@ -209,7 +213,7 @@ class Normalization(object):
         self.data[data_type]['file_name'].append("image_{:04}".format(index))
         self.save_or_check_shape(data=data, data_type=data_type)        
         
-    def load_file(self, file='', data_type='sample', gamma_filter=True):
+    def load_file(self, file='', data_type='sample', gamma_filter=True, threshold=0.1):
         """
         Function to read data from the specified path, it can read FITS, TIFF and HDF.
     
@@ -240,7 +244,7 @@ class Normalization(object):
                 raise OSError('file extension not yet implemented....Do it your own way!')     
 
             if gamma_filter:
-                data = self._gamma_filtering(data=data)
+                data = self._gamma_filtering(data=data, threshold=threshold)
 
             data = np.squeeze(data)
 
