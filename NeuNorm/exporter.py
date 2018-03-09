@@ -9,4 +9,4 @@ def make_tif(data=[], metadata=[], file_name=''):
 
 def make_fits(data=[], file_name=''):
     '''create fits file'''
-    fits.writeto(file_name, data, clobber=True)
+    fits.writeto(file_name, data, overwrite=True)
