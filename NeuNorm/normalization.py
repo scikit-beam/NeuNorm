@@ -13,8 +13,7 @@ from NeuNorm._utilities import get_sorted_list_images, average_df
 
 class Normalization(object):
 
-    gamma_filter_threshold = 0.1
-    
+
     def __init__(self):
         self.shape = {'width': np.NaN,
                       'height': np.NaN}
@@ -56,7 +55,7 @@ class Normalization(object):
         self.export_file_name = []
     
     def load(self, file='', folder='', data=[], data_type='sample', 
-             gamma_filter=True, notebook=False):
+             gamma_filter=False, notebook=False):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -74,6 +73,7 @@ class Normalization(object):
         oscillation, crop, binning, df_correction.
 
         '''
+
         list_exec_flag = [_flag for _flag in self.__exec_process_status.values()]
         box1 = None
         if True in list_exec_flag:
@@ -102,7 +102,7 @@ class Normalization(object):
 
                 start_time = time.time()
                 for _index, _file in enumerate(file):
-                    self.load_file(file=_file, data_type=data_type)
+                    self.load_file(file=_file, data_type=data_type, gamma_filter=gamma_filter)
                     if notebook:
                         w1.value = _index+1
                         end_time = time.time()
@@ -114,7 +114,7 @@ class Normalization(object):
                 if notebook:
                     box1.close()
 
-        if not folder == '':
+        elif not folder == '':
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
             if notebook:
@@ -146,7 +146,7 @@ class Normalization(object):
             if notebook:
                 box1.close()
         
-        if not data == []:
+        elif not data == []:
             self.load_data(data=data, data_type=data_type)
 
     def calculate_how_long_its_going_to_take(self, index_we_are=-1, time_it_took_so_far=0, total_number_of_loop=1):
@@ -242,6 +242,8 @@ class Normalization(object):
             if gamma_filter:
                 data = self._gamma_filtering(data=data)
 
+            data = np.squeeze(data)
+
             self.data[data_type]['data'].append(data)
             self.data[data_type]['metadata'].append(metadata)
             self.data[data_type]['file_name'].append(file)
@@ -250,7 +252,7 @@ class Normalization(object):
         else:
             raise OSError("The file name does not exist")
 
-    def _gamma_filtering(self, data=[]):
+    def _gamma_filtering(self, data=[], threshold=0.1):
         '''perform gamma filtering on the data
         
         Algorithm looks for all the very hight counts
@@ -270,30 +272,41 @@ class Normalization(object):
             raise ValueError("Data array is empty!")
 
         data_gamma_filtered = np.copy(data)
-            
-        # find mean counts
         mean_counts = np.mean(data_gamma_filtered)
-        
-        thresolded_data_gamma_filtered = data_gamma_filtered * self.gamma_filter_threshold
-        
-        # get pixels where value is above threshold
-        position = []
-        [height, width] = np.shape(data_gamma_filtered)
-        for _x in np.arange(width):
-            for _y in np.arange(height):
-                if thresolded_data_gamma_filtered[_y, _x] > mean_counts:
-                    position.append([_y, _x])
-                    
-        # convolve entire image using 3x3 kerne
-        mean_kernel = np.array([[1,1,1], [1,0,1], [1,1,1]]) / 8.0
+        gamma_indexes = np.where(threshold * data_gamma_filtered> mean_counts)
+
+        mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
         convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
-        
-        # replace only pixel above threshold by convolved data
-        for _coordinates in position:
-            [_y, _x] = _coordinates
-            data_gamma_filtered[_y, _x] = convolved_data[_y, _x]
-            
-        return data_gamma_filtered        
+
+        data_gamma_filtered[gamma_indexes] = convolved_data[gamma_indexes]
+
+        return data_gamma_filtered
+
+        # data_gamma_filtered = np.copy(data)
+        #
+        # # find mean counts
+        # mean_counts = np.mean(data_gamma_filtered)
+        #
+        # thresolded_data_gamma_filtered = data_gamma_filtered * threshold
+        #
+        # # get pixels where value is above threshold
+        # position = []
+        # [height, width] = np.shape(data_gamma_filtered)
+        # for _x in np.arange(width):
+        #     for _y in np.arange(height):
+        #         if thresolded_data_gamma_filtered[_y, _x] > mean_counts:
+        #             position.append([_y, _x])
+        #
+        # convolve entire image using 3x3 kerne
+        # mean_kernel = np.array([[1,1,1], [1,0,1], [1,1,1]]) / 8.0
+        # convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
+        #
+        # # replace only pixel above threshold by convolved data
+        # for _coordinates in position:
+        #     [_y, _x] = _coordinates
+        #     data_gamma_filtered[_y, _x] = convolved_data[_y, _x]
+        #
+        # return data_gamma_filtered
 
     def save_or_check_shape(self, data=[], data_type='sample'):
         '''save the shape for the first data loaded (of each type) otherwise
@@ -561,14 +574,16 @@ class Normalization(object):
             _df = self.data['df']['data']
             if len(_df) > 1:
                 _df = average_df(df=_df)
-            self.data['df']['data_average'] = _df
+            self.data['df']['data_average'] = np.squeeze(_df)
+
         else:
-            _df = self.data['df']['data_average']
+            _df = np.squeeze(self.data['df']['data_average'])
 
         if np.shape(self.data[data_type]['data'][0]) != np.shape(self.data['df']['data'][0]):
-            raise IOError("{} and df data must have the same shpae!".format(data_type))
+            raise IOError("{} and df data must have the same shape!".format(data_type))
     
         _data_df_corrected = [_data - _df for _data in self.data[data_type]['data']]
+        _data_df_corrected = [np.squeeze(_data) for _data in _data_df_corrected]
         self.data[data_type]['data'] = _data_df_corrected
     
     def crop(self, roi=None, force=False):

@@ -232,9 +232,9 @@ class TestGammaFiltering(unittest.TestCase):
         '''assert gamma filtering complains when no data provided'''
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', gamma_filter=False)
         data_0 = o_norm.data['sample']['data']
-        self.assertRaises(ValueError, o_norm._gamma_filtering, data=data_0)
+        self.assertRaises(ValueError, o_norm._gamma_filtering)
 
     def test_gamma_filtered_works(self):
         '''assert gamma filtering works'''
@@ -242,7 +242,7 @@ class TestGammaFiltering(unittest.TestCase):
 
         # gamma filter is True
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', gamma_filter=True)
         data_gamma_filtered = o_norm.data['sample']['data']
         _expected_sample = np.ones((5,5))
         _expected_sample[0,0] = 0.375

@@ -221,11 +221,9 @@ class TestNormalization(unittest.TestCase):
         samples_path =  self.data_path + '/tif/sample/' # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
-        df1 = self.data_path + '/tif/df/df001.tif'
         o_norm = Normalization()
         o_norm.load(folder=samples_path)
         o_norm.load(file=[ob1, ob2], data_type='ob')
-        o_norm.load(file=df1, data_type='df')
         _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
         _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
         _list_roi = [_roi1, _roi2]
@@ -234,7 +232,44 @@ class TestNormalization(unittest.TestCase):
         nbr_data_after = len(o_norm.data['sample']['data'])
         self.assertEqual(nbr_data_after, nbr_data_before)
 
+    def test_normalization_works_with_only_1_df(self):
+        '''assert using 1 df in normalization works'''
+        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif'
+        ob2 = self.data_path + '/tif/ob/ob002.tif'
+        df1 = self.data_path + '/tif/df/df001.tif'
+        o_norm = Normalization()
+        o_norm.load(folder=samples_path)
+        o_norm.load(file=[ob1, ob2], data_type='ob')
+        o_norm.load(file=df1, data_type='df')
+        o_norm.df_correction()
+        _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
+        _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
+        _list_roi = [_roi1, _roi2]
+        nbr_data_before = len(o_norm.data['sample']['data'])
+        o_norm.normalization(roi=_list_roi)
+        nbr_data_after = len(o_norm.data['sample']['data'])
+        self.assertEqual(nbr_data_after, nbr_data_before)
 
+    def test_normalization_works_with_2_dfs(self):
+        '''assert using 2 df in normalization works'''
+        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif'
+        ob2 = self.data_path + '/tif/ob/ob002.tif'
+        df1 = self.data_path + '/tif/df/df001.tif'
+        df2 = self.data_path + '/tif/df/df002.tif'
+        o_norm = Normalization()
+        o_norm.load(folder=samples_path)
+        o_norm.load(file=[ob1, ob2], data_type='ob')
+        o_norm.load(file=[df1, df2], data_type='df')
+        o_norm.df_correction()
+        _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
+        _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
+        _list_roi = [_roi1, _roi2]
+        nbr_data_before = len(o_norm.data['sample']['data'])
+        o_norm.normalization(roi=_list_roi)
+        nbr_data_after = len(o_norm.data['sample']['data'])
+        self.assertEqual(nbr_data_after, nbr_data_before)
 
 
 class TestDFCorrection(unittest.TestCase):
