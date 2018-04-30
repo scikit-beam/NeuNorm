@@ -121,4 +121,28 @@ class TestExportingPhase2(unittest.TestCase):
         _sample_reloaded = o_norm_2.data['sample']['data'][0]
         
         self.assertTrue((_sample_0 == _sample_reloaded).all())
-    
+
+    def test_export_with_manually_loaded_data(self):
+        '''assert the file is correctly exported when loaded manually'''
+        sample_path = self.data_path + '/fits/sample'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path)
+
+        data =  o_norm.data['sample']['data'][0]
+        file_name = os.path.join(self.data_path, '/fits/sample/image001.fits')
+        o_norm_1 = Normalization()
+        o_norm_1.load(data=data)
+        o_norm_1.data['sample']['file_name'] = [file_name]
+        _sample_0  = o_norm.data['sample']['data'][0]
+        o_norm_1.export(folder=self.export_folder, data_type='sample', file_type='fits')
+
+        # making sure the file exists first
+        output_file = os.path.join(self.export_folder, 'image001.fits')
+        self.assertTrue(os.path.exists(output_file))
+
+        o_norm_2 = Normalization()
+        o_norm_2.load(folder=self.export_folder)
+        _sample_reloaded = o_norm_2.data['sample']['data'][0]
+
+        self.assertTrue((_sample_0 == _sample_reloaded).all())
+

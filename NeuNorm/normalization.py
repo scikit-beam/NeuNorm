@@ -211,6 +211,7 @@ class Normalization(object):
         self.data[data_type]['data'].append(data)
         index = len(self.data[data_type]['data'])
         self.data[data_type]['file_name'].append("image_{:04}".format(index))
+        self.data[data_type]['metadata'].append('')
         self.save_or_check_shape(data=data, data_type=data_type)        
         
     def load_file(self, file='', data_type='sample', gamma_filter=True, threshold=0.1):
@@ -277,7 +278,7 @@ class Normalization(object):
 
         data_gamma_filtered = np.copy(data)
         mean_counts = np.mean(data_gamma_filtered)
-        gamma_indexes = np.where(threshold * data_gamma_filtered> mean_counts)
+        gamma_indexes = np.where(threshold * data_gamma_filtered > mean_counts)
 
         mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
         convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
@@ -661,7 +662,6 @@ class Normalization(object):
         if not data_type in ['normalized','sample','ob','df']:
             raise KeyError("data_type '{}' is wrong".format(data_type))
 
-        data = []
         prefix = ''
         if data_type == 'normalized':
             data = self.get_normalized_data()
@@ -672,6 +672,7 @@ class Normalization(object):
 
         if data ==[]:
             return False
+
         metadata = self.data[data_type]['metadata']
 
         list_file_name_raw = self.data[data_type]['file_name']
@@ -679,7 +680,7 @@ class Normalization(object):
                                       output_folder = folder,
                                       prefix=prefix,
                                       suffix=file_type)
-        
+
         self.__export_data(data=data,
                            metadata=metadata,
                            output_file_names = self._export_file_name,
