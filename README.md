@@ -6,4 +6,6 @@
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/latest_release_date.svg)](https://anaconda.org/neutronimaging/neunorm)
 
 # normalization
-Normalization of fits and tiff files
+Normalization of Neutron Imaging fits and tiff files. 
+
+Check documentation for full detail on how this works.
