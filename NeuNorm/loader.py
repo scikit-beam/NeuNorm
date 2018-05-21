@@ -45,6 +45,7 @@ def load_tiff(file_name):
         _image = Image.open(file_name)
         data = np.asarray(_image)
         metadata = dict(_image.tag_v2)
+        _image.close()
         return [data, metadata]
     except:
         raise OSError("Unable to read the TIFF file provided!")

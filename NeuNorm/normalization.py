@@ -13,6 +13,7 @@ from NeuNorm._utilities import get_sorted_list_images, average_df
 
 class Normalization(object):
 
+    working_data_type = np.float32
 
     def __init__(self):
         self.shape = {'width': np.NaN,
@@ -204,7 +205,7 @@ class Normalization(object):
                 w1 = box1.children[1]   
 
             for _index, _data in enumerate(data):
-                _data = _data.astype(float)
+                _data = _data.astype(self.working_data_type)
                 self.__load_individual_data(data=_data, data_type=data_type)
                 if notebook:
                     # update progress bar
@@ -214,7 +215,7 @@ class Normalization(object):
                 box1.close()
                     
         else:
-            data = data.astype(float)
+            data = data.astype(self.working_data_type)
             self.__load_individual_data(data=data, data_type=data_type)
             
     def __load_individual_data(self, data=[], data_type='sample'):
@@ -245,12 +246,12 @@ class Normalization(object):
         if my_file.is_file():
             metadata = {}
             if file.lower().endswith('.fits'):
-                data = np.array(load_fits(my_file), dtype=np.float)
+                data = np.array(load_fits(my_file))
             elif file.lower().endswith(('.tiff','.tif')) :
                 [data, metadata] = load_tiff(my_file)
-                data = np.array(data, dtype=np.float)
+                data = np.array(data)
             elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')):
-                data = np.array(load_hdf(my_file), dtype=np.float)
+                data = np.array(load_hdf(my_file))
             else:
                 raise OSError('file extension not yet implemented....Do it your own way!')     
 
@@ -273,12 +274,20 @@ class Normalization(object):
         if data == []:
             raise ValueError("Data array is empty!")
 
-        max = np.iinfo(data.dtype).max
+        # we may be dealing with a float time, that means it does not need any gamma filtering
+
+        try:
+            max = np.iinfo(data.dtype).max
+            print("max is {}".format(max))
+        except:
+            return data
+
         threshold = max - 5
-        new_data = np.array(data, "float32")
+        new_data = np.array(data, self.working_data_type)
 
         data_gamma_filtered = np.copy(new_data)
         gamma_indexes = np.where(new_data > threshold)
+        print(gamma_indexes)
 
         mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
         convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')

@@ -182,21 +182,21 @@ class TestLoading(unittest.TestCase):
         image2 = self.data_path + '/different_format/image001_4_by_4.tif'
         o_norm = Normalization()
         o_norm.load(file=image1, auto_gamma_filter=False)
-        self.assertRaises(IOError, o_norm.load, file=image2)
+        self.assertRaises(IOError, o_norm.load, file=image2, auto_gamma_filter=False)
 
         # ob
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/different_format/ob001_4_by_4.tif'
         o_norm = Normalization()
         o_norm.load(file=ob1, auto_gamma_filter=False)
-        self.assertRaises(IOError, o_norm.load, file=ob2)
+        self.assertRaises(IOError, o_norm.load, file=ob2, auto_gamma_filter=False)
         
         # df
         df1 = self.data_path + '/tif/df/df001.tif'
         df2 = self.data_path + '/different_format/df001_4_by_4.tif'
         o_norm = Normalization()
         o_norm.load(file=df1, auto_gamma_filter=False)
-        self.assertRaises(IOError, o_norm.load, file=df2)        
+        self.assertRaises(IOError, o_norm.load, file=df2, auto_gamma_filter=False)
 
     def test_loading_new_data_not_allowed_if_algorithm_already_run(self):
         '''assert error raises when loading new data on data already manipulated'''
@@ -268,3 +268,12 @@ class TestGammaFiltering(unittest.TestCase):
         '''assert auto gamma filter works'''
         file_name = self.data_path + '/different_format/image001_with_gamma.tif'
         o_norm = Normalization()
+        o_norm.load(file=file_name)
+
+        loaded_data = o_norm.data['sample']['data'][0]
+
+        expected_data = np.zeros((10, 10))
+        expected_data = np.asarray(expected_data, np.float32)
+
+
+        self.assertTrue((expected_data ==  loaded_data).all())
