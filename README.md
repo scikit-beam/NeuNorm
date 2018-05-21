@@ -4,6 +4,9 @@
 [![codecov](https://codecov.io/gh/ornlneutronimaging/NeuNorm/branch/master/graph/badge.svg)](https://codecov.io/gh/ornlneutronimaging/NeuNorm)
 [![Documentation Status](https://readthedocs.org/projects/neunorm/badge/?version=latest)](http://neunorm.readthedocs.io/en/latest/?badge=latest)
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/latest_release_date.svg)](https://anaconda.org/neutronimaging/neunorm)
+[![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/downloads.svg)](https://anaconda.org/neutronimaging/neunorm)
 
 # normalization
-Normalization of fits and tiff files
+Normalization of Neutron Imaging fits and tiff files. 
+
+Check documentation for full detail on how this works.
