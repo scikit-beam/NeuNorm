@@ -21,14 +21,14 @@ class TestCropping(unittest.TestCase):
         
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.crop, roi=_roi)
         
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         self.assertTrue(o_norm.crop(roi=_roi))
         
@@ -37,9 +37,9 @@ class TestCropping(unittest.TestCase):
         _roi = {'x0':0, 'y0':1}
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         self.assertRaises(ValueError, o_norm.crop, roi=_roi)
         
@@ -49,9 +49,9 @@ class TestCropping(unittest.TestCase):
         _roi = ROI(x0=x0, y0=y0, x1=x1, y1=y1)
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         _expected_sample = o_norm.data['sample']['data'][0]
         _expected_sample = _expected_sample[y0:y1+1, x0:x1+1]
@@ -69,9 +69,9 @@ class TestCropping(unittest.TestCase):
         _roi = ROI(x0=x0, y0=y0, x1=x1, y1=y1)
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         # crop run first time
         o_norm.crop(roi=_roi)
@@ -90,9 +90,9 @@ class TestCropping(unittest.TestCase):
         _roi = ROI(x0=x0, y0=y0, x1=x1, y1=y1)
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         # crop run first time
         o_norm.crop(roi=_roi)
@@ -116,9 +116,9 @@ class TestCropping(unittest.TestCase):
         _roi = ROI(x0=x0, y0=y0, x1=x1, y1=y1)
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         # cropping
         o_norm.crop(roi=_roi)
@@ -133,11 +133,11 @@ class TestCropping(unittest.TestCase):
         _roi = ROI(x0=x0, y0=y0, x1=x1, y1=y1)
         o_norm = Normalization()
         sample_path = self.data_path + '/tif/sample'
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         ob_path = self.data_path + '/tif/ob'
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_path = self.data_path + '/tif/df'
-        o_norm.load(folder=df_path, data_type='df')
+        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         # cropping
         o_norm.crop(roi=_roi)
         _returned_df = o_norm.data['df']['data'][0]

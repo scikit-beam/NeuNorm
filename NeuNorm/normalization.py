@@ -54,8 +54,8 @@ class Normalization(object):
         self.data['normalized'] = []
         self.export_file_name = []
     
-    def load(self, file='', folder='', data=[], data_type='sample', 
-             gamma_filter=False, notebook=False, threshold=0.1):
+    def load(self, file='', folder='', data=[], data_type='sample', auto_gamma_filter=True,
+            gamma_filter=False, notebook=False, threshold=0.1):
         '''
         Function to read individual files or entire files from folder specify for the given
         data type
@@ -65,7 +65,9 @@ class Normalization(object):
            folder: full path to folder containing files to load
            data: numpy array
            data_type: ['sample', 'ob', 'df]
-           gamma_filter: boolean (default True) apply or not gamma filtering to the data loaded
+           augo_gamma_filter: boolean (default True) will correct the gamma filter (highest count possible
+           for the data type will be replaced by the average of the 9 neighboring pixels)
+           gamma_filter: boolean (default False) apply or not gamma filtering to the data loaded
            notebooks: boolean (default False) turn on this option if you run the library from a
              notebook to have a progress bar displayed showing you the progress of the loading
            
@@ -85,7 +87,11 @@ class Normalization(object):
         
         if not file == '':
             if isinstance(file, str):
-                self.load_file(file=file, data_type=data_type, threshold=threshold)
+                self.load_file(file=file,
+                               data_type=data_type,
+                               auto_gamma_filter=auto_gamma_filter,
+                               gamma_filter=gamma_filter,
+                               threshold=threshold)
             elif isinstance(file, list):
                 if notebook:
                     # turn on progress bar
@@ -102,7 +108,9 @@ class Normalization(object):
 
                 start_time = time.time()
                 for _index, _file in enumerate(file):
-                    self.load_file(file=_file, data_type=data_type,
+                    self.load_file(file=_file,
+                                   data_type=data_type,
+                                   auto_gamma_filter=auto_gamma_filter,
                                    gamma_filter=gamma_filter,
                                    threshold=threshold)
                     if notebook:
@@ -135,7 +143,9 @@ class Normalization(object):
             start_time = time.time()
             for _index, _image in enumerate(list_images):
                 full_path_image = os.path.join(folder, _image)
-                self.load_file(file=full_path_image, data_type=data_type,
+                self.load_file(file=full_path_image,
+                               data_type=data_type,
+                               auto_gamma_filter=auto_gamma_filter,
                                gamma_filter=gamma_filter,
                                threshold=threshold)
                 if notebook:
@@ -214,7 +224,7 @@ class Normalization(object):
         self.data[data_type]['metadata'].append('')
         self.save_or_check_shape(data=data, data_type=data_type)        
         
-    def load_file(self, file='', data_type='sample', gamma_filter=True, threshold=0.1):
+    def load_file(self, file='', data_type='sample', auto_gamma_filter=True, gamma_filter=False, threshold=0.1):
         """
         Function to read data from the specified path, it can read FITS, TIFF and HDF.
     
@@ -244,7 +254,9 @@ class Normalization(object):
             else:
                 raise OSError('file extension not yet implemented....Do it your own way!')     
 
-            if gamma_filter:
+            if auto_gamma_filter:
+                data = self._auto_gamma_filtering(data=data)
+            elif gamma_filter:
                 data = self._gamma_filtering(data=data, threshold=threshold)
 
             data = np.squeeze(data)
@@ -256,6 +268,24 @@ class Normalization(object):
 
         else:
             raise OSError("The file name does not exist")
+
+    def _auto_gamma_filtering(self, data=[]):
+        if data == []:
+            raise ValueError("Data array is empty!")
+
+        max = np.iinfo(data.dtype).max
+        threshold = max - 5
+        new_data = np.array(data, "float32")
+
+        data_gamma_filtered = np.copy(new_data)
+        gamma_indexes = np.where(new_data > threshold)
+
+        mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
+        convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
+
+        data_gamma_filtered[gamma_indexes] = convolved_data[gamma_indexes]
+
+        return data_gamma_filtered
 
     def _gamma_filtering(self, data=[], threshold=0.1):
         '''perform gamma filtering on the data

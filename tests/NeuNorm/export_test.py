@@ -18,8 +18,8 @@ class TestExportingPhase1(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path,auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.export, folder='/unknown/', data_type='sample')
 
     def test_error_raised_if_data_type_is_not_valid(self):
@@ -27,8 +27,8 @@ class TestExportingPhase1(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         self.assertRaises(KeyError, o_norm.export, data_type='not_real_type')
         
     def test_do_nothing_if_nothing_to_export(self):
@@ -36,8 +36,8 @@ class TestExportingPhase1(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         self.assertFalse(o_norm.export(data_type='df'))
         
 class TestExportingPhase2(unittest.TestCase):
@@ -57,8 +57,8 @@ class TestExportingPhase2(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
 
         # OB
         o_norm.export(folder=self.export_folder, data_type='ob') 
@@ -84,12 +84,12 @@ class TestExportingPhase2(unittest.TestCase):
         '''assert the file created is correct for tif images'''
         sample_path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         _sample_0 = o_norm.data['sample']['data'][0]
         o_norm.export(folder=self.export_folder, data_type='sample')    
         
         o_norm_2 = Normalization()
-        o_norm_2.load(folder=self.export_folder)
+        o_norm_2.load(folder=self.export_folder, auto_gamma_filter=False)
         _sample_reloaded = o_norm_2.data['sample']['data'][0]
         
         self.assertTrue((_sample_0 == _sample_reloaded).all())
@@ -98,12 +98,12 @@ class TestExportingPhase2(unittest.TestCase):
         '''assert file created using tif has the metadata as well'''
         sample_path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.export(folder=self.export_folder, data_type='sample')
         input_metadata = str(o_norm.data['sample']['metadata'][0])
 
         o_norm_2 = Normalization()
-        o_norm_2.load(folder=self.export_folder)
+        o_norm_2.load(folder=self.export_folder, auto_gamma_filter=False)
         export_metadata = str(o_norm_2.data['sample']['metadata'][0])
 
         self.assertTrue((input_metadata == export_metadata))
@@ -112,12 +112,12 @@ class TestExportingPhase2(unittest.TestCase):
         '''assert the file created is correct for fits images'''
         sample_path = self.data_path + '/fits/sample'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
         _sample_0 = o_norm.data['sample']['data'][0]
         o_norm.export(folder=self.export_folder, data_type='sample', file_type='fits')    
         
         o_norm_2 = Normalization()
-        o_norm_2.load(folder=self.export_folder)
+        o_norm_2.load(folder=self.export_folder, auto_gamma_filter=False)
         _sample_reloaded = o_norm_2.data['sample']['data'][0]
         
         self.assertTrue((_sample_0 == _sample_reloaded).all())
@@ -126,12 +126,12 @@ class TestExportingPhase2(unittest.TestCase):
         '''assert the file is correctly exported when loaded manually'''
         sample_path = self.data_path + '/fits/sample'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
 
         data =  o_norm.data['sample']['data'][0]
         file_name = os.path.join(self.data_path, '/fits/sample/image001.fits')
         o_norm_1 = Normalization()
-        o_norm_1.load(data=data)
+        o_norm_1.load(data=data, auto_gamma_filter=False)
         o_norm_1.data['sample']['file_name'] = [file_name]
         _sample_0  = o_norm.data['sample']['data'][0]
         o_norm_1.export(folder=self.export_folder, data_type='sample', file_type='fits')
@@ -141,7 +141,7 @@ class TestExportingPhase2(unittest.TestCase):
         self.assertTrue(os.path.exists(output_file))
 
         o_norm_2 = Normalization()
-        o_norm_2.load(folder=self.export_folder)
+        o_norm_2.load(folder=self.export_folder, auto_gamma_filter=False)
         _sample_reloaded = o_norm_2.data['sample']['data'][0]
 
         self.assertTrue((_sample_0 == _sample_reloaded).all())

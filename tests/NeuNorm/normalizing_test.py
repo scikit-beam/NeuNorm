@@ -19,7 +19,7 @@ class TestNormalization(unittest.TestCase):
                       self.data_path + '/tif/sample/image002.tif',
                       self.data_path + '/tif/sample/image003.tif']
         o_norm = Normalization()
-        o_norm.load(file=list_files)
+        o_norm.load(file=list_files, auto_gamma_filter=False)
         data_returned = o_norm.data['sample']['data']
         assert (3,5,5) == np.shape(data_returned)
         
@@ -31,7 +31,7 @@ class TestNormalization(unittest.TestCase):
         data.append(np.asarray(Image.open(sample_01)))
         data.append(np.asarray(Image.open(sample_02)))
         o_norm = Normalization()
-        o_norm.load(data=data)
+        o_norm.load(data=data, auto_gamma_filter=False)
 
         data_returned = o_norm.data['sample']['data']
         assert (2,5,5) == np.shape(data_returned)
@@ -42,11 +42,11 @@ class TestNormalization(unittest.TestCase):
 
         sample_01 = self.data_path + '/tif/sample/image001.tif'
         _data = np.asarray(Image.open(sample_01))
-        o_norm.load(data=_data)
+        o_norm.load(data=_data, auto_gamma_filter=False)
         
         sample_02 = self.data_path + '/tif/sample/image002.tif'
         _data = np.asarray(Image.open(sample_01))
-        o_norm.load(data=_data)
+        o_norm.load(data=_data, auto_gamma_filter=False)
 
         data_returned = o_norm.data['sample']['data']
         assert (2,5,5) == np.shape(data_returned)
@@ -59,7 +59,7 @@ class TestNormalization(unittest.TestCase):
         data.append(np.asarray(Image.open(ob_01)))
         data.append(np.asarray(Image.open(ob_02)))
         o_norm = Normalization()
-        o_norm.load(data=data, data_type='ob')
+        o_norm.load(data=data, data_type='ob', auto_gamma_filter=False)
 
         data_returned = o_norm.data['ob']['data']
         assert (2,5,5) == np.shape(data_returned)
@@ -68,19 +68,19 @@ class TestNormalization(unittest.TestCase):
         '''assert error raises when no ob or sample provided'''
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.normalization)
         
         path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='ob')
+        o_norm.load(folder=path, data_type='ob', auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.normalization)
         
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path, data_type='sample')
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         assert o_norm.normalization()
  
     def test_normalization_ran_only_once(self):
@@ -90,8 +90,8 @@ class TestNormalization(unittest.TestCase):
     
         # testing sample with norm_roi
         o_norm = Normalization()
-        o_norm.load(folder=sample_tif_folder)
-        o_norm.load(folder=ob_tif_folder, data_type='ob')
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=roi)
         _returned_first_time = o_norm.data['sample']['data'][0]
@@ -106,8 +106,8 @@ class TestNormalization(unittest.TestCase):
     
         # testing sample with norm_roi
         o_norm = Normalization()
-        o_norm.load(folder=sample_tif_folder)
-        o_norm.load(folder=ob_tif_folder, data_type='ob')
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=roi)
         _returned_first_time = o_norm.data['sample']['data'][0]
@@ -122,20 +122,20 @@ class TestNormalization(unittest.TestCase):
         
         sample_01 = self.data_path + '/tif/sample/image001.tif'
         _data = np.asarray(Image.open(sample_01), dtype=int)
-        o_norm.load(data=_data)
+        o_norm.load(data=_data, auto_gamma_filter=False)
         
         sample_02 = self.data_path + '/tif/sample/image002.tif'
         _data = np.asarray(Image.open(sample_01), dtype=int)
-        o_norm.load(data=_data)
+        o_norm.load(data=_data, auto_gamma_filter=False)
 
         ob_01 = self.data_path + '/tif/ob/ob001.tif'
         _data = np.asarray(Image.open(ob_01), dtype=int)
         _data[0,0] = 0
-        o_norm.load(data=_data, data_type='ob')
+        o_norm.load(data=_data, data_type='ob', auto_gamma_filter=False)
     
         ob_02 = self.data_path + '/tif/ob/ob002.tif'
         _data = np.asarray(Image.open(ob_01), dtype=int)
-        o_norm.load(data=_data, data_type='ob')
+        o_norm.load(data=_data, data_type='ob', auto_gamma_filter=False)
 
         o_norm.normalization()
 
@@ -146,8 +146,8 @@ class TestNormalization(unittest.TestCase):
 
         # testing sample with norm_roi
         o_norm = Normalization()
-        o_norm.load(folder=sample_tif_folder)
-        o_norm.load(folder=ob_tif_folder, data_type='ob')
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         _sample = o_norm.data['sample']['data'][0]
         _expected = _sample / np.mean(_sample[0:3, 0:4])
@@ -157,8 +157,8 @@ class TestNormalization(unittest.TestCase):
 
         # testing sample without norm_roi
         o_norm1 = Normalization()
-        o_norm1.load(folder=sample_tif_folder)
-        o_norm1.load(folder=ob_tif_folder, data_type='ob')
+        o_norm1.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm1.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         _expected = o_norm1.data['sample']['data'][0]
         o_norm1.normalization()
         _returned = o_norm1.data['sample']['data'][0]
@@ -166,8 +166,8 @@ class TestNormalization(unittest.TestCase):
         
         # testing ob with norm_roi
         o_norm = Normalization()
-        o_norm.load(folder=sample_tif_folder)
-        o_norm.load(folder=ob_tif_folder, data_type='ob')
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         norm_roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=norm_roi)
         _ob = o_norm.data['ob']['data'][0]
@@ -177,8 +177,8 @@ class TestNormalization(unittest.TestCase):
         
         # testing ob without norm_roi
         o_norm = Normalization()
-        o_norm.load(folder=sample_tif_folder)
-        o_norm.load(folder=ob_tif_folder, data_type='ob')
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         _expected = o_norm.data['ob']['data'][0]
         o_norm.normalization()
         _returned = o_norm.data['ob']['data'][0]
@@ -191,8 +191,8 @@ class TestNormalization(unittest.TestCase):
         ob2 = self.data_path + '/tif/ob/ob002.tif'
         ob3 = self.data_path + '/tif/ob/ob003.tif'
         o_norm = Normalization()
-        o_norm.load(folder=samples_path)
-        o_norm.load(file=[ob1, ob2, ob3], data_type='ob')
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2, ob3], data_type='ob', auto_gamma_filter=False)
         o_norm.normalization(force_mean_ob=True)
         expected_normalized_array = np.ones((5,5))
         expected_normalized_array[:,2] = 2
@@ -207,9 +207,9 @@ class TestNormalization(unittest.TestCase):
         ob2 = self.data_path + '/tif/ob/ob002.tif' 
         df1 = self.data_path + '/tif/df/df001.tif'
         o_norm = Normalization()
-        o_norm.load(folder=samples_path)
-        o_norm.load(file=[ob1, ob2], data_type='ob')
-        o_norm.load(file=df1, data_type='df')
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
         o_norm.df_correction()
         o_norm.normalization()
         expected_normalized_array = np.zeros((5,5))
@@ -222,8 +222,8 @@ class TestNormalization(unittest.TestCase):
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
         o_norm = Normalization()
-        o_norm.load(folder=samples_path)
-        o_norm.load(file=[ob1, ob2], data_type='ob')
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
         _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
         _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
         _list_roi = [_roi1, _roi2]
@@ -239,9 +239,9 @@ class TestNormalization(unittest.TestCase):
         ob2 = self.data_path + '/tif/ob/ob002.tif'
         df1 = self.data_path + '/tif/df/df001.tif'
         o_norm = Normalization()
-        o_norm.load(folder=samples_path)
-        o_norm.load(file=[ob1, ob2], data_type='ob')
-        o_norm.load(file=df1, data_type='df')
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
         o_norm.df_correction()
         _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
         _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
@@ -259,9 +259,9 @@ class TestNormalization(unittest.TestCase):
         df1 = self.data_path + '/tif/df/df001.tif'
         df2 = self.data_path + '/tif/df/df002.tif'
         o_norm = Normalization()
-        o_norm.load(folder=samples_path)
-        o_norm.load(file=[ob1, ob2], data_type='ob')
-        o_norm.load(file=[df1, df2], data_type='df')
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
+        o_norm.load(file=[df1, df2], data_type='df', auto_gamma_filter=False)
         o_norm.df_correction()
         _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
         _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
@@ -284,7 +284,7 @@ class TestDFCorrection(unittest.TestCase):
         # sample
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
         data_before = o_norm.data['sample']['data'][0]
         o_norm.df_correction()
         data_after = o_norm.data['sample']['data'][0]
@@ -293,7 +293,7 @@ class TestDFCorrection(unittest.TestCase):
         #ob
         path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='ob')
+        o_norm.load(folder=path, data_type='ob', auto_gamma_filter=False)
         data_before = o_norm.data['ob']['data'][0]
         o_norm.df_correction()
         data_after = o_norm.data['ob']['data'][0]
@@ -318,12 +318,12 @@ class TestDFCorrection(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df')
-        o_norm.load(file=df_file_2, data_type='df')
+        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
     
         df_average_data = o_norm.data['df']['data_average']
         self.assertTrue(df_average_data == [])
@@ -344,12 +344,12 @@ class TestDFCorrection(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df')
-        o_norm.load(file=df_file_2, data_type='df')
+        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
         
         #sample
         o_norm.df_correction()
@@ -370,12 +370,12 @@ class TestDFCorrection(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df')
-        o_norm.load(file=df_file_2, data_type='df')
+        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
         
         # first iteration
         o_norm.df_correction()
@@ -395,12 +395,12 @@ class TestDFCorrection(unittest.TestCase):
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df')
-        o_norm.load(file=df_file_2, data_type='df')
+        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
         
         # first iteration
         o_norm.df_correction()
@@ -432,8 +432,8 @@ class TestApplyingROI(unittest.TestCase):
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         ob_tif_file = self.data_path + '/tif/ob/ob001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = {'x0':0, 'y0':0, 'x1':2, 'y1':2}
         self.assertRaises(ValueError, o_norm.normalization, roi)
         
@@ -444,28 +444,28 @@ class TestApplyingROI(unittest.TestCase):
         
         # x0 < 0 or x1 > image_width
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=20, y1=4)
         self.assertRaises(ValueError, o_norm.normalization, roi)
        
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=-1, y0=0, x1=4, y1=4)
         self.assertRaises(ValueError, o_norm.normalization, roi)        
         
         # y0 < 0 or y1 > image_height
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=-1, x1=4, y1=4)
         self.assertRaises(ValueError, o_norm.normalization, roi)
 
         # y1>image_height
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=4, y1=20)
         self.assertRaises(ValueError, o_norm.normalization, roi)        
 
@@ -476,8 +476,8 @@ class TestApplyingROI(unittest.TestCase):
         image1 = self.data_path + '/tif/sample/image001.tif'
         ob1 = self.data_path + '/different_format/ob001_4_by_4.tif'
         o_norm = Normalization()
-        o_norm.load(file=image1)
-        o_norm.load(file=ob1, data_type='ob')
+        o_norm.load(file=image1, auto_gamma_filter=False)
+        o_norm.load(file=ob1, data_type='ob', auto_gamma_filter=False)
         self.assertRaises(ValueError, o_norm.normalization)
         
         # sample, ob and df
@@ -485,9 +485,9 @@ class TestApplyingROI(unittest.TestCase):
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         df1 = self.data_path + '/different_format/df001_4_by_4.tif'
         o_norm = Normalization()
-        o_norm.load(file=image1)
-        o_norm.load(file=ob1, data_type='ob')
-        o_norm.load(file=df1, data_type='df')
+        o_norm.load(file=image1, auto_gamma_filter=False)
+        o_norm.load(file=ob1, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
         self.assertRaises(ValueError, o_norm.normalization)
 
     def test_full_normalization_sample_with_several_roi(self):
@@ -496,8 +496,8 @@ class TestApplyingROI(unittest.TestCase):
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=2, y1=2)
         _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
         o_norm.normalization(roi=[_roi_1, _roi_2])
@@ -517,9 +517,9 @@ class TestApplyingROI(unittest.TestCase):
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
-        o_norm.load(folder=df_path, data_type='df')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         o_norm.normalization()
         _norm_expected = np.ones((5,5))
         _norm_expected[:,2] = 2
@@ -533,9 +533,9 @@ class TestApplyingROI(unittest.TestCase):
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
-        o_norm.load(folder=df_path, data_type='df')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         _roi = ROI(x0=0, y0=0, x1=2, y1=2)
         o_norm.normalization(roi=_roi)
         _norm_expected = np.ones((5,5))
@@ -552,9 +552,9 @@ class TestApplyingROI(unittest.TestCase):
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path)
-        o_norm.load(folder=ob_path, data_type='ob')
-        o_norm.load(folder=df_path, data_type='df')
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         
         # sample
         _data_expected = o_norm.data['sample']['data'][0]

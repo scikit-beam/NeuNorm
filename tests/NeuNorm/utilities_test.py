@@ -19,7 +19,7 @@ class TestUtilites(unittest.TestCase):
         # tif
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path)
+        o_norm.load(folder=path, auto_gamma_filter=False)
         list_files_expected = ['image001.tif', 'image002.tif', 'image003.tif']
         list_files = get_sorted_list_images(folder=path)
         self.assertTrue(list_files_expected == list_files)
@@ -27,7 +27,7 @@ class TestUtilites(unittest.TestCase):
         # fits
         path = self.data_path + '/fits/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path)
+        o_norm.load(folder=path, auto_gamma_filter=False)
         list_files_expected = ['image001.fits', 'image002.fits', 'image003.fits']
         list_files = get_sorted_list_images(folder=path)
         self.assertTrue(list_files_expected == list_files)    
@@ -37,8 +37,8 @@ class TestUtilites(unittest.TestCase):
         df_tif_file_2 = self.data_path + '/tif/df/df002.tif'
         df_tif_file_3 = self.data_path + '/tif/df/df003.tif'
         o_norm = Normalization()
-        o_norm.load(file=df_tif_file_2, data_type='df')
-        o_norm.load(file=df_tif_file_3, data_type='df')
+        o_norm.load(file=df_tif_file_2, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_tif_file_3, data_type='df', auto_gamma_filter=False)
         _average_df = average_df(df=o_norm.data['df']['data'])
         expected_df = np.ones([5,5])
         expected_df[0,0] = 5

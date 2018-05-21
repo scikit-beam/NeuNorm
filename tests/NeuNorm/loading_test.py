@@ -58,7 +58,7 @@ class TestLoading(unittest.TestCase):
         # tiff
         sample_tif_file = self.data_path + '/tif//sample/image001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
         _expected_data = np.ones([5,5])
         _expected_data[0,0] = 5
         _expected_data[:,2] = 2
@@ -73,7 +73,7 @@ class TestLoading(unittest.TestCase):
         # fits
         sample_fits_file = self.data_path + '/fits//sample/image001.fits'
         o_norm = Normalization()
-        o_norm.load(file=sample_fits_file, data_type='sample')
+        o_norm.load(file=sample_fits_file, data_type='sample', auto_gamma_filter=False)
         _expected_data = np.ones([5,5])
         _expected_data[0,0] = 5
         _expected_data[:,2] = 2
@@ -92,9 +92,9 @@ class TestLoading(unittest.TestCase):
         sample_tif_file_2 = self.data_path + '/tif/sample/image002.tif'
         ob_tif_file_1 = self.data_path + '/tif/ob/ob001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file_1, data_type='sample')
-        o_norm.load(file=sample_tif_file_2, data_type='sample')
-        o_norm.load(file=ob_tif_file_1, data_type='ob')
+        o_norm.load(file=sample_tif_file_1, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file_2, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file_1, data_type='ob', auto_gamma_filter=False)
         
         # sample 0
         _expected_data_1 = np.ones([5,5])
@@ -130,8 +130,8 @@ class TestLoading(unittest.TestCase):
         sample_fits_file_1 = self.data_path + '/fits//sample/image001.fits'
         sample_fits_file_2 = self.data_path + '/fits/sample/image002.fits'
         o_norm = Normalization()
-        o_norm.load(file=sample_fits_file_1, data_type='sample')
-        o_norm.load(file=sample_fits_file_2, data_type='sample')
+        o_norm.load(file=sample_fits_file_1, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_fits_file_2, data_type='sample', auto_gamma_filter=False)
     
         _expected_data_1 = np.ones([5,5])
         _expected_data_1[0,0] = 5
@@ -160,7 +160,7 @@ class TestLoading(unittest.TestCase):
         # tif
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
         list_of_files = ['image001.tif', 'image002.tif', 'image003.tif']
         list_of_files_expected = [os.path.join(path, _file) for _file in list_of_files]
         list_of_files_retrieved = o_norm.data['sample']['file_name']
@@ -169,7 +169,7 @@ class TestLoading(unittest.TestCase):
         #fits
         path = self.data_path + '/fits/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample')
+        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
         list_of_files = ['image001.fits', 'image002.fits', 'image003.fits']
         list_of_files_expected = [os.path.join(path, _file) for _file in list_of_files]
         list_of_files_retrieved = o_norm.data['sample']['file_name']
@@ -181,21 +181,21 @@ class TestLoading(unittest.TestCase):
         image1 = self.data_path + '/tif/sample/image001.tif'
         image2 = self.data_path + '/different_format/image001_4_by_4.tif'
         o_norm = Normalization()
-        o_norm.load(file=image1)
+        o_norm.load(file=image1, auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.load, file=image2)
 
         # ob
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/different_format/ob001_4_by_4.tif'
         o_norm = Normalization()
-        o_norm.load(file=ob1)
+        o_norm.load(file=ob1, auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.load, file=ob2)
         
         # df
         df1 = self.data_path + '/tif/df/df001.tif'
         df2 = self.data_path + '/different_format/df001_4_by_4.tif'
         o_norm = Normalization()
-        o_norm.load(file=df1)
+        o_norm.load(file=df1, auto_gamma_filter=False)
         self.assertRaises(IOError, o_norm.load, file=df2)        
 
     def test_loading_new_data_not_allowed_if_algorithm_already_run(self):
@@ -204,8 +204,8 @@ class TestLoading(unittest.TestCase):
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         ob_tif_file = self.data_path +'/tif/ob/ob001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample')
-        o_norm.load(file=ob_tif_file, data_type='ob')
+        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         o_norm.normalization()
         new_sample_tif_file = self.data_path + '/tif/sample/image002.tif'
         self.assertRaises(IOError, o_norm.load, file=new_sample_tif_file)
@@ -214,7 +214,7 @@ class TestLoading(unittest.TestCase):
         '''assert metadata of sample are correctly loaded'''
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file)
+        o_norm.load(file=sample_tif_file, auto_gamma_filter=False)
         metadata = o_norm.data['sample']['metadata']
         metadata_1_expected = 'this is value a'
         metadata_1_returned = metadata[0][1]
@@ -232,7 +232,7 @@ class TestGammaFiltering(unittest.TestCase):
         '''assert gamma filtering complains when no data provided'''
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=False)
+        o_norm.load(folder=path, data_type='sample', gamma_filter=False, auto_gamma_filter=False)
         data_0 = o_norm.data['sample']['data']
         self.assertRaises(ValueError, o_norm._gamma_filtering)
 
@@ -242,7 +242,7 @@ class TestGammaFiltering(unittest.TestCase):
 
         # gamma filter is True
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=True)
+        o_norm.load(folder=path, data_type='sample', gamma_filter=True, auto_gamma_filter=False)
         data_gamma_filtered = o_norm.data['sample']['data']
         _expected_sample = np.ones((5,5))
         _expected_sample[0,0] = 0.375
@@ -254,7 +254,7 @@ class TestGammaFiltering(unittest.TestCase):
         
         # gamma filter is False
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=False)
+        o_norm.load(folder=path, data_type='sample', gamma_filter=False, auto_gamma_filter=False)
         data_gamma_filtered = o_norm.data['sample']['data']
         _expected_sample = np.ones((5,5))
         _expected_sample[0,0] = 1000
@@ -263,4 +263,8 @@ class TestGammaFiltering(unittest.TestCase):
         _expected_sample[:,4] = 4
         _returned_sample = o_norm.data['sample']['data']
         self.assertTrue((_expected_sample == _returned_sample).all())
-        
+
+    def test_auto_gamma_filtered_works(self):
+        '''assert auto gamma filter works'''
+        file_name = self.data_path + '/different_format/image001_with_gamma.tif'
+        o_norm = Normalization()

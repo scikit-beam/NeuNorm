@@ -7,7 +7,7 @@ from shutil import rmtree
 import NeuNorm
 
 # to create library
-# > python setu.py upload
+# > python setup.py upload
 
 NAME = 'NeuNorm'
 DESCRIPTION = "neutron normalization data"
