@@ -5,9 +5,7 @@ setup.py
 NeuNorm/__init__.py
 NeuNorm/_utilities.py
 NeuNorm/exporter.py
-NeuNorm/functions.py
 NeuNorm/loader.py
-NeuNorm/main.py
 NeuNorm/normalization.py
 NeuNorm/roi.py
 NeuNorm.egg-info/PKG-INFO

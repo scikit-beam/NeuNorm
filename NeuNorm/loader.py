@@ -5,13 +5,13 @@ from PIL import Image
 
 def load_hdf(file_name):
     '''load HDF image
-    
+
     Parameters
     ----------
        full file name of HDF5 file
     '''
-    
-    hdf = h5py.File(path,'r')['entry']['data']['data'].value    
+
+    hdf = h5py.File(path,'r')['entry']['data']['data'].value
     tmp = []
     for iScan in hdf:
         tmp.append(iScan)

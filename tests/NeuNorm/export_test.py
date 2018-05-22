@@ -1,7 +1,5 @@
 import unittest
-import numpy as np
 import os
-from PIL import Image
 import shutil
 
 from NeuNorm.normalization import Normalization

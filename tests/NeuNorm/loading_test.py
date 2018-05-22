@@ -1,11 +1,8 @@
-
 import unittest
 import numpy as np
 import os
-from PIL import Image
 
 from NeuNorm.normalization import Normalization
-from NeuNorm.roi import ROI
 
 
 class TestLoading(unittest.TestCase):
@@ -52,7 +49,19 @@ class TestLoading(unittest.TestCase):
         self.assertRaises(OSError, o_norm.load, bad_h5_file_name, '', 'sample')
         self.assertRaises(OSError, o_norm.load, bad_h5_file_name, '', 'ob')
         self.assertRaises(OSError, o_norm.load, bad_h5_file_name, '', 'df')
-        
+
+    def test_loading_hdf_raise_error(self):
+        '''assert hdf5 raise an error when trying to load - not implemented yet'''
+        sample_hdf5_file = self.data_path + '/hdf5/dump_file.hdf5'
+        o_norm = Normalization()
+        self.assertRaises(NotImplementedError, o_norm.load, file=sample_hdf5_file)
+
+    def test_loading_unsuported_file_format(self):
+        '''assert error is raised when trying to load unsuported file format'''
+        sample_fake_file = self.data_path + '/different_format/not_supported_file.fake'
+        o_norm = Normalization()
+        self.assertRaises(OSError, o_norm.load, file=sample_fake_file)
+
     def test_loading_good_single_file(self):
         '''assert sample, ob and df single file correctly loaded'''
         # tiff
@@ -228,13 +237,13 @@ class TestGammaFiltering(unittest.TestCase):
         _file_path = os.path.dirname(__file__)
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
 
-    def test_gamma_filtered_raises_error_when_array_is_empty(self):
-        '''assert gamma filtering complains when no data provided'''
+    def test_manuel_gamma_filtered_raises_error_when_array_is_empty(self):
+        '''assert manual gamma filtering complains when no data provided'''
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=False, auto_gamma_filter=False)
+        o_norm.load(folder=path, data_type='sample', manual_gamma_filter=False, auto_gamma_filter=False)
         data_0 = o_norm.data['sample']['data']
-        self.assertRaises(ValueError, o_norm._gamma_filtering)
+        self.assertRaises(ValueError, o_norm._manual_gamma_filtering)
 
     def test_gamma_filtered_works(self):
         '''assert gamma filtering works'''
@@ -242,8 +251,7 @@ class TestGammaFiltering(unittest.TestCase):
 
         # gamma filter is True
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=True, auto_gamma_filter=False)
-        data_gamma_filtered = o_norm.data['sample']['data']
+        o_norm.load(folder=path, data_type='sample', manual_gamma_filter=True, auto_gamma_filter=False)
         _expected_sample = np.ones((5,5))
         _expected_sample[0,0] = 0.375
         _expected_sample[:,2] = 2
@@ -254,8 +262,7 @@ class TestGammaFiltering(unittest.TestCase):
         
         # gamma filter is False
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', gamma_filter=False, auto_gamma_filter=False)
-        data_gamma_filtered = o_norm.data['sample']['data']
+        o_norm.load(folder=path, data_type='sample', manual_gamma_filter=False, auto_gamma_filter=False)
         _expected_sample = np.ones((5,5))
         _expected_sample[0,0] = 1000
         _expected_sample[:,2] = 2

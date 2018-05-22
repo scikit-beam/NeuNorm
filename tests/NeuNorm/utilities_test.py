@@ -1,8 +1,6 @@
-
 import unittest
 import numpy as np
 import os
-from PIL import Image
 
 from NeuNorm.normalization import Normalization
 from NeuNorm._utilities import get_sorted_list_images, average_df

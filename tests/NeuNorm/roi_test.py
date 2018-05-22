@@ -1,6 +1,5 @@
 import unittest
 import numpy as np
-import os
 
 from NeuNorm.roi import ROI
 
