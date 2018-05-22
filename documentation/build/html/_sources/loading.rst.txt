@@ -301,3 +301,46 @@ equal to True. Use this feature at your own risk!
 
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
+
+
+Loading with Auto Gamma Filtering
+#################################
+
+By default the data are loaded with **automatic gamma correction** turned **ON**. You can easily turn off this
+auto gamma correction this way
+
+>>> sample_folder = '/Users/me/sample/'
+>>> o_norm = Normalization()
+>>> o_norm.load(folder=sample_folder, auto_gamma_filter=False)
+
+How does the Auto Gamma filter works?
+-------------------------------------
+
+The program used the format of the input data files and will replace all the pixels for which their intensity is
+equal or greater to the maximum value provided by this data file format - 5 (marging).
+
+For example, if you are loading an image of type int16, the maximum value provided by this image is 32767. All pixels
+with more counts than 32762 will be replaced by the average of the 9 surrounding pixels.
+
+
+Loading with Manual Gamma Filtering
+###################################
+
+NeuNorm also allows you to define yourself your gama filtering threshold. To do so, load the data this way
+
+>>> sample_folder = '/Users/me/sample/'
+>>> o_norm = Normalization()
+>>> o_norm.load(folder=sample_folder, auto_gamma_filter=False, gamma_filter=True, threshold=0.5)
+
+You must turn off the auto gamma filter otherwise the manual gamma filtering won't be trigger.
+In this case, the pixel will be considered as gamma pixels, and then be replaced the same way the auto gamma filter
+does, this way
+
+    1. The average value of the entire image is calculated
+    2. a copy of the raw image multiply by the threshold value is created
+    3. if there is any pixels in this image that is still above the raw image, it is a gamma pixel!
+
+
+
+
+

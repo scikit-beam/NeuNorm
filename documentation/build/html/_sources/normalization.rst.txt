@@ -21,8 +21,8 @@ then the normalization can be run
 >>> o_norm.normalization(roi=my_norm_roi)
 
 
-Normalization without ROI (optional)
-####################################
+Normalization without ROI
+#########################
 
 If you don't want any normalization ROI, simply run the normalization
 
