@@ -278,7 +278,6 @@ class Normalization(object):
 
         try:
             max = np.iinfo(data.dtype).max
-            print("max is {}".format(max))
         except:
             return data
 
@@ -287,7 +286,6 @@ class Normalization(object):
 
         data_gamma_filtered = np.copy(new_data)
         gamma_indexes = np.where(new_data > threshold)
-        print(gamma_indexes)
 
         mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
         convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
