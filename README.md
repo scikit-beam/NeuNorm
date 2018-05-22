@@ -6,7 +6,9 @@
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/latest_release_date.svg)](https://anaconda.org/neutronimaging/neunorm)
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/downloads.svg)](https://anaconda.org/neutronimaging/neunorm)
 
-# normalization
-Normalization of Neutron Imaging fits and tiff files. 
+Abstract
+--------
 
-Check documentation for full detail on how this works.
+NeuNorm is an open-source Python library that normalized neutron imaging measurements. 
+
+
