@@ -320,7 +320,7 @@ The program used the format of the input data files and will replace all the pix
 equal or greater to the maximum value provided by this data file format - 5 (marging).
 
 For example, if you are loading an image of type int16, the maximum value provided by this image is 32767. All pixels
-with more counts than 32762 will be replaced by the average of the 9 surrounding pixels.
+with more counts than 32762 will be replaced by the average of the 8 surrounding pixels.
 
 
 Loading with Manual Gamma Filtering
