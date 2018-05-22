@@ -17,10 +17,6 @@ Welcome to Normalization's documentation!
    cropping_data
    retrieve_normalized_data
    export_data
-   notebook
-   tutorial_using_folder_input
-   tutorial_using_array_input
-   tutorial_normalization_with_fewer_ob_than_sample
 
 Indices and tables
 ==================

@@ -2,6 +2,14 @@
 Loading
 *******
 
+You can load your data into the library using different methods:
+
+- by defining the input folder
+- by defining the full file name, one at a time
+- by defining the the list of full file names
+- by giving directly the arrays of images
+
+
 Loading via folders
 ###################
   

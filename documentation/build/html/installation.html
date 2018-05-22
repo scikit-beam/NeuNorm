@@ -99,7 +99,6 @@
 <li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="retrieve_normalized_data.html">Retrieve Normalized Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Using library from a Notebook</a></li>
 </ul>
 
             
@@ -200,8 +199,15 @@
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>First you need to install the NeuNorm library</p>
-<p>$ pip install NeuNorm</p>
-<p>Then in your python environment, import</p>
+<p>using pip</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>&gt; pip install NeuNorm
+</pre></div>
+</div>
+<p>or using conda</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>&gt; conda install -c neutronimaging neunorm
+</pre></div>
+</div>
+<p>Then in your python environment, import the library</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">NeuNorm</span> <span class="k">as</span> <span class="nn">neunorm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">NeuNorm.normalization</span> <span class="k">import</span> <span class="n">Normalization</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">NeuNorm.roi</span> <span class="k">import</span> <span class="n">ROI</span>
