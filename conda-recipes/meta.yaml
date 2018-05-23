@@ -1,8 +1,9 @@
+{% set name = "NeuNorm" %}
 {% set version = "1.4.1" %}
 {% set git_rev = "1.4.1" %}
 
 package:
-  name: neunorm
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
@@ -12,7 +13,7 @@ source:
 build:
   number: 0
   script: python setup.py install --single-version-externally-managed --record record.txt
-#  noarch: python
+  noarch: python
 
 requirements:
   build:
@@ -33,5 +34,9 @@ test:
 about:
   home: https://github.com/scikit-beam/NeuNorm
   license: BSD 3-Clause
+  license_file: LICENSE.txt
   summary: Neutron imaging normalization tool
 
+extra:
+  recipe-maintainers:
+    - jeanbilheux
