@@ -80,6 +80,7 @@ setup(
     license = 'BSD',
     keywords = KEYWORDS,
     classifiers = ['Development Status :: 3 - Alpha',
+                   'License :: OSI Approved :: BSD License', 
                    'Topic :: Scientific/Engineering :: Physics',
                    'Intended Audience :: Developers',
                    'Programming Language :: Python :: 2.7',
