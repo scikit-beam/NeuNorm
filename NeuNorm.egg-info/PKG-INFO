@@ -11,6 +11,7 @@ Description: See the README.md file on GitHub for more information
 Keywords: neutron normalization imaging
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: BSD License
 Classifier: Topic :: Scientific/Engineering :: Physics
 Classifier: Intended Audience :: Developers
 Classifier: Programming Language :: Python :: 2.7
