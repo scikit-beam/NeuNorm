@@ -48,3 +48,9 @@ access to these results of federally sponsored research in accordance
 with the DOE Public Access Plan(http://energy.gov/downloads/doe-public-access-plan).
 
 # References
+1. NumPy python library. Stéfan van der Walt and S. Chris Colbert and Gaël Varoquaux, The NumPy Array: A Structure
+for Efficient Numerical Computation, Computing in Science \& Engineering. Volume 13, Number 2, (22-30) 2011
+
+2. SciPy python library. Travis E. Oliphant, SciPy: Open source scientific tools for Python,
+Computing in Science and Engineering, Volume 9, (10-20) 2007
+
