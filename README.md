@@ -1,4 +1,4 @@
-[![pypi version](https://img.shields.io/pypi/v/neunorm.svg)](https://pypi.python.org/pypi/neunorm)
+[![PyPI version](https://badge.fury.io/py/NeuNorm.svg)](https://badge.fury.io/py/NeuNorm)
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/version.svg)](https://anaconda.org/neutronimaging/neunorm)
 [![Build Status](https://travis-ci.org/scikit-beam/NeuNorm.svg?branch=master)](https://travis-ci.org/scikit-beam/NeuNorm)
 [![codecov](https://codecov.io/gh/scikit-beam/NeuNorm/branch/master/graph/badge.svg)](https://codecov.io/gh/scikit-beam/NeuNorm)
