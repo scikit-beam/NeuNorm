@@ -29,7 +29,7 @@ def load_fits(file_name):
     try:
         tmp = fits.open(file_name,ignore_missing_end=True)[0].data
         if len(tmp.shape) == 3:
-            tmp = temp.reshape(tmp.shape[1:])                
+            tmp = tmp.reshape(tmp.shape[1:])
         return tmp
     except OSError:
         raise OSError("Unable to read the FITS file provided!")
@@ -43,9 +43,9 @@ def load_tiff(file_name):
     '''
     try:
         _image = Image.open(file_name)
-        data = np.asarray(_image)
         metadata = dict(_image.tag_v2)
+        data = np.asarray(_image)
         _image.close()
         return [data, metadata]
     except:
-        raise OSError("Unable to read the TIFF file provided!")
+       raise OSError("Unable to read the TIFF file provided!")
