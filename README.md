@@ -5,6 +5,7 @@
 [![Documentation Status](https://readthedocs.org/projects/neunorm/badge/?version=latest)](http://neunorm.readthedocs.io/en/latest/?badge=latest)
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/latest_release_date.svg)](https://anaconda.org/neutronimaging/neunorm)
 [![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/downloads.svg)](https://anaconda.org/neutronimaging/neunorm)
+[![DOI](https://zenodo.org/badge/97755175.svg)](https://zenodo.org/badge/latestdoi/97755175)
 
 Abstract
 --------
