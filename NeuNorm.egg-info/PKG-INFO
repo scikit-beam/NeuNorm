@@ -1,12 +1,11 @@
 Metadata-Version: 1.1
 Name: NeuNorm
-Version: 1.4.1
+Version: 1.4.4
 Summary: neutron normalization data
 Home-page: https://github.com/ornlneutronimaging/NeuNorm
 Author: Jean Bilheux
 Author-email: bilheuxjm@ornl.gov
 License: BSD
-Description-Content-Type: UNKNOWN
 Description: See the README.md file on GitHub for more information
 Keywords: neutron normalization imaging
 Platform: UNKNOWN
