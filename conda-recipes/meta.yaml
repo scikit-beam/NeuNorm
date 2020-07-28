@@ -1,6 +1,6 @@
 {% set name = "NeuNorm" %}
-{% set version = "1.4.4" %}
-{% set git_rev = "1.4.4" %}
+{% set version = "1.4.5" %}
+{% set git_rev = "1.4.5" %}
 
 package:
   name: {{ name|lower }}
