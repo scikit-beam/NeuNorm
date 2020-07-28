@@ -22,25 +22,25 @@ class Normalization(object):
                             'oscilation': [],
                             'file_name': [],
                             'metadata': [],
-                            'shape': self.shape.copy()}
+                            'shape': copy.deepcopy(self.shape)}
         self.dict_ob = {'data': [],
                         'oscilation': [],
                         'metadata': [],
                         'file_name': [],
                         'data_mean': [],
-                        'shape': self.shape.copy()}
+                        'shape': copy.deepcopy(self.shape)}
         self.dict_df = {'data': [],
                         'metadata': [],
                         'data_average': [],
                         'file_name': [],
-                        'shape': self.shape.copy()}
+                        'shape': copy.deepcopy(self.shape)}
 
         __roi_dict = {'x0': np.NaN,
                       'x1': np.NaN,
                       'y0': np.NaN,
                       'y1': np.NaN}
-        self.roi = {'normalization': __roi_dict.copy(),
-                    'crop': __roi_dict.copy()}
+        self.roi = {'normalization': copy.deepcopy(__roi_dict),
+                    'crop': copy.deepcopy(__roi_dict)}
 
         self.__exec_process_status = {'df_correction': False,
                                       'normalization': False,
@@ -379,7 +379,7 @@ class Normalization(object):
         '''
         [height, width] = np.shape(data)
         if np.isnan(self.data[data_type]['shape']['height']):
-            _shape = self.shape.copy()
+            _shape = copy.deepcopy(self.shape)
             _shape['height'] = height
             _shape['width'] = width
             self.data[data_type]['shape'] = _shape
@@ -491,8 +491,8 @@ class Normalization(object):
                                             for _ob in self.data['ob']['data']]
 
         else:
-            _sample_corrected_normalized = copy.copy(self.data['sample']['data'])
-            _ob_corrected_normalized = copy.copy(self.data['ob']['data'])
+            _sample_corrected_normalized = copy.deepcopy(self.data['sample']['data'])
+            _ob_corrected_normalized = copy.deepcopy(self.data['ob']['data'])
             
         self.data['sample']['data'] = _sample_corrected_normalized
         self.data['ob']['data'] = _ob_corrected_normalized
@@ -503,7 +503,7 @@ class Normalization(object):
         if (nbr_sample != nbr_ob) or force_mean_ob: # work with mean ob
             _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
             self.data['ob']['data_mean'] = _ob_corrected_normalized
-            _working_ob = _ob_corrected_normalized.copy()
+            _working_ob = copy.deepcopy(_ob_corrected_normalized)
             _working_ob[_working_ob == 0] = np.NaN
 
             if notebook:
@@ -525,7 +525,7 @@ class Normalization(object):
                 if notebook:
                     w1.value = _index+1                
             
-        else: # 1 ob for each sample
+        else:  # 1 ob for each sample
             # produce normalized data
             sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
 
@@ -540,7 +540,7 @@ class Normalization(object):
 
             normalized_data = []
             for _index, [_sample, _ob] in enumerate(sample_ob):
-                _working_ob = _ob.copy()
+                _working_ob = copy.deepcopy(_ob)
                 _working_ob[_working_ob == 0] = np.NaN
                 _norm = np.divide(_sample, _working_ob)
                 _norm[np.isnan(_norm)] = 0
