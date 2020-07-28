@@ -217,7 +217,7 @@ class TestNormalization:
         o_norm.normalization()
         expected_normalized_array = np.zeros((5,5))
         expected_normalized_array[0,0] = 1
-        assert (o_norm.data['normalized']== expected_normalized_array).all()
+        assert (o_norm.data['normalized'] == expected_normalized_array).all()
 
     def test_nbr_data_files_same_after_normalization_by_list_roi(self):
         '''assert the number of data files is the same after normalization by a list of ROI'''
@@ -294,6 +294,8 @@ class TestNormalization:
         for _h in np.arange(height):
             for _w in np.arange(width):
                 assert expected_normalized_data[_h, _w] == pytest.approx(normalized_data[_h, _w], 1e-5)
+
+
 
 class TestDFCorrection:
 

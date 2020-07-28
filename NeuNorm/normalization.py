@@ -18,21 +18,21 @@ class Normalization(object):
     def __init__(self):
         self.shape = {'width': np.NaN,
                       'height': np.NaN}
-        self.dict_image = { 'data': [],
-                            'oscilation': [],
-                            'file_name': [],
-                            'metadata': [],
+        self.dict_image = { 'data': None,
+                            'oscilation': None,
+                            'file_name': None,
+                            'metadata': None,
                             'shape': copy.deepcopy(self.shape)}
-        self.dict_ob = {'data': [],
-                        'oscilation': [],
-                        'metadata': [],
-                        'file_name': [],
-                        'data_mean': [],
+        self.dict_ob = {'data': None,
+                        'oscilation': None,
+                        'metadata': None,
+                        'file_name': None,
+                        'data_mean': None,
                         'shape': copy.deepcopy(self.shape)}
-        self.dict_df = {'data': [],
-                        'metadata': [],
-                        'data_average': [],
-                        'file_name': [],
+        self.dict_df = {'data': None,
+                        'metadata': None,
+                        'data_average': None,
+                        'file_name': None,
                         'shape': copy.deepcopy(self.shape)}
 
         __roi_dict = {'x0': np.NaN,
@@ -52,8 +52,8 @@ class Normalization(object):
         self.data['sample'] = self.dict_image
         self.data['ob'] = self.dict_ob
         self.data['df'] = self.dict_df
-        self.data['normalized'] = []
-        self.export_file_name = []
+        self.data['normalized'] = None
+        self.export_file_name = None
     
     def load(self, file='', folder='', data=[], data_type='sample', auto_gamma_filter=True,
             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
@@ -163,7 +163,7 @@ class Normalization(object):
             if notebook:
                 box1.close()
         
-        elif not data == []:
+        elif not data is None:
             self.load_data(data=data, data_type=data_type)
 
     def calculate_how_long_its_going_to_take(self, index_we_are=-1, time_it_took_so_far=0, total_number_of_loop=1):
@@ -237,10 +237,19 @@ class Normalization(object):
             data: np array
             data_type: string - 'data', 'ob' or 'df' (default 'sample')
         """
-        self.data[data_type]['data'].append(data)
+        if self.data[data_type]['data'] is None:
+            self.data[data_type]['data'] = [data]
+        else:
+            self.data[data_type]['data'].append(data)
         index = len(self.data[data_type]['data'])
-        self.data[data_type]['file_name'].append("image_{:04}".format(index))
-        self.data[data_type]['metadata'].append('')
+        if self.data[data_type]['file_name'] is None:
+            self.data[data_type]['file_name'] = ["image_{:04}".format(index)]
+        else:
+            self.data[data_type]['file_name'].append("image_{:04}".format(index))
+        if self.data[data_type]['metadata'] is None:
+            self.data[data_type]['metadata'] = ['']
+        else:
+            self.data[data_type]['metadata'].append('')
         self.save_or_check_shape(data=data, data_type=data_type)        
         
     def load_file(self, file='', data_type='sample',
@@ -268,7 +277,7 @@ class Normalization(object):
             metadata = {}
             if file.lower().endswith('.fits'):
                 data = np.array(load_fits(my_file))
-            elif file.lower().endswith(('.tiff','.tif')) :
+            elif file.lower().endswith(('.tiff', '.tif')):
                 [data, metadata] = load_tiff(my_file)
                 data = np.array(data)
             elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')):
@@ -284,9 +293,21 @@ class Normalization(object):
 
             data = np.squeeze(data)
 
-            self.data[data_type]['data'].append(data)
-            self.data[data_type]['metadata'].append(metadata)
-            self.data[data_type]['file_name'].append(file)
+            if self.data[data_type]['data'] is None:
+                self.data[data_type]['data'] = [data]
+            else:
+                self.data[data_type]['data'].append(data)
+
+            if self.data[data_type]['metadata'] is None:
+                self.data[data_type]['metadata'] = [metadata]
+            else:
+                self.data[data_type]['metadata'].append(metadata)
+
+            if self.data[data_type]['file_name'] is None:
+                self.data[data_type]['file_name'] = [file]
+            else:
+                self.data[data_type]['file_name'].append(file)
+
             self.save_or_check_shape(data=data, data_type=data_type)
 
         else:
@@ -310,7 +331,7 @@ class Normalization(object):
         Raises:
             ValueError if array is empty
         '''
-        if data == []:
+        if data is None:
             raise ValueError("Data array is empty!")
 
         # we may be dealing with a float time, that means it does not need any gamma filtering
@@ -352,7 +373,7 @@ class Normalization(object):
         Raises:
              ValueError if data is empty
         '''
-        if data == []:
+        if data is None:
             raise ValueError("Data array is empty!")
 
         data_gamma_filtered = np.copy(data)
@@ -417,11 +438,11 @@ class Normalization(object):
         self.__exec_process_status['normalization'] = True
         
         # make sure we loaded some sample data
-        if self.data['sample']['data'] == []:
+        if self.data['sample']['data'] is None:
             raise IOError("No normalization available as no data have been loaded")
 
         # make sure we loaded some ob data
-        if self.data['ob']['data'] == []:
+        if self.data['ob']['data'] is None:
             raise IOError("No normalization available as no OB have been loaded")
               
         # make sure the data loaded have the same size
@@ -455,29 +476,33 @@ class Normalization(object):
 
                 _sample_corrected_normalized = []
                 for _sample in self.data['sample']['data']:
-                    sample_mean = []
+                    total_counts_of_rois = 0
+                    total_number_of_pixels = 0
                     for _roi in roi:
                         _x0 = _roi.x0
                         _y0 = _roi.y0
                         _x1 = _roi.x1
                         _y1 = _roi.y1
-                        sample_mean.append(np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1]))
+                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                        total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
 
-                    full_sample_mean = np.mean(sample_mean)
-                    _sample_corrected_normalized.append(_sample/full_sample_mean)
+                    full_sample_mean = total_counts_of_rois / total_number_of_pixels
+                    _sample_corrected_normalized.append(_sample / full_sample_mean)
 
                 _ob_corrected_normalized = []
                 for _ob in self.data['ob']['data']:
-                    ob_mean = []
+                    total_counts_of_rois = 0
+                    total_number_of_pixels = 0
                     for _roi in roi:
                         _x0 = _roi.x0
                         _y0 = _roi.y0
                         _x1 = _roi.x1
                         _y1 = _roi.y1
-                        ob_mean.append(np.mean(_ob[_y0:_y1 + 1, _x0:_x1 + 1]))
+                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                        total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
 
-                    # full_ob_mean = np.mean(ob_mean)
-                    _ob_corrected_normalized.append(_ob / full_sample_mean)
+                    full_ob_mean = total_counts_of_rois / total_number_of_pixels
+                    _ob_corrected_normalized.append(_ob / full_ob_mean)
 
             else:
                 _x0 = roi.x0
@@ -626,10 +651,10 @@ class Normalization(object):
         if not data_type in ['sample', 'ob']:
             raise KeyError("Wrong data type passed. Must be either 'sample' or 'ob'!")
 
-        if self.data['df']['data'] == []:
+        if self.data['df']['data'] is None:
             return
         
-        if self.data['df']['data_average'] == []:
+        if self.data['df']['data_average'] is None:
             _df = self.data['df']['data']
             if len(_df) > 1:
                 _df = average_df(df=_df)
@@ -659,8 +684,8 @@ class Normalization(object):
         Raises:
             ValueError if sample and ob data have not been normalized yet
         '''
-        if (self.data['sample']['data'] == []) or \
-           (self.data['ob']['data'] == []):
+        if (self.data['sample']['data'] is None) or \
+           (self.data['ob']['data'] is None):
             raise IOError("We need sample and ob Data !")
 
         if not type(roi) == ROI:
@@ -684,12 +709,12 @@ class Normalization(object):
                   _data in self.data['ob']['data']]
         self.data['ob']['data'] = new_ob        
         
-        if not (self.data['df']['data'] == []):
+        if not (self.data['df']['data'] is None):
             new_df = [_data[_y0:_y1+1, _x0:_x1+1] for 
                       _data in self.data['df']['data']]
             self.data['df']['data'] = new_df
             
-        if not (self.data['normalized'] == []):
+        if not (self.data['normalized'] is None):
             new_normalized = [_data[_y0:_y1+1, _x0:_x1+1] for 
                               _data in self.data['normalized']]
             self.data['normalized'] = new_normalized        
@@ -724,7 +749,7 @@ class Normalization(object):
         else:
             data = self.data[data_type]['data']
 
-        if data ==[]:
+        if data is None:
             return False
 
         metadata = self.data[data_type]['metadata']
