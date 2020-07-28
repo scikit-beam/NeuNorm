@@ -10,3 +10,5 @@ __pycache__/*
 .cache/*
 .idea/*
 NeuNorm.egg-info*/
+
+.pytest_cache/
