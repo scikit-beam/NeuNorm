@@ -632,10 +632,10 @@ class Normalization(object):
                 return
         self.__exec_process_status['df_correction'] = True
         
-        if not self.data['sample']['data'] == []:
+        if not self.data['sample']['data'] is None:
             self.__df_correction(data_type='sample')
             
-        if not self.data['ob']['data'] == []:
+        if not self.data['ob']['data'] is None:
             self.__df_correction(data_type='ob')
     
     def __df_correction(self, data_type='sample'):
