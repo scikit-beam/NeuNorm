@@ -529,6 +529,8 @@ class TestApplyingROI:
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
+
+        # without DF
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
@@ -543,7 +545,10 @@ class TestApplyingROI:
         _norm_expected[:, 3] = 1.53488372
         _norm_expected[:, 4] = 2.04651163
 
+        print("returned")
         print(_norm_returned)
+        print("expected")
+        print(_norm_expected)
 
         assert False
         assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
