@@ -225,7 +225,7 @@ class TestLoading(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(file=sample_tif_file, auto_gamma_filter=False)
         metadata = o_norm.data['sample']['metadata']
-        metadata_1_expected = 'this is value a'
+        metadata_1_expected = 'this is metadata of image001.tif'
         metadata_1_returned = metadata[0][1]
         if isinstance(metadata_1_returned, tuple):
             metadata_1_returned = metadata_1_returned[0]
