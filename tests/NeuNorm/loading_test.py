@@ -16,22 +16,22 @@ class TestLoading(unittest.TestCase):
         o_norm = Normalization()
         data = o_norm.data
         dict_image = o_norm.dict_image
-        self.assertEqual([], dict_image['data'])
-        self.assertEqual([], dict_image['file_name'])
-        self.assertEqual([], data['sample']['data'])
-        self.assertEqual([], data['sample']['file_name'])
+        self.assertEqual(None, dict_image['data'])
+        self.assertEqual(None, dict_image['file_name'])
+        self.assertEqual(None, data['sample']['data'])
+        self.assertEqual(None, data['sample']['file_name'])
         
         dict_ob = o_norm.dict_ob
-        self.assertEqual([], dict_ob['data'])
-        self.assertEqual([], dict_ob['file_name'])
-        self.assertEqual([], data['ob']['data'])
-        self.assertEqual([], data['ob']['file_name'])
+        self.assertEqual(None, dict_ob['data'])
+        self.assertEqual(None, dict_ob['file_name'])
+        self.assertEqual(None, data['ob']['data'])
+        self.assertEqual(None, data['ob']['file_name'])
 
         dict_df = o_norm.dict_df
-        self.assertEqual([], dict_df['data'])
-        self.assertEqual([], dict_df['file_name'])
-        self.assertEqual([], data['df']['data'])
-        self.assertEqual([], data['df']['file_name'])
+        self.assertEqual(None, dict_df['data'])
+        self.assertEqual(None, dict_df['file_name'])
+        self.assertEqual(None, data['df']['data'])
+        self.assertEqual(None, data['df']['file_name'])
 
     def test_loading_bad_single_files(self):
         '''assert error is raised when inexisting file is given'''

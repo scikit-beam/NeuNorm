@@ -212,7 +212,7 @@ class Normalization(object):
                 _message = "Loading {}".format(data_type)
                 box1 = widgets.HBox([widgets.Label(_message,
                                                                layout=widgets.Layout(width='20%')),
-                                                 widgets.IntProgress(max=len(list_images))])
+                                                 widgets.IntProgress(max=len(data))])
                 display(box1)
                 w1 = box1.children[1]   
 
