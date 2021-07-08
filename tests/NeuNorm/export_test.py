@@ -1,6 +1,7 @@
 import unittest
 import os
 import shutil
+import numpy as np
 
 from NeuNorm.normalization import Normalization
 
@@ -98,13 +99,14 @@ class TestExportingPhase2(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.export(folder=self.export_folder, data_type='sample')
-        input_metadata = str(o_norm.data['sample']['metadata'][0])
 
         o_norm_2 = Normalization()
         o_norm_2.load(folder=self.export_folder, auto_gamma_filter=False)
-        export_metadata = str(o_norm_2.data['sample']['metadata'][0])
 
-        self.assertTrue((input_metadata == export_metadata))
+        for index in np.arange(len(o_norm.data['sample']['data'])):
+            input_metadata = str(o_norm.data['sample']['metadata'][index])
+            export_metadata = str(o_norm_2.data['sample']['metadata'][index])
+            self.assertTrue((input_metadata == export_metadata))
 
     def test_export_works_for_fits(self):
         '''assert the file created is correct for fits images'''

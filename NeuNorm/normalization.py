@@ -412,7 +412,7 @@ class Normalization(object):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
     def normalization(self, roi=None, force=False, force_mean_ob=False, notebook=False):
-        '''normalization of the data 
+        """normalization of the data
                 
         Parameters:
             roi: ROI object or list of ROI objects - object defines the region of the sample and OB that have to match
@@ -430,7 +430,7 @@ class Normalization(object):
             IOError: if no OB loaded
             IOError: if size of sample and OB do not match
         
-        '''
+        """
         if not force:
             # does nothing if normalization has already been run
             if self.__exec_process_status['normalization']:
