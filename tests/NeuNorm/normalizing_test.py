@@ -633,7 +633,7 @@ class TestApplyingROI:
         assert _df_expected == _df_returned
         
         # normalized is empty before normalization
-        assert o_norm.get_normalized_data() == []
+        assert o_norm.get_normalized_data() is None
         
         # run normalization
         o_norm.normalization()
@@ -641,4 +641,3 @@ class TestApplyingROI:
         _norm_expected = o_norm.data['normalized'][0]
         _norm_returned = o_norm.get_normalized_data()[0]
         assert (_norm_expected == _norm_returned).all()
-        
