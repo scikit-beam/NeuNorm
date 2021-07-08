@@ -55,7 +55,7 @@ class Normalization(object):
         self.data['normalized'] = None
         self.export_file_name = None
     
-    def load(self, file='', folder='', data=[], data_type='sample', auto_gamma_filter=True,
+    def load(self, file='', folder='', data=None, data_type='sample', auto_gamma_filter=True,
             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
         '''
         Function to read individual files, entire files from folder, list of files or event data arrays.
@@ -194,7 +194,7 @@ class Normalization(object):
         else:
             return "%dh %02dmn %02ds" % (h, m, s)
 
-    def load_data(self, data=[], data_type='sample', notebook=False):
+    def load_data(self, data=None, data_type='sample', notebook=False):
         '''Function to save the data already loaded as arrays
 
         Paramters:
@@ -230,7 +230,7 @@ class Normalization(object):
             data = data.astype(self.working_data_type)
             self.__load_individual_data(data=data, data_type=data_type)
             
-    def __load_individual_data(self, data=[], data_type='sample'):
+    def __load_individual_data(self, data=None, data_type='sample'):
         """method that loads the data one at a time
 
         Parameters:
@@ -313,7 +313,7 @@ class Normalization(object):
         else:
             raise OSError("The file name does not exist")
 
-    def _auto_gamma_filtering(self, data=[]):
+    def _auto_gamma_filtering(self, data=None):
         '''perform the automatic gamma filtering
 
         This algorithm check the data format of the input data file (ex: int16, int32...)
@@ -354,7 +354,7 @@ class Normalization(object):
 
         return data_gamma_filtered
 
-    def _manual_gamma_filtering(self, data=[], manual_gamma_threshold=0.1):
+    def _manual_gamma_filtering(self, data=None, manual_gamma_threshold=0.1):
         '''perform manual gamma filtering on the data
 
         This algoritm uses the manual_gamma_threshold value to estimate if a pixel is a gamma or not.
@@ -387,7 +387,7 @@ class Normalization(object):
 
         return data_gamma_filtered
 
-    def save_or_check_shape(self, data=[], data_type='sample'):
+    def save_or_check_shape(self, data=None, data_type='sample'):
         '''save the shape for the first data loaded (of each type) otherwise
         check if the size match
 
@@ -598,7 +598,7 @@ class Normalization(object):
             
         return True
     
-    def __roi_fit_into_sample(self, roi=[]):
+    def __roi_fit_into_sample(self, roi=None):
         '''check if roi is within the dimension of the image
         
         Returns:
