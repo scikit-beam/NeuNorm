@@ -525,7 +525,7 @@ class Normalization(object):
         # if the number of sample and ob do not match, use mean of obs
         nbr_sample = len(self.data['sample']['file_name'])
         nbr_ob = len(self.data['ob']['file_name'])
-        if (nbr_sample != nbr_ob) or force_mean_ob: # work with mean ob
+        if (nbr_sample != nbr_ob) or force_mean_ob:  # work with mean ob
             _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
             self.data['ob']['data_mean'] = _ob_corrected_normalized
             _working_ob = copy.deepcopy(_ob_corrected_normalized)

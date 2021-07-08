@@ -532,16 +532,43 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        _roi_1 = ROI(x0=0, y0=0, x1=2, y1=2)
-        _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
-        o_norm.normalization(roi=[_roi_1, _roi_2])
+        # o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
+        # _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
+        # o_norm.normalization(roi=[_roi_1, _roi_2])
+        o_norm.normalization(roi=[_roi_1])
+        #o_norm.normalization()
         _norm_returned = o_norm.data['normalized'][0]
-        _norm_expected = np.ones((5,5))
+        _norm_expected = np.ones((5, 5))
         _norm_expected[:, 2] = 1.02325581
         _norm_expected[:, 3] = 1.53488372
         _norm_expected[:, 4] = 2.04651163
 
+        print(_norm_returned)
+
+        assert False
         assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
+
+    def test_full_normalization_sample_with_one_roi(self):
+        '''assert the full normalization works with several roi selected'''
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
+        o_norm.normalization(roi=[_roi_1])
+        _norm_returned = o_norm.data['normalized'][0]
+        _norm_expected = np.ones((5, 5))
+        _norm_expected[:, 2] = 2
+        _norm_expected[:, 3] = 3
+        _norm_expected[:, 4] = 4
+
+        nbr_col, nbr_row = np.shape(_norm_expected)
+        for _col in np.arange(nbr_col):
+            for _row in np.arange(nbr_row):
+                assert _norm_expected[_col, _row] == _norm_returned[_col, _row]
 
     def test_full_normalization_sample_divide_by_ob_works(self):
         '''assert the full normalization works (when sample is divided by ob)'''
@@ -555,7 +582,7 @@ class TestApplyingROI:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         o_norm.normalization()
-        _norm_expected = np.ones((5,5))
+        _norm_expected = np.ones((5, 5))
         _norm_expected[:, 2] = 2
         _norm_expected[:, 3] = 3
         _norm_expected[:, 4] = 4
@@ -572,7 +599,7 @@ class TestApplyingROI:
         o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         _roi = ROI(x0=0, y0=0, x1=2, y1=2)
         o_norm.normalization(roi=_roi)
-        _norm_expected = np.ones((5,5))
+        _norm_expected = np.ones((5, 5))
         _norm_expected.fill(0.8125)
         _norm_expected[:, 2] = 1.625
         _norm_expected[:, 3] = 2.4375
