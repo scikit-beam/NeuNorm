@@ -1,4 +1,3 @@
-#import unittest
 import pytest
 import numpy as np
 import os
@@ -15,7 +14,7 @@ class TestNormalization:
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
 
     def test_loading_list_of_files(self):
-        '''assert initialization using list of files'''
+        """assert initialization using list of files"""
         list_files = [self.data_path + '/tif/sample/image001.tif',
                       self.data_path + '/tif/sample/image002.tif',
                       self.data_path + '/tif/sample/image003.tif']
@@ -25,7 +24,7 @@ class TestNormalization:
         assert (3, 5, 5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data(self):
-        '''assert initialization using arrays with data'''
+        """assert initialization using arrays with data"""
         sample_01 = self.data_path + '/tif/sample/image001.tif'
         sample_02 = self.data_path + '/tif/sample/image002.tif'
         data = []
@@ -38,7 +37,7 @@ class TestNormalization:
         assert (2, 5, 5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data_one_by_one(self):
-        '''assert initialization using arrays with data one by one'''
+        """assert initialization using arrays with data one by one"""
         o_norm = Normalization()
 
         sample_01 = self.data_path + '/tif/sample/image001.tif'
@@ -53,7 +52,7 @@ class TestNormalization:
         assert (2, 5, 5) == np.shape(data_returned)
 
     def test_initialization_using_array_with_ob(self):
-        '''assert initialization using arrays with ob'''
+        """assert initialization using arrays with ob"""
         ob_01 = self.data_path + '/tif/ob/ob001.tif'
         ob_02 = self.data_path + '/tif/ob/ob002.tif'
         data = []
@@ -66,7 +65,7 @@ class TestNormalization:
         assert (2, 5, 5) == np.shape(data_returned)
         
     def test_normalization_raises_error_if_no_ob_or_sample(self):
-        '''assert error raises when no ob or sample provided'''
+        """assert error raises when no ob or sample provided"""
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
         o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
@@ -87,7 +86,7 @@ class TestNormalization:
         assert o_norm.normalization()
  
     def test_normalization_ran_only_once(self):
-        '''assert normalization is only once if force switch not turn on'''
+        """assert normalization is only once if force switch not turn on"""
         sample_tif_folder = self.data_path + '/tif/sample'
         ob_tif_folder = self.data_path + '/tif/ob'
     
@@ -103,7 +102,7 @@ class TestNormalization:
         assert (_returned_first_time == _returned_second_time).all()
 
     def test_normalization_ran_twice_with_force_flag(self):
-        '''assert normalization can be ran twice using force flag'''
+        """assert normalization can be ran twice using force flag"""
         sample_tif_folder = self.data_path + '/tif/sample'
         ob_tif_folder = self.data_path + '/tif/ob'
     
@@ -120,7 +119,7 @@ class TestNormalization:
         assert not ((_returned_first_time == _returned_second_time).all())
   
     def test_normalization_works_if_input_arrays_are_type_int(self):
-        '''assert normalization works when input arrays are type int'''
+        """assert normalization works when input arrays are type int"""
         o_norm = Normalization()
         
         sample_01 = self.data_path + '/tif/sample/image001.tif'
@@ -143,7 +142,7 @@ class TestNormalization:
         o_norm.normalization()
 
     def test_normalization_works(self):
-        '''assert sample and ob normalization works with and without roi'''
+        """assert sample and ob normalization works with and without roi"""
         sample_tif_folder = self.data_path + '/tif/sample'
         ob_tif_folder = self.data_path + '/tif/ob'
 
@@ -188,7 +187,7 @@ class TestNormalization:
         assert (_expected == _returned).all()
   
     def test_normalization_with_same_ob_and_sample_but_forced_mean_ob(self):
-        '''assert normalization with same ob and sample number of files force to use mean ob when flag used'''
+        """assert normalization with same ob and sample number of files force to use mean ob when flag used"""
         samples_path =  self.data_path + '/tif/sample/' # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
@@ -204,7 +203,7 @@ class TestNormalization:
         assert (o_norm.data['normalized'][0] == expected_normalized_array).all()
 
     def test_normalization_with_fewer_ob_than_sample_works(self):
-        '''assert normalization works when number of ob and sample is different'''
+        """assert normalization works when number of ob and sample is different"""
         samples_path =  self.data_path + '/tif/sample/' # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif' 
         ob2 = self.data_path + '/tif/ob/ob002.tif' 
@@ -220,7 +219,7 @@ class TestNormalization:
         assert (o_norm.data['normalized'] == expected_normalized_array).all()
 
     def test_nbr_data_files_same_after_normalization_by_list_roi(self):
-        '''assert the number of data files is the same after normalization by a list of ROI'''
+        """assert the number of data files is the same after normalization by a list of ROI"""
         samples_path =  self.data_path + '/tif/sample/' # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
@@ -236,7 +235,7 @@ class TestNormalization:
         assert nbr_data_after == nbr_data_before
 
     def test_normalization_works_with_only_1_df(self):
-        '''assert using 1 df in normalization works'''
+        """assert using 1 df in normalization works"""
         samples_path =  self.data_path + '/tif/sample/' # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
@@ -255,7 +254,7 @@ class TestNormalization:
         assert nbr_data_after == nbr_data_before
 
     def test_normalization_works_with_2_dfs(self):
-        '''assert using 2 df in normalization works'''
+        """assert using 2 df in normalization works"""
         samples_path = self.data_path + '/tif/sample/'  # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif'
@@ -304,7 +303,7 @@ class TestDFCorrection:
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))  
         
     def test_df_correction_when_no_df(self):
-        '''assert sample and ob are inchanged if df is empty'''
+        """assert sample and ob are inchanged if df is empty"""
 
         # sample
         path = self.data_path + '/tif/sample'
@@ -341,7 +340,7 @@ class TestDFCorrection:
             o_norm.df_correction()
 
     def test_df_averaging_only_run_the_first_time(self):
-        '''assert the average_df is only run the first time the df_correction is run'''
+        """assert the average_df is only run the first time the df_correction is run"""
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
@@ -367,7 +366,7 @@ class TestDFCorrection:
         assert (expected_df_average == df_average).all()
 
     def test_df_correction(self):
-        '''assert df corrction works'''
+        """assert df corrction works"""
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
@@ -393,7 +392,7 @@ class TestDFCorrection:
         assert (_expected_data == _ob_data).all()
 
     def test_df_correction_locked_when_run_twice_without_force_flag(self):
-        '''assert df corrction run only one time if force flag is False'''
+        """assert df corrction run only one time if force flag is False"""
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
@@ -418,7 +417,7 @@ class TestDFCorrection:
         assert (_ob_first_run == _ob_second_run).all()
          
     def test_df_correction_run_twice_with_force_flag(self):
-        '''assert df corrction run more than once with force flag'''
+        """assert df corrction run more than once with force flag"""
         sample_path = self.data_path + '/tif/sample/'
         ob_path = self.data_path + '/tif/ob/'
         o_norm = Normalization()
@@ -455,7 +454,7 @@ class TestApplyingROI:
         self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))       
         
     def test_roi_type_in_normalization(self):
-        '''assert error is raised when type of norm roi are not ROI in normalization'''
+        """assert error is raised when type of norm roi are not ROI in normalization"""
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         ob_tif_file = self.data_path + '/tif/ob/ob001.tif'
         o_norm = Normalization()
@@ -466,7 +465,7 @@ class TestApplyingROI:
             o_norm.normalization(roi=roi)
         
     def test_roi_fit_images(self):
-        '''assert norm roi do fit the images'''
+        """assert norm roi do fit the images"""
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         ob_tif_file = self.data_path + '/tif/ob/ob001.tif'
         
@@ -502,7 +501,7 @@ class TestApplyingROI:
             o_norm.normalization(roi=roi)
 
     def test_error_raised_when_data_shape_of_different_type_do_not_match(self):
-        '''assert shape of data must match to allow normalization'''
+        """assert shape of data must match to allow normalization"""
         
         # sample and ob
         image1 = self.data_path + '/tif/sample/image001.tif'
@@ -525,7 +524,7 @@ class TestApplyingROI:
             o_norm.normalization()
 
     def test_full_normalization_sample_with_several_roi(self):
-        '''assert the full normalization works with several roi selected'''
+        """assert the full normalization works with several roi selected"""
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
@@ -536,25 +535,54 @@ class TestApplyingROI:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         # o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
-        # _roi_2 = ROI(x0=2, y0=2, x1=4, y1=4)
-        # o_norm.normalization(roi=[_roi_1, _roi_2])
-        o_norm.normalization(roi=[_roi_1])
+        _roi_2 = ROI(x0=0, y0=0, x1=1, y1=1)
+        o_norm.normalization(roi=[_roi_1, _roi_2])
         _norm_returned = o_norm.data['normalized'][0]
         _norm_expected = np.ones((5, 5))
-        _norm_expected[:, 2] = 1.02325581
-        _norm_expected[:, 3] = 1.53488372
-        _norm_expected[:, 4] = 2.04651163
+        _norm_expected[:, 2] = 2
+        _norm_expected[:, 3] = 3
+        _norm_expected[:, 4] = 4
 
-        print("returned")
-        print(_norm_returned)
-        print("expected")
-        print(_norm_expected)
+        assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
 
-        assert False
+        # with DF
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
+        _roi_2 = ROI(x0=0, y0=0, x1=1, y1=1)
+        o_norm.normalization(roi=[_roi_1, _roi_2])
+        _norm_returned = o_norm.data['normalized'][0]
+        _norm_expected = np.ones((5, 5))
+        _norm_expected[:, 2] = 2
+        _norm_expected[:, 3] = 3
+        _norm_expected[:, 4] = 4
+
+        assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
+
+        sample_path = self.data_path + '/tif/sample'
+        ob_path = self.data_path + '/tif/ob'
+        df_path = self.data_path + '/tif/df'
+
+        # without DF
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        # o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        _roi_1 = ROI(x0=0, y0=0, x1=0, y1=0)
+        _roi_2 = ROI(x0=4, y0=4, x1=4, y1=4)
+        o_norm.normalization(roi=[_roi_1, _roi_2])
+        _norm_returned = o_norm.data['normalized'][-1]
+        _norm_expected = np.ones((5, 5))
+        _norm_expected[:, 2] = 2
+        _norm_expected[:, 3] = 3
+        _norm_expected[:, 4] = 4
+
         assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
 
     def test_full_normalization_sample_with_one_roi(self):
-        '''assert the full normalization works with several roi selected'''
+        """assert the full normalization works with several roi selected"""
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
@@ -596,7 +624,7 @@ class TestApplyingROI:
 
 
     def test_full_normalization_sample_divide_by_ob_works(self):
-        '''assert the full normalization works (when sample is divided by ob)'''
+        """assert the full normalization works (when sample is divided by ob)"""
 
         # without normalization roi
         sample_path = self.data_path + '/tif/sample'
@@ -633,7 +661,7 @@ class TestApplyingROI:
         assert (_norm_expected == _norm_returned).all()
         
     def test_various_data_type_correctly_returned(self):
-        '''assert normalized, sample, ob and df data are correctly returned'''
+        """assert normalized, sample, ob and df data are correctly returned"""
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         df_path = self.data_path + '/tif/df'
