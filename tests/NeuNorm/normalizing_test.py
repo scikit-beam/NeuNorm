@@ -720,9 +720,6 @@ class TestApplyingROI:
         _norm_expected[:-1, 4] = 5./10
         _norm_returned = o_norm.get_normalized_data()[0]
 
-        print(f"_norm_returned: {_norm_returned}")
-        print(f"_norm_expected: {_norm_expected}")
-
         nbr_col, nbr_row = np.shape(_norm_expected)
         for _col in np.arange(nbr_col):
             for _row in np.arange(nbr_row):
