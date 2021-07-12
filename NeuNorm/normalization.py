@@ -586,10 +586,53 @@ class Normalization(object):
 
             self.data['normalized'] = normalized_data
 
-        else: # use_sample_only with ROI
+        else:  # use_sample_only with ROI
 
             if not roi:
                 raise ValueError("You need to provide at least 1 ROI using this use_only_sample mode!")
+
+            if type(roi) is list:
+                for _roi in roi:
+                    if not type(_roi) == ROI:
+                        raise ValueError("roi must be a ROI object!")
+                    if not self.__roi_fit_into_sample(roi=_roi):
+                        raise ValueError("roi does not fit into sample image!")
+                b_list_roi = True
+
+            elif not type(roi) == ROI:
+                raise ValueError("roi must be a ROI object!")
+            else:
+                if not self.__roi_fit_into_sample(roi=roi):
+                    raise ValueError("roi does not fit into sample image!")
+
+            if b_list_roi:
+
+                normalized_data = []
+                for _sample in self.data['sample']['data']:
+                    total_counts_of_rois = 0
+                    total_number_of_pixels = 0
+                    for _roi in roi:
+                        _x0 = _roi.x0
+                        _y0 = _roi.y0
+                        _x1 = _roi.x1
+                        _y1 = _roi.y1
+                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                        total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+
+                    full_sample_mean = total_counts_of_rois / total_number_of_pixels
+                    normalized_data.append(_sample / full_sample_mean)
+
+            else:
+
+                _x0 = roi.x0
+                _y0 = roi.y0
+                _x1 = roi.x1
+                _y1 = roi.y1
+
+                normalized_data = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+                                   for _sample in self.data['sample']['data']]
+
+            self.data['normalized'] = normalized_data
 
         return True
     

@@ -705,3 +705,25 @@ class TestApplyingROI:
 
         with pytest.raises(ValueError):
             o_norm.normalization(use_only_sample=True)
+        del o_norm
+
+        o_norm = Normalization()
+        o_norm.load(file=sample_file, auto_gamma_filter=False)
+        _roi = ROI(x0=0, y0=0, x1=0, y1=0)
+        o_norm.normalization(roi=_roi, use_only_sample=True)
+
+        _norm_expected = np.ones((5, 5))
+        _norm_expected[1:, 0] = 1./10
+        _norm_expected[:, 1] = 2./10
+        _norm_expected[:, 2] = 3./10
+        _norm_expected[:, 3] = 4./10
+        _norm_expected[:-1, 4] = 5./10
+        _norm_returned = o_norm.get_normalized_data()[0]
+
+        print(f"_norm_returned: {_norm_returned}")
+        print(f"_norm_expected: {_norm_expected}")
+
+        nbr_col, nbr_row = np.shape(_norm_expected)
+        for _col in np.arange(nbr_col):
+            for _row in np.arange(nbr_row):
+                assert _norm_expected[_col, _row] == pytest.approx(_norm_returned[_col, _row], 1e-5)
