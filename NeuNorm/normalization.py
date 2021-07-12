@@ -9,6 +9,7 @@ from NeuNorm.loader import load_hdf, load_tiff, load_fits
 from NeuNorm.exporter import make_fits, make_tif
 from NeuNorm.roi import ROI
 from NeuNorm._utilities import get_sorted_list_images, average_df
+from NeuNorm import DataType
 
 
 class Normalization(object):
@@ -57,7 +58,7 @@ class Normalization(object):
     
     def load(self, file='', folder='', data=None, data_type='sample', auto_gamma_filter=True,
             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
-        '''
+        """
         Function to read individual files, entire files from folder, list of files or event data arrays.
         Data are also gamma filtered if requested.
         
@@ -77,7 +78,7 @@ class Normalization(object):
             Algorithm won't be allowed to run if any of the main algorithm have been run already, such as
                 oscillation, crop, binning, df_correction.
 
-        '''
+        """
 
         list_exec_flag = [_flag for _flag in self.__exec_process_status.values()]
         box1 = None
@@ -195,14 +196,14 @@ class Normalization(object):
             return "%dh %02dmn %02ds" % (h, m, s)
 
     def load_data(self, data=None, data_type='sample', notebook=False):
-        '''Function to save the data already loaded as arrays
+        """Function to save the data already loaded as arrays
 
         Paramters:
             data: np array 2D or 3D
             data_type: string  - 'sample', 'ob' or 'df' (default 'sample')
             notebook: boolean - turn on this option if you run the library from a
                  notebook to have a progress bar displayed showing you the progress of the loading (default False)
-        '''
+        """
         if notebook:
             from ipywidgets import widgets
             from IPython.core.display import display
@@ -314,7 +315,7 @@ class Normalization(object):
             raise OSError("The file name does not exist")
 
     def _auto_gamma_filtering(self, data=None):
-        '''perform the automatic gamma filtering
+        """perform the automatic gamma filtering
 
         This algorithm check the data format of the input data file (ex: int16, int32...)
         and will determine the maxixum value for this data type. Any pixel that have a value
@@ -330,7 +331,7 @@ class Normalization(object):
 
         Raises:
             ValueError if array is empty
-        '''
+        """
         if data is None:
             raise ValueError("Data array is empty!")
 
@@ -355,7 +356,7 @@ class Normalization(object):
         return data_gamma_filtered
 
     def _manual_gamma_filtering(self, data=None, manual_gamma_threshold=0.1):
-        '''perform manual gamma filtering on the data
+        """perform manual gamma filtering on the data
 
         This algoritm uses the manual_gamma_threshold value to estimate if a pixel is a gamma or not.
         1. mean value of data array is calculated
@@ -372,7 +373,7 @@ class Normalization(object):
 
         Raises:
              ValueError if data is empty
-        '''
+        """
         if data is None:
             raise ValueError("Data array is empty!")
 
@@ -388,7 +389,7 @@ class Normalization(object):
         return data_gamma_filtered
 
     def save_or_check_shape(self, data=None, data_type='sample'):
-        '''save the shape for the first data loaded (of each type) otherwise
+        """save the shape for the first data loaded (of each type) otherwise
         check if the size match
 
         Parameters:
@@ -397,7 +398,7 @@ class Normalization(object):
 
         Raises:
             IOError if size do not match
-        '''
+        """
         [height, width] = np.shape(data)
         if np.isnan(self.data[data_type]['shape']['height']):
             _shape = copy.deepcopy(self.shape)
@@ -469,35 +470,23 @@ class Normalization(object):
 
                 if b_list_roi:
 
-                    _sample_corrected_normalized = []
-                    for _sample in self.data['sample']['data']:
-                        total_counts_of_rois = 0
-                        total_number_of_pixels = 0
-                        for _roi in roi:
-                            _x0 = _roi.x0
-                            _y0 = _roi.y0
-                            _x1 = _roi.x1
-                            _y1 = _roi.y1
-                            total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                            total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
-
-                        full_sample_mean = total_counts_of_rois / total_number_of_pixels
-                        _sample_corrected_normalized.append(_sample / full_sample_mean)
-
-                    _ob_corrected_normalized = []
-                    for _ob in self.data['ob']['data']:
-                        total_counts_of_rois = 0
-                        total_number_of_pixels = 0
-                        for _roi in roi:
-                            _x0 = _roi.x0
-                            _y0 = _roi.y0
-                            _x1 = _roi.x1
-                            _y1 = _roi.y1
-                            total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                            total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
-
-                        full_ob_mean = total_counts_of_rois / total_number_of_pixels
-                        _ob_corrected_normalized.append(_ob / full_ob_mean)
+                    _sample_corrected_normalized = self.calculate_corrected_normalized(data_type=DataType.sample,
+                                                                                       roi=roi)
+                    _ob_corrected_normalized = self.calculate_corrected_normalized(data_type=DataType.ob,
+                                                                                   roi=roi)
+                    # for _ob in self.data['ob']['data']:
+                    #     total_counts_of_rois = 0
+                    #     total_number_of_pixels = 0
+                    #     for _roi in roi:
+                    #         _x0 = _roi.x0
+                    #         _y0 = _roi.y0
+                    #         _x1 = _roi.x1
+                    #         _y1 = _roi.y1
+                    #         total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                    #         total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
+                    #
+                    #     full_ob_mean = total_counts_of_rois / total_number_of_pixels
+                    #     _ob_corrected_normalized.append(_ob / full_ob_mean)
 
                 else:
                     _x0 = roi.x0
@@ -611,6 +600,24 @@ class Normalization(object):
 
         return True
 
+    def calculate_corrected_normalized(self, data_type=DataType.sample, roi=None):
+
+        corrected_normalized = []
+        for _sample in self.data[data_type]['data']:
+            total_counts_of_rois = 0
+            total_number_of_pixels = 0
+            for _roi in roi:
+                _x0 = _roi.x0
+                _y0 = _roi.y0
+                _x1 = _roi.x1
+                _y1 = _roi.y1
+                total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+
+            full_sample_mean = total_counts_of_rois / total_number_of_pixels
+            corrected_normalized.append(_sample / full_sample_mean)
+        return corrected_normalized
+
     def check_roi_format(self, b_list_roi, roi):
         if type(roi) is list:
             for _roi in roi:
@@ -628,11 +635,11 @@ class Normalization(object):
         return b_list_roi
 
     def data_loaded_have_matching_shape(self):
-        '''check that data loaded have the same shape
+        """check that data loaded have the same shape
         
         Returns:
             bool: result of the check
-        '''
+        """
         _shape_sample = self.data['sample']['shape']
         _shape_ob = self.data['ob']['shape']
         
@@ -647,12 +654,12 @@ class Normalization(object):
         return True
     
     def __roi_fit_into_sample(self, roi=None):
-        '''check if roi is within the dimension of the image
+        """check if roi is within the dimension of the image
         
         Returns:
             bool: True if roi is within the image dimension
         
-        '''
+        """
         [sample_height, sample_width] = np.shape(self.data['sample']['data'][0])
         
         [_x0, _y0, _x1, _y1] = [roi.x0, roi.y0, roi.x1, roi.y1]
@@ -665,7 +672,7 @@ class Normalization(object):
         return True
     
     def df_correction(self, force=False):
-        '''dark field correction of sample and ob
+        """dark field correction of sample and ob
         
         Parameters
             force: boolean - that if True will force the df correction to occur, even if it had been
@@ -674,7 +681,7 @@ class Normalization(object):
         sample_df_corrected = sample - DF
         ob_df_corrected = OB - DF
 
-        '''
+        """
         if not force:
             if self.__exec_process_status['df_correction']:
                 return
@@ -687,7 +694,7 @@ class Normalization(object):
             self.__df_correction(data_type='ob')
     
     def __df_correction(self, data_type='sample'):
-        '''dark field correction
+        """dark field correction
         
         Parameters:
            data_type: string ['sample','ob]
@@ -695,7 +702,7 @@ class Normalization(object):
         Raises:
             KeyError: if data type is not 'sample' or 'ob'
             IOError: if sample and df or ob and df do not have the same shape
-        '''
+        """
         if not data_type in ['sample', 'ob']:
             raise KeyError("Wrong data type passed. Must be either 'sample' or 'ob'!")
 
@@ -719,7 +726,7 @@ class Normalization(object):
         self.data[data_type]['data'] = _data_df_corrected
     
     def crop(self, roi=None, force=False):
-        ''' Cropping the sample and ob normalized data
+        """ Cropping the sample and ob normalized data
         
         Parameters:
             roi: ROI object that defines the region to crop
@@ -731,7 +738,7 @@ class Normalization(object):
 
         Raises:
             ValueError if sample and ob data have not been normalized yet
-        '''
+        """
         if (self.data['sample']['data'] is None) or \
            (self.data['ob']['data'] is None):
             raise IOError("We need sample and ob Data !")
@@ -770,7 +777,7 @@ class Normalization(object):
         return True
     
     def export(self, folder='./', data_type='normalized', file_type='tif'):
-        '''export all the data from the type specified into a folder
+        """export all the data from the type specified into a folder
         
         Parameters:
             folder: String - where to create all the images. Folder must exist otherwise an error is
@@ -782,7 +789,7 @@ class Normalization(object):
             IOError if the folder does not exist
             KeyError if data_type can not be found in the list ['normalized','sample','ob','df']
 
-        '''
+        """
         if not os.path.exists(folder):
             raise IOError("Folder '{}' does not exist!".format(folder))
 
@@ -815,13 +822,13 @@ class Normalization(object):
         
     
     def __export_data(self, data=[], metadata=[], output_file_names=[], suffix='tif'):
-        '''save the list of files with the data specified
+        """save the list of files with the data specified
         
         Parameters:
             data: numpy array that contains the array of data to save (default [])
             output_file_names: numpy array of string of full file names (default [])
             suffix: String - format in which the file will be created (default 'tif')
-        '''
+        """
         name_data_metadata_array = zip(output_file_names, data, metadata)
         for _file_name, _data, _metadata in name_data_metadata_array:
             if suffix == 'tif':
@@ -830,7 +837,7 @@ class Normalization(object):
                 make_fits(data=_data, file_name=_file_name)
     
     def __create_list_file_names(self, initial_list=[], output_folder='', prefix='', suffix=''):
-        '''create a list of the new file name used to export the images
+        """create a list of the new file name used to export the images
         
         Parameters:
             initial_list: array of full file name
@@ -839,7 +846,7 @@ class Normalization(object):
             prefix: String. what to add to the output file name in front of base name
                 ex: 'normalized' will produce 'normalized_image001.tif'
             suffix: String. extension to file. 'tif' for TIFF and 'fits' for FITS
-        '''
+        """
         _base_name = [os.path.basename(_file) for _file in initial_list]
         _raw_name = [os.path.splitext(_file)[0] for _file in _base_name]
         _prefix = ''
@@ -849,17 +856,17 @@ class Normalization(object):
         self._export_file_name = full_file_names
     
     def get_normalized_data(self):
-        '''return the normalized data'''
+        """return the normalized data"""
         return self.data['normalized']
 
     def get_sample_data(self):
-        '''return the sample data'''
+        """return the sample data"""
         return self.data['sample']['data']
    
     def get_ob_data(self):
-        '''return the ob data'''
+        """return the ob data"""
         return self.data['ob']['data']
     
     def get_df_data(self):
-        '''return the df data'''
+        """return the df data"""
         return self.data['df']['data']    
