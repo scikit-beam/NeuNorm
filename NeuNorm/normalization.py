@@ -411,7 +411,7 @@ class Normalization(object):
             if (not (_prev_width == width)) or (not (_prev_height == height)):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
-    def normalization(self, roi=None, force=False, force_mean_ob=False, notebook=False):
+    def normalization(self, roi=None, force=False, force_mean_ob=False, notebook=False, use_only_sample=False):
         """normalization of the data
                 
         Parameters:
@@ -421,13 +421,16 @@ class Normalization(object):
                 run before with the same data set (default False)
         notebook: boolean - turn on this option if you run the library from a
              notebook to have a progress bar displayed showing you the progress of the loading (default False)
+        use_only_sample - turn on this option to normalize the sample data using the ROI on the sample. each pixel
+            counts will be divided by the average counts of all the ROI of the same image
 
         Return:
             True - status of the normalization (True if every went ok, this is mostly used for the unit test)
 
         Raises:
             IOError: if no sample loaded
-            IOError: if no OB loaded
+            IOError: if no OB loaded and use_only_sample if False
+            IOError: if use_only_sample is True and no ROI provided
             IOError: if size of sample and OB do not match
         
         """
@@ -442,7 +445,7 @@ class Normalization(object):
             raise IOError("No normalization available as no data have been loaded")
 
         # make sure we loaded some ob data
-        if self.data['ob']['data'] is None:
+        if (not use_only_sample) and (self.data['ob']['data'] is None):
             raise IOError("No normalization available as no OB have been loaded")
               
         # make sure the data loaded have the same size

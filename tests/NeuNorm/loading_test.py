@@ -170,7 +170,8 @@ class TestLoading(unittest.TestCase):
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
         o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
-        list_of_files = ['image001.tif', 'image002.tif', 'image003.tif']
+        list_of_files = ['image001.tif', 'image002.tif', 'image003.tif',
+                         'image_0001_2rois.tiff', 'image_0001_roi_no_ob.tiff']
         list_of_files_expected = [os.path.join(path, _file) for _file in list_of_files]
         list_of_files_retrieved = o_norm.data['sample']['file_name']
         self.assertTrue(list_of_files_expected == list_of_files_retrieved)

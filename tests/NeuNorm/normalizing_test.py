@@ -694,3 +694,15 @@ class TestApplyingROI:
         _norm_expected = o_norm.data['normalized'][0]
         _norm_returned = o_norm.get_normalized_data()[0]
         assert (_norm_expected == _norm_returned).all()
+
+    def test_normalization_using_roi_of_sample_only(self):
+        """testing features that will normalized the data according to a ROI of the sample
+        this feature require at least 1 ROI. the average counts of the ROI for each image will be used as
+        "open beam" counts and each pixel will be divided by this value
+        """
+        sample_path = self.data_path + '/tif/sample'
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+
+        with pytest.raises(IOError):
+            o_norm.normalization(use_only_sample=True)
