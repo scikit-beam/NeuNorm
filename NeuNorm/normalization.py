@@ -452,134 +452,144 @@ class Normalization(object):
             # make sure the data loaded have the same size
             if not self.data_loaded_have_matching_shape():
                 raise ValueError("Data loaded do not have the same shape!")
-              
-        # make sure, if provided, roi has the right type and fits into the images
-        b_list_roi = False
-        if roi:
-            if type(roi) is list:
-                for _roi in roi:
-                    if not type(_roi) == ROI:
-                        raise ValueError("roi must be a ROI object!")
-                    if not self.__roi_fit_into_sample(roi=_roi):
-                        raise ValueError("roi does not fit into sample image!")
-                b_list_roi = True
 
-            elif not type(roi) == ROI:
-                raise ValueError("roi must be a ROI object!")
-            else:
-                if not self.__roi_fit_into_sample(roi=roi):
-                    raise ValueError("roi does not fit into sample image!")
-        
         if notebook:
             from ipywidgets import widgets
-            from IPython.core.display import display
+        from IPython.core.display import display
 
-        if roi:
+        # make sure, if provided, roi has the right type and fits into the images
+        b_list_roi = False
 
-            if b_list_roi:
+        if not use_only_sample:
 
-                _sample_corrected_normalized = []
-                for _sample in self.data['sample']['data']:
-                    total_counts_of_rois = 0
-                    total_number_of_pixels = 0
+            if roi:
+                if type(roi) is list:
                     for _roi in roi:
-                        _x0 = _roi.x0
-                        _y0 = _roi.y0
-                        _x1 = _roi.x1
-                        _y1 = _roi.y1
-                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                        total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+                        if not type(_roi) == ROI:
+                            raise ValueError("roi must be a ROI object!")
+                        if not self.__roi_fit_into_sample(roi=_roi):
+                            raise ValueError("roi does not fit into sample image!")
+                    b_list_roi = True
 
-                    full_sample_mean = total_counts_of_rois / total_number_of_pixels
-                    _sample_corrected_normalized.append(_sample / full_sample_mean)
+                elif not type(roi) == ROI:
+                    raise ValueError("roi must be a ROI object!")
+                else:
+                    if not self.__roi_fit_into_sample(roi=roi):
+                        raise ValueError("roi does not fit into sample image!")
 
-                _ob_corrected_normalized = []
-                for _ob in self.data['ob']['data']:
-                    total_counts_of_rois = 0
-                    total_number_of_pixels = 0
-                    for _roi in roi:
-                        _x0 = _roi.x0
-                        _y0 = _roi.y0
-                        _x1 = _roi.x1
-                        _y1 = _roi.y1
-                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                        total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
 
-                    full_ob_mean = total_counts_of_rois / total_number_of_pixels
-                    _ob_corrected_normalized.append(_ob / full_ob_mean)
+            if roi:
+
+                if b_list_roi:
+
+                    _sample_corrected_normalized = []
+                    for _sample in self.data['sample']['data']:
+                        total_counts_of_rois = 0
+                        total_number_of_pixels = 0
+                        for _roi in roi:
+                            _x0 = _roi.x0
+                            _y0 = _roi.y0
+                            _x1 = _roi.x1
+                            _y1 = _roi.y1
+                            total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                            total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+
+                        full_sample_mean = total_counts_of_rois / total_number_of_pixels
+                        _sample_corrected_normalized.append(_sample / full_sample_mean)
+
+                    _ob_corrected_normalized = []
+                    for _ob in self.data['ob']['data']:
+                        total_counts_of_rois = 0
+                        total_number_of_pixels = 0
+                        for _roi in roi:
+                            _x0 = _roi.x0
+                            _y0 = _roi.y0
+                            _x1 = _roi.x1
+                            _y1 = _roi.y1
+                            total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                            total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
+
+                        full_ob_mean = total_counts_of_rois / total_number_of_pixels
+                        _ob_corrected_normalized.append(_ob / full_ob_mean)
+
+                else:
+                    _x0 = roi.x0
+                    _y0 = roi.y0
+                    _x1 = roi.x1
+                    _y1 = roi.y1
+
+                    _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+                                                    for _sample in self.data['sample']['data']]
+                    _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1+1, _x0:_x1+1])
+                                                for _ob in self.data['ob']['data']]
 
             else:
-                _x0 = roi.x0
-                _y0 = roi.y0
-                _x1 = roi.x1
-                _y1 = roi.y1
 
-                _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
-                                                for _sample in self.data['sample']['data']]
-                _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1+1, _x0:_x1+1])
-                                            for _ob in self.data['ob']['data']]
+                _sample_corrected_normalized = copy.deepcopy(self.data['sample']['data'])
+                _ob_corrected_normalized = copy.deepcopy(self.data['ob']['data'])
 
-        else:
-            _sample_corrected_normalized = copy.deepcopy(self.data['sample']['data'])
-            _ob_corrected_normalized = copy.deepcopy(self.data['ob']['data'])
-            
-        self.data['sample']['data'] = _sample_corrected_normalized
-        self.data['ob']['data'] = _ob_corrected_normalized
-            
-        # if the number of sample and ob do not match, use mean of obs
-        nbr_sample = len(self.data['sample']['file_name'])
-        nbr_ob = len(self.data['ob']['file_name'])
-        if (nbr_sample != nbr_ob) or force_mean_ob:  # work with mean ob
-            _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
-            self.data['ob']['data_mean'] = _ob_corrected_normalized
-            _working_ob = copy.deepcopy(_ob_corrected_normalized)
-            _working_ob[_working_ob == 0] = np.NaN
+            self.data['sample']['data'] = _sample_corrected_normalized
+            self.data['ob']['data'] = _ob_corrected_normalized
 
-            if notebook:
-                # turn on progress bar
-                _message = "Normalization"
-                box1 = widgets.HBox([widgets.Label(_message,
-                                                   layout=widgets.Layout(width='20%')),
-                                     widgets.IntProgress(max=len(self.data['sample']['data']))])
-                display(box1)
-                w1 = box1.children[1]    
-
-            normalized_data = []
-            for _index, _sample in enumerate(self.data['sample']['data']):
-                _norm = np.divide(_sample, _working_ob)
-                _norm[np.isnan(_norm)] = 0
-                _norm[np.isinf(_norm)] = 0
-                normalized_data.append(_norm)
-
-                if notebook:
-                    w1.value = _index+1                
-            
-        else:  # 1 ob for each sample
-            # produce normalized data
-            sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
-
-            if notebook:
-                # turn on progress bar
-                _message = "Normalization"
-                box1 = widgets.HBox([widgets.Label(_message,
-                                                   layout=widgets.Layout(width='20%')),
-                                     widgets.IntProgress(max=len(self.data['sample']['data']))])
-                display(box1)
-                w1 = box1.children[1]    
-
-            normalized_data = []
-            for _index, [_sample, _ob] in enumerate(sample_ob):
-                _working_ob = copy.deepcopy(_ob)
+            # if the number of sample and ob do not match, use mean of obs
+            nbr_sample = len(self.data['sample']['file_name'])
+            nbr_ob = len(self.data['ob']['file_name'])
+            if (nbr_sample != nbr_ob) or force_mean_ob:  # work with mean ob
+                _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
+                self.data['ob']['data_mean'] = _ob_corrected_normalized
+                _working_ob = copy.deepcopy(_ob_corrected_normalized)
                 _working_ob[_working_ob == 0] = np.NaN
-                _norm = np.divide(_sample, _working_ob)
-                _norm[np.isnan(_norm)] = 0
-                _norm[np.isinf(_norm)] = 0
-                normalized_data.append(_norm)
-                
-                if notebook:
-                    w1.value = _index+1                                
 
-        self.data['normalized'] = normalized_data
+                if notebook:
+                    # turn on progress bar
+                    _message = "Normalization"
+                    box1 = widgets.HBox([widgets.Label(_message,
+                                                       layout=widgets.Layout(width='20%')),
+                                         widgets.IntProgress(max=len(self.data['sample']['data']))])
+                    display(box1)
+                    w1 = box1.children[1]
+
+                normalized_data = []
+                for _index, _sample in enumerate(self.data['sample']['data']):
+                    _norm = np.divide(_sample, _working_ob)
+                    _norm[np.isnan(_norm)] = 0
+                    _norm[np.isinf(_norm)] = 0
+                    normalized_data.append(_norm)
+
+                    if notebook:
+                        w1.value = _index+1
+
+            else:  # 1 ob for each sample
+                # produce normalized data
+                sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
+
+                if notebook:
+                    # turn on progress bar
+                    _message = "Normalization"
+                    box1 = widgets.HBox([widgets.Label(_message,
+                                                       layout=widgets.Layout(width='20%')),
+                                         widgets.IntProgress(max=len(self.data['sample']['data']))])
+                    display(box1)
+                    w1 = box1.children[1]
+
+                normalized_data = []
+                for _index, [_sample, _ob] in enumerate(sample_ob):
+                    _working_ob = copy.deepcopy(_ob)
+                    _working_ob[_working_ob == 0] = np.NaN
+                    _norm = np.divide(_sample, _working_ob)
+                    _norm[np.isnan(_norm)] = 0
+                    _norm[np.isinf(_norm)] = 0
+                    normalized_data.append(_norm)
+
+                    if notebook:
+                        w1.value = _index+1
+
+            self.data['normalized'] = normalized_data
+
+        else: # use_sample_only with ROI
+
+            if not roi:
+                raise ValueError("You need to provide at least 1 ROI using this use_only_sample mode!")
 
         return True
     

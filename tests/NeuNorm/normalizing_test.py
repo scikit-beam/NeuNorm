@@ -703,5 +703,5 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(file=sample_file, auto_gamma_filter=False)
 
-        # with pytest.raises(IOError):
-        #     o_norm.normalization(use_only_sample=True)
+        with pytest.raises(ValueError):
+            o_norm.normalization(use_only_sample=True)
