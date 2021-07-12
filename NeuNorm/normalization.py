@@ -440,7 +440,7 @@ class Normalization(object):
             if self.__exec_process_status['normalization']:
                 return
         self.__exec_process_status['normalization'] = True
-        
+
         # make sure we loaded some sample data
         if self.data['sample']['data'] is None:
             raise IOError("No normalization available as no data have been loaded")
@@ -449,7 +449,7 @@ class Normalization(object):
         if not use_only_sample:
             if self.data['ob']['data'] is None:
                 raise IOError("No normalization available as no OB have been loaded")
-              
+
             # make sure the data loaded have the same size
             if not self.data_loaded_have_matching_shape():
                 raise ValueError("Data loaded do not have the same shape!")
@@ -464,29 +464,15 @@ class Normalization(object):
         if not use_only_sample:
 
             if roi:
-                b_list_roi = self.check_roi_format(b_list_roi, roi)
+                b_list_roi = self.check_roi_format(roi)
 
             if roi:
 
                 if b_list_roi:
-
                     _sample_corrected_normalized = self.calculate_corrected_normalized(data_type=DataType.sample,
                                                                                        roi=roi)
                     _ob_corrected_normalized = self.calculate_corrected_normalized(data_type=DataType.ob,
                                                                                    roi=roi)
-                    # for _ob in self.data['ob']['data']:
-                    #     total_counts_of_rois = 0
-                    #     total_number_of_pixels = 0
-                    #     for _roi in roi:
-                    #         _x0 = _roi.x0
-                    #         _y0 = _roi.y0
-                    #         _x1 = _roi.x1
-                    #         _y1 = _roi.y1
-                    #         total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                    #         total_counts_of_rois += np.sum(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
-                    #
-                    #     full_ob_mean = total_counts_of_rois / total_number_of_pixels
-                    #     _ob_corrected_normalized.append(_ob / full_ob_mean)
 
                 else:
                     _x0 = roi.x0
@@ -504,8 +490,8 @@ class Normalization(object):
                 _sample_corrected_normalized = copy.deepcopy(self.data['sample']['data'])
                 _ob_corrected_normalized = copy.deepcopy(self.data['ob']['data'])
 
-            self.data['sample']['data'] = _sample_corrected_normalized
-            self.data['ob']['data'] = _ob_corrected_normalized
+            self.data[DataType.sample]['data'] = _sample_corrected_normalized
+            self.data[DataType.ob]['data'] = _ob_corrected_normalized
 
             # if the number of sample and ob do not match, use mean of obs
             nbr_sample = len(self.data['sample']['file_name'])
@@ -563,45 +549,47 @@ class Normalization(object):
             self.data['normalized'] = normalized_data
 
         else:  # use_sample_only with ROI
-
-            if not roi:
-                raise ValueError("You need to provide at least 1 ROI using this use_only_sample mode!")
-
-            b_list_roi = self.check_roi_format(b_list_roi, roi)
-
-            if b_list_roi:
-
-                normalized_data = []
-                for _sample in self.data['sample']['data']:
-                    total_counts_of_rois = 0
-                    total_number_of_pixels = 0
-                    for _roi in roi:
-                        _x0 = _roi.x0
-                        _y0 = _roi.y0
-                        _x1 = _roi.x1
-                        _y1 = _roi.y1
-                        total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
-                        total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
-
-                    full_sample_mean = total_counts_of_rois / total_number_of_pixels
-                    normalized_data.append(_sample / full_sample_mean)
-
-            else:
-
-                _x0 = roi.x0
-                _y0 = roi.y0
-                _x1 = roi.x1
-                _y1 = roi.y1
-
-                normalized_data = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
-                                   for _sample in self.data['sample']['data']]
-
+            normalized_data = self.calculate_corrected_normalized_without_ob(roi=roi)
             self.data['normalized'] = normalized_data
 
         return True
 
-    def calculate_corrected_normalized(self, data_type=DataType.sample, roi=None):
+    def calculate_corrected_normalized_without_ob(self, roi=None):
+        if not roi:
+            raise ValueError("You need to provide at least 1 ROI using this use_only_sample mode!")
 
+        b_list_roi = self.check_roi_format(roi)
+
+        if b_list_roi:
+
+            normalized_data = []
+            for _sample in self.data['sample']['data']:
+                total_counts_of_rois = 0
+                total_number_of_pixels = 0
+                for _roi in roi:
+                    _x0 = _roi.x0
+                    _y0 = _roi.y0
+                    _x1 = _roi.x1
+                    _y1 = _roi.y1
+                    total_number_of_pixels += (_y1 - _y0 + 1) * (_x1 - _x0 + 1)
+                    total_counts_of_rois += np.sum(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+
+                full_sample_mean = total_counts_of_rois / total_number_of_pixels
+                normalized_data.append(_sample / full_sample_mean)
+
+        else:
+
+            _x0 = roi.x0
+            _y0 = roi.y0
+            _x1 = roi.x1
+            _y1 = roi.y1
+
+            normalized_data = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+                               for _sample in self.data['sample']['data']]
+
+        return normalized_data
+
+    def calculate_corrected_normalized(self, data_type=DataType.sample, roi=None):
         corrected_normalized = []
         for _sample in self.data[data_type]['data']:
             total_counts_of_rois = 0
@@ -618,7 +606,8 @@ class Normalization(object):
             corrected_normalized.append(_sample / full_sample_mean)
         return corrected_normalized
 
-    def check_roi_format(self, b_list_roi, roi):
+    def check_roi_format(self, roi):
+        b_list_roi = False
         if type(roi) is list:
             for _roi in roi:
                 if not type(_roi) == ROI:
@@ -632,6 +621,7 @@ class Normalization(object):
         else:
             if not self.__roi_fit_into_sample(roi=roi):
                 raise ValueError("roi does not fit into sample image!")
+
         return b_list_roi
 
     def data_loaded_have_matching_shape(self):
