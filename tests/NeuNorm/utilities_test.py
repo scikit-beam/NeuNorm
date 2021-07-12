@@ -18,7 +18,8 @@ class TestUtilites(unittest.TestCase):
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
         o_norm.load(folder=path, auto_gamma_filter=False)
-        list_files_expected = ['image001.tif', 'image002.tif', 'image003.tif']
+        list_files_expected = ['image001.tif', 'image002.tif', 'image003.tif',
+                               'image_0001_2rois.tiff', 'image_0001_roi_no_ob.tiff']
         list_files = get_sorted_list_images(folder=path)
         self.assertTrue(list_files_expected == list_files)
         

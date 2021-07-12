@@ -204,7 +204,7 @@ class TestNormalization:
 
     def test_normalization_with_fewer_ob_than_sample_works(self):
         """assert normalization works when number of ob and sample is different"""
-        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        samples_path =  self.data_path + '/tif/sample/'  # 3 files
         ob1 = self.data_path + '/tif/ob/ob001.tif' 
         ob2 = self.data_path + '/tif/ob/ob002.tif' 
         df1 = self.data_path + '/tif/df/df001.tif'
@@ -214,8 +214,8 @@ class TestNormalization:
         o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
         o_norm.df_correction()
         o_norm.normalization()
-        expected_normalized_array = np.zeros((5,5))
-        expected_normalized_array[0,0] = 1
+        expected_normalized_array = np.zeros((5, 5))
+        expected_normalized_array[0, 0] = 1
         assert (o_norm.data['normalized'] == expected_normalized_array).all()
 
     def test_nbr_data_files_same_after_normalization_by_list_roi(self):
