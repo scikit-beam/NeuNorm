@@ -7,7 +7,7 @@ from NeuNorm.roi import ROI
 class TestRoi(unittest.TestCase):
 
     def test_setting_roi_x0_y0_x1_y1(self):
-        '''assert roi are correctly defined using x0, y0, x1 and y1'''
+        """assert roi are correctly defined using x0, y0, x1 and y1"""
         x0 = 1
         y0 = 1
         x1 = 5
@@ -18,7 +18,7 @@ class TestRoi(unittest.TestCase):
         self.assertTrue(_expected == _returned)
         
     def test_setting_roi_x0_y0_width_height(self):
-        '''assert roi are correctly defined using x0, y0, width and height'''
+        """assert roi are correctly defined using x0, y0, width and height"""
         x0 = 1
         y0 = 1
         width = 4
@@ -29,7 +29,7 @@ class TestRoi(unittest.TestCase):
         self.assertTrue(_expected == _returned)        
         
     def test_error_raised_when_x0_or_y0_not_provided(self):
-        '''assert error is raised when either x0 or y0 are not provided'''
+        """assert error is raised when either x0 or y0 are not provided"""
         y0 = 1
         x1 = 2
         y1 = 3
@@ -41,7 +41,7 @@ class TestRoi(unittest.TestCase):
         self.assertRaises(ValueError, ROI, x0, x1, y1)
 
     def test_error_raised_when_x1_and_width_or_y1_and_height_not_provided(self):
-        '''assert error is raised when either x1 and width or y1 and height are not provided'''
+        """assert error is raised when either x1 and width or y1 and height are not provided"""
         x0 = 1
         y0 = 1
         y1 = 2
@@ -53,7 +53,7 @@ class TestRoi(unittest.TestCase):
         self.assertRaises(ValueError, ROI, x0, y0, x1, np.NaN)
 
     def test_x_and_y_correctly_sorted(self):
-        '''assert x0 and y0 are always the smallest of the x and y values'''
+        """assert x0 and y0 are always the smallest of the x and y values"""
         x0 = 1
         y0 = 1
         x1 = 5

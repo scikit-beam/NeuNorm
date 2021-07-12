@@ -204,8 +204,8 @@ class TestNormalization:
 
     def test_normalization_with_fewer_ob_than_sample_works(self):
         """assert normalization works when number of ob and sample is different"""
-        samples_path =  self.data_path + '/tif/sample/'  # 3 files
-        ob1 = self.data_path + '/tif/ob/ob001.tif' 
+        samples_path = self.data_path + '/tif/sample/'  # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif'
         ob2 = self.data_path + '/tif/ob/ob002.tif' 
         df1 = self.data_path + '/tif/df/df001.tif'
         o_norm = Normalization()
@@ -561,9 +561,8 @@ class TestApplyingROI:
 
         assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
 
-        sample_path = self.data_path + '/tif/sample'
-        ob_path = self.data_path + '/tif/ob'
-        df_path = self.data_path + '/tif/df'
+        sample_path = self.data_path + '/tif/special_sample'
+        ob_path = self.data_path + '/tif/special_ob'
 
         # without DF
         o_norm = Normalization()
@@ -573,7 +572,7 @@ class TestApplyingROI:
         _roi_1 = ROI(x0=0, y0=0, x1=0, y1=0)
         _roi_2 = ROI(x0=4, y0=4, x1=4, y1=4)
         o_norm.normalization(roi=[_roi_1, _roi_2])
-        _norm_returned = o_norm.data['normalized'][-1]
+        _norm_returned = o_norm.data['normalized'][0]
         _norm_expected = np.ones((5, 5))
         _norm_expected[:, 2] = 2
         _norm_expected[:, 3] = 3
