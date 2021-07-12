@@ -463,20 +463,7 @@ class Normalization(object):
         if not use_only_sample:
 
             if roi:
-                if type(roi) is list:
-                    for _roi in roi:
-                        if not type(_roi) == ROI:
-                            raise ValueError("roi must be a ROI object!")
-                        if not self.__roi_fit_into_sample(roi=_roi):
-                            raise ValueError("roi does not fit into sample image!")
-                    b_list_roi = True
-
-                elif not type(roi) == ROI:
-                    raise ValueError("roi must be a ROI object!")
-                else:
-                    if not self.__roi_fit_into_sample(roi=roi):
-                        raise ValueError("roi does not fit into sample image!")
-
+                b_list_roi = self.check_roi_format(b_list_roi, roi)
 
             if roi:
 
@@ -591,19 +578,7 @@ class Normalization(object):
             if not roi:
                 raise ValueError("You need to provide at least 1 ROI using this use_only_sample mode!")
 
-            if type(roi) is list:
-                for _roi in roi:
-                    if not type(_roi) == ROI:
-                        raise ValueError("roi must be a ROI object!")
-                    if not self.__roi_fit_into_sample(roi=_roi):
-                        raise ValueError("roi does not fit into sample image!")
-                b_list_roi = True
-
-            elif not type(roi) == ROI:
-                raise ValueError("roi must be a ROI object!")
-            else:
-                if not self.__roi_fit_into_sample(roi=roi):
-                    raise ValueError("roi does not fit into sample image!")
+            b_list_roi = self.check_roi_format(b_list_roi, roi)
 
             if b_list_roi:
 
@@ -635,7 +610,23 @@ class Normalization(object):
             self.data['normalized'] = normalized_data
 
         return True
-    
+
+    def check_roi_format(self, b_list_roi, roi):
+        if type(roi) is list:
+            for _roi in roi:
+                if not type(_roi) == ROI:
+                    raise ValueError("roi must be a ROI object!")
+                if not self.__roi_fit_into_sample(roi=_roi):
+                    raise ValueError("roi does not fit into sample image!")
+            b_list_roi = True
+
+        elif not type(roi) == ROI:
+            raise ValueError("roi must be a ROI object!")
+        else:
+            if not self.__roi_fit_into_sample(roi=roi):
+                raise ValueError("roi does not fit into sample image!")
+        return b_list_roi
+
     def data_loaded_have_matching_shape(self):
         '''check that data loaded have the same shape
         
