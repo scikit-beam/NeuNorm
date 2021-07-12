@@ -445,12 +445,13 @@ class Normalization(object):
             raise IOError("No normalization available as no data have been loaded")
 
         # make sure we loaded some ob data
-        if (not use_only_sample) and (self.data['ob']['data'] is None):
-            raise IOError("No normalization available as no OB have been loaded")
+        if not use_only_sample:
+            if self.data['ob']['data'] is None:
+                raise IOError("No normalization available as no OB have been loaded")
               
-        # make sure the data loaded have the same size
-        if not self.data_loaded_have_matching_shape():
-            raise ValueError("Data loaded do not have the same shape!")
+            # make sure the data loaded have the same size
+            if not self.data_loaded_have_matching_shape():
+                raise ValueError("Data loaded do not have the same shape!")
               
         # make sure, if provided, roi has the right type and fits into the images
         b_list_roi = False
