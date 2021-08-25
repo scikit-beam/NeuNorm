@@ -621,7 +621,6 @@ class TestApplyingROI:
             for _row in np.arange(nbr_row):
                 assert _norm_expected[_col, _row] == _norm_returned[_col, _row]
 
-
     def test_full_normalization_sample_divide_by_ob_works(self):
         """assert the full normalization works (when sample is divided by ob)"""
 
