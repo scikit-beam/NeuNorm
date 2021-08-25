@@ -13,41 +13,40 @@ from NeuNorm import DataType
 
 
 class Normalization(object):
-
     working_data_type = np.float32
 
     def __init__(self):
-        self.shape = {'width': np.NaN,
+        self.shape = {'width' : np.NaN,
                       'height': np.NaN}
-        self.dict_image = { 'data': None,
-                            'oscilation': None,
-                            'file_name': None,
-                            'metadata': None,
-                            'shape': copy.deepcopy(self.shape)}
-        self.dict_ob = {'data': None,
+        self.dict_image = {'data'      : None,
+                           'oscilation': None,
+                           'file_name' : None,
+                           'metadata'  : None,
+                           'shape'     : copy.deepcopy(self.shape)}
+        self.dict_ob = {'data'      : None,
                         'oscilation': None,
-                        'metadata': None,
-                        'file_name': None,
-                        'data_mean': None,
-                        'shape': copy.deepcopy(self.shape)}
-        self.dict_df = {'data': None,
-                        'metadata': None,
+                        'metadata'  : None,
+                        'file_name' : None,
+                        'data_mean' : None,
+                        'shape'     : copy.deepcopy(self.shape)}
+        self.dict_df = {'data'        : None,
+                        'metadata'    : None,
                         'data_average': None,
-                        'file_name': None,
-                        'shape': copy.deepcopy(self.shape)}
+                        'file_name'   : None,
+                        'shape'       : copy.deepcopy(self.shape)}
 
         __roi_dict = {'x0': np.NaN,
                       'x1': np.NaN,
                       'y0': np.NaN,
                       'y1': np.NaN}
         self.roi = {'normalization': copy.deepcopy(__roi_dict),
-                    'crop': copy.deepcopy(__roi_dict)}
+                    'crop'         : copy.deepcopy(__roi_dict)}
 
         self.__exec_process_status = {'df_correction': False,
                                       'normalization': False,
-                                      'crop': False,
-                                      'oscillation': False,
-                                      'bin': False}
+                                      'crop'         : False,
+                                      'oscillation'  : False,
+                                      'bin'          : False}
 
         self.data = {}
         self.data['sample'] = self.dict_image
@@ -55,9 +54,9 @@ class Normalization(object):
         self.data['df'] = self.dict_df
         self.data['normalized'] = None
         self.export_file_name = None
-    
+
     def load(self, file='', folder='', data=None, data_type='sample', auto_gamma_filter=True,
-            manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
+             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
         """
         Function to read individual files, entire files from folder, list of files or event data arrays.
         Data are also gamma filtered if requested.
@@ -84,11 +83,11 @@ class Normalization(object):
         box1 = None
         if True in list_exec_flag:
             raise IOError("Operation not allowed as you already worked on this data set!")
-       
+
         if notebook:
             from ipywidgets import widgets
             from IPython.core.display import display
-        
+
         if not file == '':
             if isinstance(file, str):
                 self.load_file(file=file,
@@ -107,7 +106,7 @@ class Normalization(object):
                                                        layout=widgets.Layout(width='10%')),
                                          widgets.Label(" >> calculating << ")])
                     display(box1)
-                    w1 = box1.children[1]                    
+                    w1 = box1.children[1]
                     time_remaining_ui = box1.children[-1]
 
                 start_time = time.time()
@@ -118,11 +117,12 @@ class Normalization(object):
                                    manual_gamma_filter=manual_gamma_filter,
                                    manual_gamma_threshold=manual_gamma_threshold)
                     if notebook:
-                        w1.value = _index+1
+                        w1.value = _index + 1
                         end_time = time.time()
                         takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
                                                                                             time_it_took_so_far=end_time - start_time,
-                                                                                            total_number_of_loop=len(file))
+                                                                                            total_number_of_loop=len(
+                                                                                                file))
                         time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
                 if notebook:
@@ -154,16 +154,17 @@ class Normalization(object):
                                manual_gamma_threshold=manual_gamma_threshold)
                 if notebook:
                     # update progress bar
-                    w1.value = _index+1
+                    w1.value = _index + 1
                     end_time = time.time()
-                    takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index+1,
-                                                                                        time_it_took_so_far=end_time-start_time,
-                                                                                        total_number_of_loop=len(list_images))
+                    takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
+                                                                                        time_it_took_so_far=end_time - start_time,
+                                                                                        total_number_of_loop=len(
+                                                                                            list_images))
                     time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
             if notebook:
                 box1.close()
-        
+
         elif not data is None:
             self.load_data(data=data, data_type=data_type)
 
@@ -189,9 +190,9 @@ class Normalization(object):
 
         if h == 0:
             if m == 0:
-                return "%02ds" %(s)
+                return "%02ds" % (s)
             else:
-                return "%02dmn %02ds" %(m, s)
+                return "%02dmn %02ds" % (m, s)
         else:
             return "%dh %02dmn %02ds" % (h, m, s)
 
@@ -212,25 +213,25 @@ class Normalization(object):
             if notebook:
                 _message = "Loading {}".format(data_type)
                 box1 = widgets.HBox([widgets.Label(_message,
-                                                               layout=widgets.Layout(width='20%')),
-                                                 widgets.IntProgress(max=len(data))])
+                                                   layout=widgets.Layout(width='20%')),
+                                     widgets.IntProgress(max=len(data))])
                 display(box1)
-                w1 = box1.children[1]   
+                w1 = box1.children[1]
 
             for _index, _data in enumerate(data):
                 _data = _data.astype(self.working_data_type)
                 self.__load_individual_data(data=_data, data_type=data_type)
                 if notebook:
                     # update progress bar
-                    w1.value = _index+1
+                    w1.value = _index + 1
 
             if notebook:
                 box1.close()
-                    
+
         else:
             data = data.astype(self.working_data_type)
             self.__load_individual_data(data=data, data_type=data_type)
-            
+
     def __load_individual_data(self, data=None, data_type='sample'):
         """method that loads the data one at a time
 
@@ -251,8 +252,8 @@ class Normalization(object):
             self.data[data_type]['metadata'] = ['']
         else:
             self.data[data_type]['metadata'].append('')
-        self.save_or_check_shape(data=data, data_type=data_type)        
-        
+        self.save_or_check_shape(data=data, data_type=data_type)
+
     def load_file(self, file='', data_type='sample',
                   auto_gamma_filter=True,
                   manual_gamma_filter=False,
@@ -281,11 +282,11 @@ class Normalization(object):
             elif file.lower().endswith(('.tiff', '.tif')):
                 [data, metadata] = load_tiff(my_file)
                 data = np.array(data)
-            elif file.lower().endswith(('.hdf','.h4','.hdf4','.he2','h5','.hdf5','.he5')):
+            elif file.lower().endswith(('.hdf', '.h4', '.hdf4', '.he2', 'h5', '.hdf5', '.he5')):
                 raise NotImplementedError
             #     data = np.array(load_hdf(my_file))
             else:
-                raise OSError('file extension not yet implemented....Do it your own way!')     
+                raise OSError('file extension not yet implemented....Do it your own way!')
 
             if auto_gamma_filter:
                 data = self._auto_gamma_filtering(data=data)
@@ -408,7 +409,7 @@ class Normalization(object):
         else:
             _prev_width = self.data[data_type]['shape']['width']
             _prev_height = self.data[data_type]['shape']['height']
-            
+
             if (not (_prev_width == width)) or (not (_prev_height == height)):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
@@ -480,9 +481,9 @@ class Normalization(object):
                     _x1 = roi.x1
                     _y1 = roi.y1
 
-                    _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+                    _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
                                                     for _sample in self.data['sample']['data']]
-                    _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1+1, _x0:_x1+1])
+                    _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
                                                 for _ob in self.data['ob']['data']]
 
             else:
@@ -519,7 +520,7 @@ class Normalization(object):
                     normalized_data.append(_norm)
 
                     if notebook:
-                        w1.value = _index+1
+                        w1.value = _index + 1
 
             else:  # 1 ob for each sample
                 # produce normalized data
@@ -544,7 +545,7 @@ class Normalization(object):
                     normalized_data.append(_norm)
 
                     if notebook:
-                        w1.value = _index+1
+                        w1.value = _index + 1
 
             self.data['normalized'] = normalized_data
 
@@ -584,7 +585,7 @@ class Normalization(object):
             _x1 = roi.x1
             _y1 = roi.y1
 
-            normalized_data = [_sample / np.mean(_sample[_y0:_y1+1, _x0:_x1+1])
+            normalized_data = [_sample / np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
                                for _sample in self.data['sample']['data']]
 
         return normalized_data
@@ -632,17 +633,17 @@ class Normalization(object):
         """
         _shape_sample = self.data['sample']['shape']
         _shape_ob = self.data['ob']['shape']
-        
+
         if not (_shape_sample == _shape_ob):
             return False
-        
+
         _shape_df = self.data['df']['shape']
         if not np.isnan(_shape_df['height']):
             if not (_shape_sample == _shape_df):
                 return False
-            
+
         return True
-    
+
     def __roi_fit_into_sample(self, roi=None):
         """check if roi is within the dimension of the image
         
@@ -651,16 +652,16 @@ class Normalization(object):
         
         """
         [sample_height, sample_width] = np.shape(self.data['sample']['data'][0])
-        
+
         [_x0, _y0, _x1, _y1] = [roi.x0, roi.y0, roi.x1, roi.y1]
         if (_x0 < 0) or (_x1 >= sample_width):
             return False
-        
+
         if (_y0 < 0) or (_y1 >= sample_height):
             return False
 
         return True
-    
+
     def df_correction(self, force=False):
         """dark field correction of sample and ob
         
@@ -676,13 +677,13 @@ class Normalization(object):
             if self.__exec_process_status['df_correction']:
                 return
         self.__exec_process_status['df_correction'] = True
-        
+
         if not self.data['sample']['data'] is None:
             self.__df_correction(data_type='sample')
-            
+
         if not self.data['ob']['data'] is None:
             self.__df_correction(data_type='ob')
-    
+
     def __df_correction(self, data_type='sample'):
         """dark field correction
         
@@ -698,7 +699,7 @@ class Normalization(object):
 
         if self.data['df']['data'] is None:
             return
-        
+
         if self.data['df']['data_average'] is None:
             _df = self.data['df']['data']
             if len(_df) > 1:
@@ -710,11 +711,11 @@ class Normalization(object):
 
         if np.shape(self.data[data_type]['data'][0]) != np.shape(self.data['df']['data'][0]):
             raise IOError("{} and df data must have the same shape!".format(data_type))
-    
+
         _data_df_corrected = [_data - _df for _data in self.data[data_type]['data']]
         _data_df_corrected = [np.squeeze(_data) for _data in _data_df_corrected]
         self.data[data_type]['data'] = _data_df_corrected
-    
+
     def crop(self, roi=None, force=False):
         """ Cropping the sample and ob normalized data
         
@@ -730,7 +731,7 @@ class Normalization(object):
             ValueError if sample and ob data have not been normalized yet
         """
         if (self.data['sample']['data'] is None) or \
-           (self.data['ob']['data'] is None):
+                (self.data['ob']['data'] is None):
             raise IOError("We need sample and ob Data !")
 
         if not type(roi) == ROI:
@@ -740,32 +741,32 @@ class Normalization(object):
             if self.__exec_process_status['crop']:
                 return
         self.__exec_process_status['crop'] = True
-        
+
         _x0 = roi.x0
         _y0 = roi.y0
         _x1 = roi.x1
         _y1 = roi.y1
-        
-        new_sample = [_data[_y0:_y1+1, _x0:_x1+1] for 
+
+        new_sample = [_data[_y0:_y1 + 1, _x0:_x1 + 1] for
                       _data in self.data['sample']['data']]
-        self.data['sample']['data'] = new_sample        
-       
-        new_ob = [_data[_y0:_y1+1, _x0:_x1+1] for 
+        self.data['sample']['data'] = new_sample
+
+        new_ob = [_data[_y0:_y1 + 1, _x0:_x1 + 1] for
                   _data in self.data['ob']['data']]
-        self.data['ob']['data'] = new_ob        
-        
+        self.data['ob']['data'] = new_ob
+
         if not (self.data['df']['data'] is None):
-            new_df = [_data[_y0:_y1+1, _x0:_x1+1] for 
+            new_df = [_data[_y0:_y1 + 1, _x0:_x1 + 1] for
                       _data in self.data['df']['data']]
             self.data['df']['data'] = new_df
-            
+
         if not (self.data['normalized'] is None):
-            new_normalized = [_data[_y0:_y1+1, _x0:_x1+1] for 
+            new_normalized = [_data[_y0:_y1 + 1, _x0:_x1 + 1] for
                               _data in self.data['normalized']]
-            self.data['normalized'] = new_normalized        
-        
+            self.data['normalized'] = new_normalized
+
         return True
-    
+
     def export(self, folder='./', data_type='normalized', file_type='tif'):
         """export all the data from the type specified into a folder
         
@@ -783,7 +784,7 @@ class Normalization(object):
         if not os.path.exists(folder):
             raise IOError("Folder '{}' does not exist!".format(folder))
 
-        if not data_type in ['normalized','sample','ob','df']:
+        if not data_type in ['normalized', 'sample', 'ob', 'df']:
             raise KeyError("data_type '{}' is wrong".format(data_type))
 
         prefix = ''
@@ -801,16 +802,15 @@ class Normalization(object):
 
         list_file_name_raw = self.data[data_type]['file_name']
         self.__create_list_file_names(initial_list=list_file_name_raw,
-                                      output_folder = folder,
+                                      output_folder=folder,
                                       prefix=prefix,
                                       suffix=file_type)
 
         self.__export_data(data=data,
                            metadata=metadata,
-                           output_file_names = self._export_file_name,
+                           output_file_names=self._export_file_name,
                            suffix=file_type)
-        
-    
+
     def __export_data(self, data=[], metadata=[], output_file_names=[], suffix='tif'):
         """save the list of files with the data specified
         
@@ -825,7 +825,7 @@ class Normalization(object):
                 make_tif(data=_data, metadata=_metadata, file_name=_file_name)
             elif suffix == 'fits':
                 make_fits(data=_data, file_name=_file_name)
-    
+
     def __create_list_file_names(self, initial_list=[], output_folder='', prefix='', suffix=''):
         """create a list of the new file name used to export the images
         
@@ -844,7 +844,7 @@ class Normalization(object):
             _prefix = prefix + '_'
         full_file_names = [os.path.join(output_folder, _prefix + _file + '.' + suffix) for _file in _raw_name]
         self._export_file_name = full_file_names
-    
+
     def get_normalized_data(self):
         """return the normalized data"""
         return self.data['normalized']
@@ -852,11 +852,11 @@ class Normalization(object):
     def get_sample_data(self):
         """return the sample data"""
         return self.data['sample']['data']
-   
+
     def get_ob_data(self):
         """return the ob data"""
         return self.data['ob']['data']
-    
+
     def get_df_data(self):
         """return the df data"""
-        return self.data['df']['data']    
+        return self.data['df']['data']
