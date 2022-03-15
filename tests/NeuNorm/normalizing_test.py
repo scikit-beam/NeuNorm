@@ -5,6 +5,7 @@ from PIL import Image
 
 from NeuNorm.normalization import Normalization
 from NeuNorm.roi import ROI
+from NeuNorm import DataType
 
 
 class TestNormalization:
@@ -20,7 +21,7 @@ class TestNormalization:
                       self.data_path + '/tif/sample/image003.tif']
         o_norm = Normalization()
         o_norm.load(file=list_files, auto_gamma_filter=False)
-        data_returned = o_norm.data['sample']['data']
+        data_returned = o_norm.data[DataType.sample]['data']
         assert (3, 5, 5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data(self):
@@ -33,7 +34,7 @@ class TestNormalization:
         o_norm = Normalization()
         o_norm.load(data=data, auto_gamma_filter=False)
 
-        data_returned = o_norm.data['sample']['data']
+        data_returned = o_norm.data[DataType.sample]['data']
         assert (2, 5, 5) == np.shape(data_returned)
         
     def test_initialization_using_array_with_data_one_by_one(self):
@@ -48,7 +49,7 @@ class TestNormalization:
         _data = np.asarray(Image.open(sample_01))
         o_norm.load(data=_data, auto_gamma_filter=False)
 
-        data_returned = o_norm.data['sample']['data']
+        data_returned = o_norm.data[DataType.sample]['data']
         assert (2, 5, 5) == np.shape(data_returned)
 
     def test_initialization_using_array_with_ob(self):
@@ -68,7 +69,7 @@ class TestNormalization:
         """assert error raises when no ob or sample provided"""
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(folder=path, data_type=DataType.sample, auto_gamma_filter=False)
         with pytest.raises(IOError):
             o_norm.normalization()
         
@@ -81,7 +82,7 @@ class TestNormalization:
         sample_path = self.data_path + '/tif/sample'
         ob_path = self.data_path + '/tif/ob'
         o_norm = Normalization()
-        o_norm.load(folder=sample_path, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(folder=sample_path, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         assert o_norm.normalization()
  
@@ -96,9 +97,9 @@ class TestNormalization:
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=roi)
-        _returned_first_time = o_norm.data['sample']['data'][0]
+        _returned_first_time = o_norm.data[DataType.sample]['data'][0]
         o_norm.normalization(roi=roi)
-        _returned_second_time = o_norm.data['sample']['data'][0]
+        _returned_second_time = o_norm.data[DataType.sample]['data'][0]
         assert (_returned_first_time == _returned_second_time).all()
 
     def test_normalization_ran_twice_with_force_flag(self):
@@ -112,10 +113,10 @@ class TestNormalization:
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=roi)
-        _returned_first_time = o_norm.data['sample']['data'][0]
+        _returned_first_time = o_norm.data[DataType.sample]['data'][0]
         roi = ROI(x0=0, y0=0, x1=2, y1=3)
         o_norm.normalization(roi=roi, force=True)
-        _returned_second_time = o_norm.data['sample']['data'][0]
+        _returned_second_time = o_norm.data[DataType.sample]['data'][0]
         assert not ((_returned_first_time == _returned_second_time).all())
   
     def test_normalization_works_if_input_arrays_are_type_int(self):
@@ -151,19 +152,19 @@ class TestNormalization:
         o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
-        _sample = o_norm.data['sample']['data'][0]
+        _sample = o_norm.data[DataType.sample]['data'][0]
         _expected = _sample / np.mean(_sample[0:3, 0:4])
         o_norm.normalization(roi=roi)
-        _returned = o_norm.data['sample']['data'][0]
+        _returned = o_norm.data[DataType.sample]['data'][0]
         assert (_expected == _returned).all()
 
         # testing sample without norm_roi
         o_norm1 = Normalization()
         o_norm1.load(folder=sample_tif_folder, auto_gamma_filter=False)
         o_norm1.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
-        _expected = o_norm1.data['sample']['data'][0]
+        _expected = o_norm1.data[DataType.sample]['data'][0]
         o_norm1.normalization()
-        _returned = o_norm1.data['sample']['data'][0]
+        _returned = o_norm1.data[DataType.sample]['data'][0]
         assert (_expected == _returned).all()
         
         # testing ob with norm_roi
@@ -211,7 +212,7 @@ class TestNormalization:
         o_norm = Normalization()
         o_norm.load(folder=samples_path, auto_gamma_filter=False)
         o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
-        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type=DataType.df, auto_gamma_filter=False)
         o_norm.df_correction()
         o_norm.normalization()
         expected_normalized_array = np.zeros((5, 5))
@@ -229,9 +230,9 @@ class TestNormalization:
         _roi1 = ROI(x0=0,y0=0,x1=2,y1=2)
         _roi2 = ROI(x0=1,y0=1,x1=3,y1=3)
         _list_roi = [_roi1, _roi2]
-        nbr_data_before = len(o_norm.data['sample']['data'])
+        nbr_data_before = len(o_norm.data[DataType.sample]['data'])
         o_norm.normalization(roi=_list_roi)
-        nbr_data_after = len(o_norm.data['sample']['data'])
+        nbr_data_after = len(o_norm.data[DataType.sample]['data'])
         assert nbr_data_after == nbr_data_before
 
     def test_normalization_works_with_only_1_df(self):
@@ -243,14 +244,14 @@ class TestNormalization:
         o_norm = Normalization()
         o_norm.load(folder=samples_path, auto_gamma_filter=False)
         o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
-        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type=DataType.df, auto_gamma_filter=False)
         o_norm.df_correction()
         _roi1 = ROI(x0=0, y0=0, x1=2, y1=2)
         _roi2 = ROI(x0=1, y0=1, x1=3, y1=3)
         _list_roi = [_roi1, _roi2]
-        nbr_data_before = len(o_norm.data['sample']['data'])
+        nbr_data_before = len(o_norm.data[DataType.sample]['data'])
         o_norm.normalization(roi=_list_roi)
-        nbr_data_after = len(o_norm.data['sample']['data'])
+        nbr_data_after = len(o_norm.data[DataType.sample]['data'])
         assert nbr_data_after == nbr_data_before
 
     def test_normalization_works_with_2_dfs(self):
@@ -263,14 +264,14 @@ class TestNormalization:
         o_norm = Normalization()
         o_norm.load(folder=samples_path, auto_gamma_filter=False)
         o_norm.load(file=[ob1, ob2], data_type='ob', auto_gamma_filter=False)
-        o_norm.load(file=[df1, df2], data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=[df1, df2], data_type=DataType.df, auto_gamma_filter=False)
         o_norm.df_correction()
         _roi1 = ROI(x0=0, y0=0, x1=2, y1=2)
         _roi2 = ROI(x0=1, y0=1, x1=3, y1=3)
         _list_roi = [_roi1, _roi2]
-        nbr_data_before = len(o_norm.data['sample']['data'])
+        nbr_data_before = len(o_norm.data[DataType.sample]['data'])
         o_norm.normalization(roi=_list_roi)
-        nbr_data_after = len(o_norm.data['sample']['data'])
+        nbr_data_after = len(o_norm.data[DataType.sample]['data'])
         assert nbr_data_after == nbr_data_before
 
     def test_normalization_works_with_1_roi_given_as_a_list(self):
@@ -295,6 +296,15 @@ class TestNormalization:
                 assert expected_normalized_data[_h, _w] == pytest.approx(normalized_data[_h, _w], 1e-5)
 
 
+class TestOBMedian:
+
+    def setup_method(self):
+        _file_path = os.path.dirname(__file__)
+        self.data_path = os.path.abspath(os.path.join(_file_path, '../data/'))
+
+    def test_ob_median(self):
+        pass
+
 
 class TestDFCorrection:
 
@@ -308,10 +318,10 @@ class TestDFCorrection:
         # sample
         path = self.data_path + '/tif/sample'
         o_norm = Normalization()
-        o_norm.load(folder=path, data_type='sample', auto_gamma_filter=False)
-        data_before = o_norm.data['sample']['data'][0]
+        o_norm.load(folder=path, data_type=DataType.sample, auto_gamma_filter=False)
+        data_before = o_norm.data[DataType.sample]['data'][0]
         o_norm.df_correction()
-        data_after = o_norm.data['sample']['data'][0]
+        data_after = o_norm.data[DataType.sample]['data'][0]
         assert (data_before == data_after).all()
         
         #ob
@@ -327,15 +337,15 @@ class TestDFCorrection:
         o_norm = Normalization()
         sample_1 = np.ones([5,5])
         df_1 = np.ones([6,6])
-        o_norm.data['sample']['data'] = sample_1
-        o_norm.data['df']['data'] = df_1
+        o_norm.data[DataType.sample]['data'] = sample_1
+        o_norm.data[DataType.df]['data'] = df_1
         with pytest.raises(IOError):
             o_norm.df_correction()
         
         o_norm = Normalization()
         ob_1 = np.ones([6,6])
         o_norm.data['ob']['data'] = sample_1
-        o_norm.data['df']['data'] = ob_1
+        o_norm.data[DataType.df]['data'] = ob_1
         with pytest.raises(IOError):
             o_norm.df_correction()
 
@@ -348,21 +358,21 @@ class TestDFCorrection:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
-        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_1, data_type=DataType.df, auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type=DataType.df, auto_gamma_filter=False)
     
-        df_average_data = o_norm.data['df']['data_average']
+        df_average_data = o_norm.data[DataType.df]['data_average']
         assert not df_average_data
     
         #sample
         o_norm.df_correction()
-        df_average_data = o_norm.data['df']['data_average']
+        df_average_data = o_norm.data[DataType.df]['data_average']
         assert df_average_data.size != 0
     
         #ob
         o_norm.df_correction()
         expected_df_average = df_average_data
-        df_average = o_norm.data['df']['data_average']
+        df_average = o_norm.data[DataType.df]['data_average']
         assert (expected_df_average == df_average).all()
 
     def test_df_correction(self):
@@ -374,8 +384,8 @@ class TestDFCorrection:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
-        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_1, data_type=DataType.df, auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type=DataType.df, auto_gamma_filter=False)
         
         #sample
         o_norm.df_correction()
@@ -383,8 +393,8 @@ class TestDFCorrection:
         _expected_data[:,2] = 1
         _expected_data[:,3] = 2
         _expected_data[:,4] = 3       
-        _sample_data = o_norm.data['sample']['data'][0]
-        assert (_expected_data == o_norm.data['sample']['data'][0]).all()
+        _sample_data = o_norm.data[DataType.sample]['data'][0]
+        assert (_expected_data == o_norm.data[DataType.sample]['data'][0]).all()
         
         #ob
         _expected_data = np.zeros([5,5])
@@ -400,17 +410,17 @@ class TestDFCorrection:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
-        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_1, data_type=DataType.df, auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type=DataType.df, auto_gamma_filter=False)
         
         # first iteration
         o_norm.df_correction()
-        _sample_first_run = o_norm.data['sample']['data'][0]
+        _sample_first_run = o_norm.data[DataType.sample]['data'][0]
         _ob_first_run = o_norm.data['ob']['data'][0]
         
         # second iteration
         o_norm.df_correction()
-        _sample_second_run = o_norm.data['sample']['data'][0]
+        _sample_second_run = o_norm.data[DataType.sample]['data'][0]
         _ob_second_run = o_norm.data['ob']['data'][0]
          
         assert (_sample_first_run == _sample_second_run).all()
@@ -425,18 +435,18 @@ class TestDFCorrection:
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
         df_file_1 = self.data_path + '/tif/df/df002.tif'
         df_file_2 = self.data_path + '/tif/df/df003.tif'
-        o_norm.load(file=df_file_1, data_type='df', auto_gamma_filter=False)
-        o_norm.load(file=df_file_2, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df_file_1, data_type=DataType.df, auto_gamma_filter=False)
+        o_norm.load(file=df_file_2, data_type=DataType.df, auto_gamma_filter=False)
         
         # first iteration
         o_norm.df_correction()
-        _sample_first_run = o_norm.data['sample']['data'][0]
+        _sample_first_run = o_norm.data[DataType.sample]['data'][0]
         _ob_first_run = o_norm.data['ob']['data'][0]
-        _average_df = o_norm.data['df']['data_average']
+        _average_df = o_norm.data[DataType.df]['data_average']
         
         # second iteration
         o_norm.df_correction(force=True)
-        _sample_second_run = o_norm.data['sample']['data'][0]
+        _sample_second_run = o_norm.data[DataType.sample]['data'][0]
         _ob_second_run = o_norm.data['ob']['data'][0]
 
         # expected
@@ -458,7 +468,7 @@ class TestApplyingROI:
         sample_tif_file = self.data_path + '/tif/sample/image001.tif'
         ob_tif_file = self.data_path + '/tif/ob/ob001.tif'
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = {'x0':0, 'y0':0, 'x1':2, 'y1':2}
         with pytest.raises(ValueError):
@@ -471,14 +481,14 @@ class TestApplyingROI:
         
         # x0 < 0 or x1 > image_width
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=20, y1=4)
         with pytest.raises(ValueError):
             o_norm.normalization(roi=roi)
        
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=-1, y0=0, x1=4, y1=4)
         with pytest.raises(ValueError):
@@ -486,7 +496,7 @@ class TestApplyingROI:
         
         # y0 < 0 or y1 > image_height
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=-1, x1=4, y1=4)
         with pytest.raises(ValueError):
@@ -494,7 +504,7 @@ class TestApplyingROI:
 
         # y1>image_height
         o_norm = Normalization()
-        o_norm.load(file=sample_tif_file, data_type='sample', auto_gamma_filter=False)
+        o_norm.load(file=sample_tif_file, data_type=DataType.sample, auto_gamma_filter=False)
         o_norm.load(file=ob_tif_file, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=4, y1=20)
         with pytest.raises(ValueError):
@@ -519,7 +529,7 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(file=image1, auto_gamma_filter=False)
         o_norm.load(file=ob1, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(file=df1, data_type='df', auto_gamma_filter=False)
+        o_norm.load(file=df1, data_type=DataType.df, auto_gamma_filter=False)
         with pytest.raises(ValueError):
             o_norm.normalization()
 
@@ -533,7 +543,7 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        # o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        # o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
         _roi_2 = ROI(x0=0, y0=0, x1=1, y1=1)
         o_norm.normalization(roi=[_roi_1, _roi_2])
@@ -549,7 +559,7 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
         _roi_2 = ROI(x0=0, y0=0, x1=1, y1=1)
         o_norm.normalization(roi=[_roi_1, _roi_2])
@@ -568,7 +578,7 @@ class TestApplyingROI:
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
         o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        # o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        # o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=0, y1=0)
         _roi_2 = ROI(x0=4, y0=4, x1=4, y1=4)
         o_norm.normalization(roi=[_roi_1, _roi_2])
@@ -580,6 +590,44 @@ class TestApplyingROI:
 
         assert _norm_expected[0, 0] == pytest.approx(_norm_returned[0, 0], 1e-8)
 
+    def test_tof_normalization_without_roi_with_tiff(self):
+        """assert the normalization works when each sample data is normalized by its own ob"""
+        sample_path = self.data_path + '/tif/tof/sample'
+        ob_path = self.data_path + '/tif/tof/ob'
+
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.normalization(force=True)
+
+        first_normalized_data_returned = o_norm.get_normalized_data()[0]
+        first_normalized_data_expected = np.ones((5, 5))
+        first_normalized_data_expected[0:3, 0:2] = 5
+
+        nbr_col, nbr_row = np.shape(first_normalized_data_expected)
+        for _col in np.arange(nbr_col):
+            for _row in np.arange(nbr_row):
+                assert first_normalized_data_returned[_col, _row] == first_normalized_data_expected[_col, _row]
+
+    def test_tof_normalization_without_roi_with_fits(self):
+        """assert the normalization works when each sample data is normalized by its own ob"""
+        sample_path = self.data_path + '/fits/tof/sample'
+        ob_path = self.data_path + '/fits/tof/ob'
+
+        o_norm = Normalization()
+        o_norm.load(folder=sample_path, auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.normalization(force=True)
+
+        first_normalized_data_returned = o_norm.get_normalized_data()[0]
+        first_normalized_data_expected = np.ones((5, 5))
+        first_normalized_data_expected[0:3, 0:2] = 5
+
+        nbr_col, nbr_row = np.shape(first_normalized_data_expected)
+        for _col in np.arange(nbr_col):
+            for _row in np.arange(nbr_row):
+                assert first_normalized_data_returned[_col, _row] == first_normalized_data_expected[_col, _row]
+
     def test_full_normalization_sample_with_one_roi(self):
         """assert the full normalization works with several roi selected"""
         sample_path = self.data_path + '/tif/sample'
@@ -589,7 +637,7 @@ class TestApplyingROI:
         # without DF
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
-        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
         o_norm.normalization(roi=[_roi_1])
         _norm_returned = o_norm.data['normalized'][0]
@@ -606,8 +654,8 @@ class TestApplyingROI:
         # with DF
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
-        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         _roi_1 = ROI(x0=0, y0=0, x1=1, y1=1)
         o_norm.normalization(roi=[_roi_1])
         _norm_returned = o_norm.data['normalized'][0]
@@ -630,8 +678,8 @@ class TestApplyingROI:
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
-        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         o_norm.normalization()
         _norm_expected = np.ones((5, 5))
         _norm_expected[:, 2] = 2
@@ -646,8 +694,8 @@ class TestApplyingROI:
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
-        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         _roi = ROI(x0=0, y0=0, x1=2, y1=2)
         o_norm.normalization(roi=_roi)
         _norm_expected = np.ones((5, 5))
@@ -665,21 +713,21 @@ class TestApplyingROI:
         df_path = self.data_path + '/tif/df'
         o_norm = Normalization()
         o_norm.load(folder=sample_path, auto_gamma_filter=False)
-        o_norm.load(folder=ob_path, data_type='ob', auto_gamma_filter=False)
-        o_norm.load(folder=df_path, data_type='df', auto_gamma_filter=False)
+        o_norm.load(folder=ob_path, data_type=DataType.ob, auto_gamma_filter=False)
+        o_norm.load(folder=df_path, data_type=DataType.df, auto_gamma_filter=False)
         
         # sample
-        _data_expected = o_norm.data['sample']['data'][0]
+        _data_expected = o_norm.data[DataType.sample]['data'][0]
         _data_returned = o_norm.get_sample_data()[0]
         assert (_data_expected == _data_returned).all()
         
         # ob
-        _ob_expected = o_norm.data['ob']['data']
+        _ob_expected = o_norm.data[DataType.ob]['data']
         _ob_returned = o_norm.get_ob_data()[0]
         assert (_ob_expected == _ob_returned).all()
         
         # df
-        _df_expected = o_norm.data['df']['data']
+        _df_expected = o_norm.data[DataType.df]['data']
         _df_returned = o_norm.get_df_data()
         assert _df_expected == _df_returned
         

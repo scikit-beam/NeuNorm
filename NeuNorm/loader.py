@@ -33,7 +33,8 @@ def load_fits(file_name):
         return tmp
     except OSError:
         raise OSError("Unable to read the FITS file provided!")
-    
+
+
 def load_tiff(file_name):
     '''load tiff image
     

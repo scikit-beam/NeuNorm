@@ -4,6 +4,7 @@ import os
 import copy
 import time
 from scipy.ndimage import convolve
+from scipy.ndimage import median_filter
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
 from NeuNorm.exporter import make_fits, make_tif
@@ -356,7 +357,7 @@ class Normalization(object):
 
         return data_gamma_filtered
 
-    def _manual_gamma_filtering(self, data=None, manual_gamma_threshold=0.1):
+    def _manual_gamma_filtering(self, data=None, manual_gamma_threshold=0.95):
         """perform manual gamma filtering on the data
 
         This algoritm uses the manual_gamma_threshold value to estimate if a pixel is a gamma or not.
@@ -379,13 +380,11 @@ class Normalization(object):
             raise ValueError("Data array is empty!")
 
         data_gamma_filtered = np.copy(data)
-        mean_counts = np.mean(data_gamma_filtered)
-        gamma_indexes = np.where(manual_gamma_threshold * data_gamma_filtered > mean_counts)
 
-        mean_kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) / 8.0
-        convolved_data = convolve(data_gamma_filtered, mean_kernel, mode='constant')
-
-        data_gamma_filtered[gamma_indexes] = convolved_data[gamma_indexes]
+        radius = 2
+        median_counts = median_filter(data_gamma_filtered, radius, mode='grid-wrap')
+        gamma_indexes = np.where(manual_gamma_threshold * data_gamma_filtered > median_counts)
+        data_gamma_filtered[gamma_indexes] = median_counts[gamma_indexes]
 
         return data_gamma_filtered
 
