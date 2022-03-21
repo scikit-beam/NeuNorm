@@ -123,7 +123,7 @@ class Normalization(object):
                         takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
                                                                                             time_it_took_so_far=end_time - start_time,
                                                                                             total_number_of_loop=len(
-                                                                                                file))
+                                                                                                    file))
                         time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
                 if notebook:
@@ -160,7 +160,7 @@ class Normalization(object):
                     takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
                                                                                         time_it_took_so_far=end_time - start_time,
                                                                                         total_number_of_loop=len(
-                                                                                            list_images))
+                                                                                                list_images))
                     time_remaining_ui.value = "{}".format(takes_its_going_to_take)
 
             if notebook:
@@ -412,18 +412,21 @@ class Normalization(object):
             if (not (_prev_width == width)) or (not (_prev_height == height)):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
-    def normalization(self, roi=None, force=False, force_mean_ob=False, notebook=False, use_only_sample=False):
+    def normalization(self, roi=None, force=False, force_mean_ob=False, force_median_ob=False, notebook=False,
+                      use_only_sample=False):
         """normalization of the data
                 
         Parameters:
             roi: ROI object or list of ROI objects - object defines the region of the sample and OB that have to match
-        in intensity
+                in intensity
             force: boolean - True will force the normalization to occur, even if it had been
                 run before with the same data set (default False)
-        notebook: boolean - turn on this option if you run the library from a
-             notebook to have a progress bar displayed showing you the progress of the loading (default False)
-        use_only_sample - turn on this option to normalize the sample data using the ROI on the sample. each pixel
-            counts will be divided by the average counts of all the ROI of the same image
+            force_mean_ob: boolean - True will force using only 1 OB that is the mean of all the OBs
+            force_median_ob: boolean - True will force using only 1 OB that is the median of all the OBs
+            notebook: boolean - turn on this option if you run the library from a
+                notebook to have a progress bar displayed showing you the progress of the loading (default False)
+            use_only_sample: turn on this option to normalize the sample data using the ROI on the sample. each pixel
+                counts will be divided by the average counts of all the ROI of the same image
 
         Return:
             True - status of the normalization (True if every went ok, this is mostly used for the unit test)
@@ -435,6 +438,7 @@ class Normalization(object):
             IOError: if size of sample and OB do not match
         
         """
+
         if not force:
             # does nothing if normalization has already been run
             if self.__exec_process_status['normalization']:
@@ -480,9 +484,9 @@ class Normalization(object):
                     _x1 = roi.x1
                     _y1 = roi.y1
 
-                    _sample_corrected_normalized = [_sample / np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+                    _sample_corrected_normalized = [_sample / np.median(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
                                                     for _sample in self.data['sample']['data']]
-                    _ob_corrected_normalized = [_ob / np.mean(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
+                    _ob_corrected_normalized = [_ob / np.median(_ob[_y0:_y1 + 1, _x0:_x1 + 1])
                                                 for _ob in self.data['ob']['data']]
 
             else:
@@ -493,11 +497,38 @@ class Normalization(object):
             self.data[DataType.sample]['data'] = _sample_corrected_normalized
             self.data[DataType.ob]['data'] = _ob_corrected_normalized
 
-            # if the number of sample and ob do not match, use mean of obs
+            # if the number of sample and ob do not match, use median of obs
             nbr_sample = len(self.data['sample']['file_name'])
             nbr_ob = len(self.data['ob']['file_name'])
-            if (nbr_sample != nbr_ob) or force_mean_ob:  # work with mean ob
+
+            # will be deprecated soon!
+            if force_mean_ob:  # work with mean ob
                 _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
+                self.data['ob']['data_mean'] = _ob_corrected_normalized
+                _working_ob = copy.deepcopy(_ob_corrected_normalized)
+                _working_ob[_working_ob == 0] = np.NaN
+
+                if notebook:
+                    # turn on progress bar
+                    _message = "Normalization"
+                    box1 = widgets.HBox([widgets.Label(_message,
+                                                       layout=widgets.Layout(width='20%')),
+                                         widgets.IntProgress(max=len(self.data['sample']['data']))])
+                    display(box1)
+                    w1 = box1.children[1]
+
+                normalized_data = []
+                for _index, _sample in enumerate(self.data['sample']['data']):
+                    _norm = np.divide(_sample, _working_ob)
+                    _norm[np.isnan(_norm)] = 0
+                    _norm[np.isinf(_norm)] = 0
+                    normalized_data.append(_norm)
+
+                    if notebook:
+                        w1.value = _index + 1
+
+            elif (nbr_sample != nbr_ob) or force_median_ob:  # work with median ob
+                _ob_corrected_normalized = np.median(_ob_corrected_normalized, axis=0)
                 self.data['ob']['data_mean'] = _ob_corrected_normalized
                 _working_ob = copy.deepcopy(_ob_corrected_normalized)
                 _working_ob[_working_ob == 0] = np.NaN
@@ -584,7 +615,7 @@ class Normalization(object):
             _x1 = roi.x1
             _y1 = roi.y1
 
-            normalized_data = [_sample / np.mean(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
+            normalized_data = [_sample / np.median(_sample[_y0:_y1 + 1, _x0:_x1 + 1])
                                for _sample in self.data['sample']['data']]
 
         return normalized_data
