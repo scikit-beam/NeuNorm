@@ -7,7 +7,7 @@ from scipy.ndimage import convolve
 from scipy.ndimage import median_filter
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
-from NeuNorm.exporter import make_fits, make_tif
+from NeuNorm.exporter import make_fits, make_tiff
 from NeuNorm.roi import ROI
 from NeuNorm._utilities import get_sorted_list_images, average_df
 from NeuNorm import DataType
@@ -797,14 +797,14 @@ class Normalization(object):
 
         return True
 
-    def export(self, folder='./', data_type='normalized', file_type='tif'):
+    def export(self, folder='./', data_type='normalized', file_type='tiff'):
         """export all the data from the type specified into a folder
         
         Parameters:
             folder: String - where to create all the images. Folder must exist otherwise an error is
                 raised (default is './')
             data_type: String - Must be one of the following 'sample','ob','df','normalized' (default is 'normalized').
-            file_type: String - format in which to export the data. Must be either 'tif' or 'fits' (default is 'tif')
+            file_type: String - format in which to export the data. Must be either 'tiff' or 'fits' (default is 'tiff')
 
         Raises:
             IOError if the folder does not exist
@@ -841,18 +841,18 @@ class Normalization(object):
                            output_file_names=self._export_file_name,
                            suffix=file_type)
 
-    def __export_data(self, data=[], metadata=[], output_file_names=[], suffix='tif'):
+    def __export_data(self, data=[], metadata=[], output_file_names=[], suffix='tiff'):
         """save the list of files with the data specified
         
         Parameters:
             data: numpy array that contains the array of data to save (default [])
             output_file_names: numpy array of string of full file names (default [])
-            suffix: String - format in which the file will be created (default 'tif')
+            suffix: String - format in which the file will be created (default 'tiff')
         """
         name_data_metadata_array = zip(output_file_names, data, metadata)
         for _file_name, _data, _metadata in name_data_metadata_array:
-            if suffix == 'tif':
-                make_tif(data=_data, metadata=_metadata, file_name=_file_name)
+            if suffix == 'tiff':
+                make_tiff(data=_data, metadata=_metadata, file_name=_file_name)
             elif suffix == 'fits':
                 make_fits(data=_data, file_name=_file_name)
 
@@ -861,11 +861,11 @@ class Normalization(object):
         
         Parameters:
             initial_list: array of full file name
-               ex: ['/users/me/image001.tif',/users/me/image002.tif',/users/me/image003.tif']
+               ex: ['/users/me/image001.tiff',/users/me/image002.tiff',/users/me/image003.tiff']
             output_folder: String (default is ./ as specified by calling function) where we want to create the data
             prefix: String. what to add to the output file name in front of base name
-                ex: 'normalized' will produce 'normalized_image001.tif'
-            suffix: String. extension to file. 'tif' for TIFF and 'fits' for FITS
+                ex: 'normalized' will produce 'normalized_image001.tiff'
+            suffix: String. extension to file. 'tiff' for TIFF and 'fits' for FITS
         """
         _base_name = [os.path.basename(_file) for _file in initial_list]
         _raw_name = [os.path.splitext(_file)[0] for _file in _base_name]

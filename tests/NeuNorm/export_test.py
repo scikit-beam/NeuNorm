@@ -64,7 +64,7 @@ class TestExportingPhase2(unittest.TestCase):
         _output_file_name_0 = o_norm._export_file_name[0]
         
         _file_name_0 = os.path.basename(o_norm.data['ob']['file_name'][0])
-        _new_file_name = os.path.splitext(_file_name_0)[0] + '.tif'
+        _new_file_name = os.path.splitext(_file_name_0)[0] + '.tiff'
         _expected_file_name_0 = os.path.join(self.export_folder, _new_file_name)
         
         self.assertTrue(_expected_file_name_0 == _output_file_name_0)
@@ -75,7 +75,7 @@ class TestExportingPhase2(unittest.TestCase):
         _output_file_name_0 = o_norm._export_file_name[0]
     
         _file_name_0 = os.path.basename(o_norm.data['sample']['file_name'][0])
-        _new_file_name = 'normalized_' + os.path.splitext(_file_name_0)[0] + '.tif'
+        _new_file_name = 'normalized_' + os.path.splitext(_file_name_0)[0] + '.tiff'
         _expected_file_name_0 = os.path.join(self.export_folder, _new_file_name)
         self.assertTrue(_expected_file_name_0 == _output_file_name_0)        
         
