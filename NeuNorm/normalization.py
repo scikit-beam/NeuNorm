@@ -56,7 +56,7 @@ class Normalization(object):
         self.export_file_name = None
 
     def load(self, file='', folder='', data=None, data_type='sample', auto_gamma_filter=True,
-             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1):
+             manual_gamma_filter=False, notebook=False, manual_gamma_threshold=0.1, check_shape=True):
         """
         Function to read individual files, entire files from folder, list of files or event data arrays.
         Data are also gamma filtered if requested.
@@ -94,7 +94,8 @@ class Normalization(object):
                                data_type=data_type,
                                auto_gamma_filter=auto_gamma_filter,
                                manual_gamma_filter=manual_gamma_filter,
-                               manual_gamma_threshold=manual_gamma_threshold)
+                               manual_gamma_threshold=manual_gamma_threshold,
+                               check_shape=check_shape)
             elif isinstance(file, list):
                 if notebook:
                     # turn on progress bar
@@ -115,7 +116,8 @@ class Normalization(object):
                                    data_type=data_type,
                                    auto_gamma_filter=auto_gamma_filter,
                                    manual_gamma_filter=manual_gamma_filter,
-                                   manual_gamma_threshold=manual_gamma_threshold)
+                                   manual_gamma_threshold=manual_gamma_threshold,
+                                   check_shape=check_shape)
                     if notebook:
                         w1.value = _index + 1
                         end_time = time.time()
@@ -151,7 +153,8 @@ class Normalization(object):
                                data_type=data_type,
                                auto_gamma_filter=auto_gamma_filter,
                                manual_gamma_filter=manual_gamma_filter,
-                               manual_gamma_threshold=manual_gamma_threshold)
+                               manual_gamma_threshold=manual_gamma_threshold,
+                               check_shape=check_shape)
                 if notebook:
                     # update progress bar
                     w1.value = _index + 1
@@ -257,7 +260,8 @@ class Normalization(object):
     def load_file(self, file='', data_type='sample',
                   auto_gamma_filter=True,
                   manual_gamma_filter=False,
-                  manual_gamma_threshold=0.1):
+                  manual_gamma_threshold=0.1,
+                  check_shape=True):
         """
         Function to read data from the specified path, it can read FITS, TIFF and HDF.
     
@@ -310,7 +314,8 @@ class Normalization(object):
             else:
                 self.data[data_type]['file_name'].append(file)
 
-            self.save_or_check_shape(data=data, data_type=data_type)
+            if check_shape:
+                self.save_or_check_shape(data=data, data_type=data_type)
 
         else:
             raise OSError("The file name does not exist")
@@ -413,7 +418,8 @@ class Normalization(object):
             if (not (_prev_width == width)) or (not (_prev_height == height)):
                 raise IOError("Shape of {} do not match previous loaded data set!".format(data_type))
 
-    def normalization(self, roi=None, force=False, force_mean_ob=False, notebook=False, use_only_sample=False):
+    def normalization(self, roi=None, force=False, force_mean_ob=False, force_median_ob=False,
+                      notebook=False, use_only_sample=False):
         """normalization of the data
                 
         Parameters:
@@ -497,8 +503,15 @@ class Normalization(object):
             # if the number of sample and ob do not match, use mean of obs
             nbr_sample = len(self.data['sample']['file_name'])
             nbr_ob = len(self.data['ob']['file_name'])
-            if (nbr_sample != nbr_ob) or force_mean_ob:  # work with mean ob
-                _ob_corrected_normalized = np.mean(_ob_corrected_normalized, axis=0)
+            if (nbr_sample != nbr_ob) or force_mean_ob or force_median_ob:  # work with mean ob
+
+                if force_median_ob:
+                    _ob_corrected_normalized = np.nanmedian(_ob_corrected_normalized, axis=0)
+                elif force_mean_ob:
+                    _ob_corrected_normalized = np.nanmean(_ob_corrected_normalized, axis=0)
+                else:
+                    _ob_corrected_normalized = np.nanmedian(_ob_corrected_normalized, axis=0)
+
                 self.data['ob']['data_mean'] = _ob_corrected_normalized
                 _working_ob = copy.deepcopy(_ob_corrected_normalized)
                 _working_ob[_working_ob == 0] = np.NaN
