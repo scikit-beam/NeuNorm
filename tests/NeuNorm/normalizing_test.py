@@ -152,7 +152,7 @@ class TestNormalization:
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         _sample = o_norm.data['sample']['data'][0]
-        _expected = _sample / np.mean(_sample[0:3, 0:4])
+        _expected = _sample / np.median(_sample[0:3, 0:4])
         o_norm.normalization(roi=roi)
         _returned = o_norm.data['sample']['data'][0]
         assert (_expected == _returned).all()
@@ -173,7 +173,7 @@ class TestNormalization:
         norm_roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=norm_roi)
         _ob = o_norm.data['ob']['data'][0]
-        _expected = _ob / np.mean(_ob[0:3, 0:4])
+        _expected = _ob / np.median(_ob[0:3, 0:4])
         _returned = o_norm.data['ob']['data'][0]
         assert (_expected == _returned).all()
         
@@ -651,11 +651,12 @@ class TestApplyingROI:
         _roi = ROI(x0=0, y0=0, x1=2, y1=2)
         o_norm.normalization(roi=_roi)
         _norm_expected = np.ones((5, 5))
-        _norm_expected.fill(0.8125)
-        _norm_expected[:, 2] = 1.625
-        _norm_expected[:, 3] = 2.4375
-        _norm_expected[:, 4] = 3.25
-        _norm_returned = o_norm.data['normalized']
+        _norm_expected.fill(1)
+        _norm_expected[:, 2] = 2
+        _norm_expected[:, 3] = 3
+        _norm_expected[:, 4] = 4
+        _norm_returned = o_norm.data['normalized'][0]
+
         assert (_norm_expected == _norm_returned).all()
         
     def test_various_data_type_correctly_returned(self):
