@@ -196,10 +196,26 @@ class TestNormalization:
         o_norm.load(folder=samples_path, auto_gamma_filter=False)
         o_norm.load(file=[ob1, ob2, ob3], data_type='ob', auto_gamma_filter=False)
         o_norm.normalization(force_mean_ob=True)
-        expected_normalized_array = np.ones((5,5))
-        expected_normalized_array[:,2] = 2
-        expected_normalized_array[:,3] = 3
-        expected_normalized_array[:,4] = 4
+        expected_normalized_array = np.ones((5, 5))
+        expected_normalized_array[:, 2] = 2
+        expected_normalized_array[:, 3] = 3
+        expected_normalized_array[:, 4] = 4
+        assert (o_norm.data['normalized'][0] == expected_normalized_array).all()
+
+    def test_normalization_with_same_ob_and_sample_but_forced_median_ob(self):
+        """assert normalization with same ob and sample number of files force to use mean ob when flag used"""
+        samples_path =  self.data_path + '/tif/sample/' # 3 files
+        ob1 = self.data_path + '/tif/ob/ob001.tif'
+        ob2 = self.data_path + '/tif/ob/ob002.tif'
+        ob3 = self.data_path + '/tif/ob/ob003.tif'
+        o_norm = Normalization()
+        o_norm.load(folder=samples_path, auto_gamma_filter=False)
+        o_norm.load(file=[ob1, ob2, ob3], data_type='ob', auto_gamma_filter=False)
+        o_norm.normalization(force_mean_ob=True)
+        expected_normalized_array = np.ones((5, 5))
+        expected_normalized_array[:, 2] = 2
+        expected_normalized_array[:, 3] = 3
+        expected_normalized_array[:, 4] = 4
         assert (o_norm.data['normalized'][0] == expected_normalized_array).all()
 
     def test_normalization_with_fewer_ob_than_sample_works(self):
@@ -293,7 +309,6 @@ class TestNormalization:
         for _h in np.arange(height):
             for _w in np.arange(width):
                 assert expected_normalized_data[_h, _w] == pytest.approx(normalized_data[_h, _w], 1e-5)
-
 
 
 class TestDFCorrection:
