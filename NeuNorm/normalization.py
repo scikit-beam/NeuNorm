@@ -86,7 +86,7 @@ class Normalization(object):
 
         if notebook:
             from ipywidgets import widgets
-            from IPython.core.display import display
+            from IPython.display import display
 
         if not file == '':
             if isinstance(file, str):
@@ -463,7 +463,7 @@ class Normalization(object):
 
         if notebook:
             from ipywidgets import widgets
-        from IPython.core.display import display
+        from IPython.display import display
 
         # make sure, if provided, roi has the right type and fits into the images
         b_list_roi = False
@@ -834,7 +834,7 @@ class Normalization(object):
         """
         name_data_metadata_array = zip(output_file_names, data, metadata)
         for _file_name, _data, _metadata in name_data_metadata_array:
-            if suffix == 'tif':
+            if suffix in ['tif', 'tiff']:
                 make_tif(data=_data, metadata=_metadata, file_name=_file_name)
             elif suffix == 'fits':
                 make_fits(data=_data, file_name=_file_name)

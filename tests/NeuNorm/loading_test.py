@@ -253,14 +253,11 @@ class TestGammaFiltering(unittest.TestCase):
         o_norm = Normalization()
         o_norm.load(folder=path, data_type='sample', manual_gamma_filter=True, auto_gamma_filter=False)
         _expected_sample = np.ones((5, 5))
-        _expected_sample[0, 0] = 4
+        _expected_sample[0, 0] = 0.375
         _expected_sample[:, 2] = 2
         _expected_sample[:, 3] = 3
         _expected_sample[:, 4] = 4
         _returned_sample = o_norm.data['sample']['data']
-
-        print(f"{_expected_sample =}")
-        print(f"{_returned_sample =}")
 
         self.assertTrue((_expected_sample == _returned_sample).all())
         

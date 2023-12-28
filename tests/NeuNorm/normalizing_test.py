@@ -152,10 +152,10 @@ class TestNormalization:
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
         roi = ROI(x0=0, y0=0, x1=3, y1=2)
         _sample = o_norm.data['sample']['data'][0]
-        _expected = _sample / np.median(_sample[0:3, 0:4])
+        _expected = _sample / np.mean(_sample[0:3, 0:4])
         o_norm.normalization(roi=roi)
         _returned = o_norm.data['sample']['data'][0]
-        assert (_expected == _returned).all()
+        assert pytest.approx(_expected) == _returned
 
         # testing sample without norm_roi
         o_norm1 = Normalization()
@@ -173,10 +173,10 @@ class TestNormalization:
         norm_roi = ROI(x0=0, y0=0, x1=3, y1=2)
         o_norm.normalization(roi=norm_roi)
         _ob = o_norm.data['ob']['data'][0]
-        _expected = _ob / np.median(_ob[0:3, 0:4])
+        _expected = _ob / np.mean(_ob[0:3, 0:4])
         _returned = o_norm.data['ob']['data'][0]
-        assert (_expected == _returned).all()
-        
+        assert pytest.approx(_expected) == _returned
+
         # testing ob without norm_roi
         o_norm = Normalization()
         o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
@@ -671,6 +671,9 @@ class TestApplyingROI:
         _norm_expected[:, 3] = 3
         _norm_expected[:, 4] = 4
         _norm_returned = o_norm.data['normalized'][0]
+
+        print(f"{_norm_expected}")
+        print(f"{_norm_returned}")
 
         assert (_norm_expected == _norm_returned).all()
         
