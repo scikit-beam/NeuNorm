@@ -146,7 +146,7 @@ class TestNormalization:
         sample_tif_folder = self.data_path + '/tif/sample'
         ob_tif_folder = self.data_path + '/tif/ob'
 
-        # testing sample with norm_roi
+        # testing full normalization
         o_norm = Normalization()
         o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
         o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
@@ -156,40 +156,38 @@ class TestNormalization:
         _expected_num = _sample / np.mean(_sample[0:4, 0:2])
         _expected_den = _ob / np.mean(_ob[0:4, 0:2])
         _expected = _expected_num /_expected_den
-
         o_norm.normalization(roi=roi, use_only_sample=False)
         _returned = o_norm.get_normalized_data()[0]
-
         assert pytest.approx(_expected, 1e-4) == _returned
 
-        # # testing sample without norm_roi
-        # o_norm1 = Normalization()
-        # o_norm1.load(folder=sample_tif_folder, auto_gamma_filter=False)
-        # o_norm1.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
-        # _expected = o_norm1.data['sample']['data'][0]
-        # o_norm1.normalization()
-        # _returned = o_norm1.data['sample']['data'][0]
-        # assert (_expected == _returned).all()
-        #
-        # # testing ob with norm_roi
-        # o_norm = Normalization()
-        # o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
-        # o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
-        # norm_roi = ROI(x0=0, y0=0, x1=3, y1=2)
-        # o_norm.normalization(roi=norm_roi)
-        # _ob = o_norm.data['ob']['data'][0]
-        # _expected = _ob / np.mean(_ob[0:3, 0:4])
-        # _returned = o_norm.data['ob']['data'][0]
-        # assert pytest.approx(_expected) == _returned
-        #
-        # # testing ob without norm_roi
-        # o_norm = Normalization()
-        # o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
-        # o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
-        # _expected = o_norm.data['ob']['data'][0]
-        # o_norm.normalization()
-        # _returned = o_norm.data['ob']['data'][0]
-        # assert (_expected == _returned).all()
+        # testing sample without norm_roi
+        o_norm1 = Normalization()
+        o_norm1.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm1.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
+        _expected = o_norm1.data['sample']['data'][0]
+        o_norm1.normalization()
+        _returned = o_norm1.data['sample']['data'][0]
+        assert (_expected == _returned).all()
+
+        # testing ob with norm_roi
+        o_norm = Normalization()
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
+        norm_roi = ROI(x0=0, y0=0, x1=1, y1=4)
+        o_norm.normalization(roi=norm_roi)
+        _ob = o_norm.data['ob']['data'][0]
+        _expected = _ob / np.mean(_ob[0:5, 0:2])
+        _returned = o_norm.data['ob']['data'][0]
+        assert pytest.approx(_expected, 1e-4) == _returned
+
+        # testing ob without norm_roi
+        o_norm = Normalization()
+        o_norm.load(folder=sample_tif_folder, auto_gamma_filter=False)
+        o_norm.load(folder=ob_tif_folder, data_type='ob', auto_gamma_filter=False)
+        _expected = o_norm.data['ob']['data'][0]
+        o_norm.normalization()
+        _returned = o_norm.data['ob']['data'][0]
+        assert (_expected == _returned).all()
   
     def test_normalization_with_same_ob_and_sample_but_forced_mean_ob(self):
         """assert normalization with same ob and sample number of files force to use mean ob when flag used"""
