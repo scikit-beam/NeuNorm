@@ -1,10 +1,7 @@
 [![PyPI version](https://badge.fury.io/py/NeuNorm.svg)](https://badge.fury.io/py/NeuNorm)
-[![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/version.svg)](https://anaconda.org/neutronimaging/neunorm)
 [![Build Status](https://travis-ci.org/scikit-beam/NeuNorm.svg?branch=master)](https://travis-ci.org/scikit-beam/NeuNorm)
 [![codecov](https://codecov.io/gh/scikit-beam/NeuNorm/branch/master/graph/badge.svg)](https://codecov.io/gh/scikit-beam/NeuNorm)
 [![Documentation Status](https://readthedocs.org/projects/neunorm/badge/?version=latest)](http://neunorm.readthedocs.io/en/latest/?badge=latest)
-[![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/latest_release_date.svg)](https://anaconda.org/neutronimaging/neunorm)
-[![Anaconda-Server Badge](https://anaconda.org/neutronimaging/neunorm/badges/downloads.svg)](https://anaconda.org/neutronimaging/neunorm)
 [![DOI](https://zenodo.org/badge/97755175.svg)](https://zenodo.org/badge/latestdoi/97755175)
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.00815/status.svg)](https://doi.org/10.21105/joss.00815)
 
