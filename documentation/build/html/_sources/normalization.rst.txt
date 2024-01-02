@@ -41,7 +41,28 @@ region defined. Same thing for the ob. Those normalized array can be retrieved t
 Forcing normalization by mean OB
 ################################
 
-By default, if the number of sample and Ob is the same, each sample is normalized by the equivalent index ob. But
+By default, if the number of sample and OB is the same, each sample is normalized by the equivalent index ob. But
 it's possible to force the normalization by the mean OB
 
 >>> o_norm.normalization(force_mean_ob=True)
+
+
+Forcing normalization by median OB
+##################################
+
+By default, if the number of sample and OB is the same, each sample is normalized by the equivalent index ob. But
+it's possible to force the normalization by the median OB
+
+>>> o_norm.normalization(force_median_ob=True)
+
+
+Normalization by a region defined within the sample itself
+##########################################################
+
+It's also possible to normalize the stack of data by using a region of the sample we define as background. In this case
+you need to define a ROI and then use the flag *use_only_sample* as shown here
+
+>>> o_norm.normalization(use_only_sample=True)
+
+In this case, the program will determine for each image the *mean* counts of the ROI defined, and will divide each
+pixel counts by this value.

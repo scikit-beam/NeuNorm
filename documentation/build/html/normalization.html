@@ -1,96 +1,54 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Normalization &mdash; Normalization 0 documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Normalization 0 documentation" href="index.html"/>
-        <link rel="next" title="Cropping Data" href="cropping_data.html"/>
-        <link rel="prev" title="Dark Field Correction" href="dark_field_correction.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cropping Data" href="cropping_data.html" />
+    <link rel="prev" title="Dark Field Correction" href="dark_field_correction.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-nav-search" >
 
           
-            <a href="index.html" class="icon icon-home"> Normalization
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            Normalization
           </a>
-
-          
-            
-            
               <div class="version">
                 1
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loading.html">Loading</a></li>
@@ -99,6 +57,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#normalization-using-roi-optional">Normalization using ROI (optional)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#normalization-without-roi">Normalization without ROI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#forcing-normalization-by-mean-ob">Forcing normalization by mean OB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forcing-normalization-by-median-ob">Forcing normalization by median OB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normalization-by-a-region-defined-within-the-sample-itself">Normalization by a region defined within the sample itself</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cropping_data.html">Cropping Data</a></li>
@@ -106,217 +66,122 @@
 <li class="toctree-l1"><a class="reference internal" href="export_data.html">Export Data</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Normalization</a>
-        
       </nav>
 
-
-      
       <div class="wy-nav-content">
         <div class="rst-content">
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Normalization</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Normalization</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/normalization.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-</style>
-<div class="section" id="normalization">
-<h1>Normalization<a class="headerlink" href="#normalization" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="normalization-using-roi-optional">
-<h2>Normalization using ROI (optional)<a class="headerlink" href="#normalization-using-roi-optional" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="normalization">
+<h1>Normalization<a class="headerlink" href="#normalization" title="Link to this heading"></a></h1>
+<section id="normalization-using-roi-optional">
+<h2>Normalization using ROI (optional)<a class="headerlink" href="#normalization-using-roi-optional" title="Link to this heading"></a></h2>
 <p>If you want to specify a region of your sample to match with the OB</p>
 <p>Let’s use the following region</p>
 <ul class="simple">
-<li>x0 = 10</li>
-<li>y0 = 10</li>
-<li>x1 = 50</li>
-<li>y1 = 50</li>
+<li><p>x0 = 10</p></li>
+<li><p>y0 = 10</p></li>
+<li><p>x1 = 50</p></li>
+<li><p>y1 = 50</p></li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_norm_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_norm_roi</span> <span class="o">=</span> <span class="n">ROI</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>then the normalization can be run</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">roi</span><span class="o">=</span><span class="n">my_norm_roi</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">roi</span><span class="o">=</span><span class="n">my_norm_roi</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="normalization-without-roi">
-<h2>Normalization without ROI<a class="headerlink" href="#normalization-without-roi" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="normalization-without-roi">
+<h2>Normalization without ROI<a class="headerlink" href="#normalization-without-roi" title="Link to this heading"></a></h2>
 <p>If you don’t want any normalization ROI, simply run the normalization</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>How to get the normalized data</p>
 <p>Each of the data set in the sample and ob will then be normalized.
 If a norm_roi has been provided, the sample arrays will be divided by the average of the
 region defined. Same thing for the ob. Those normalized array can be retrieved this way</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sample_normalized_array</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob_normalized_array</span> <span class="o">=</span> <span class="n">o_gretting</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="forcing-normalization-by-mean-ob">
-<h2>Forcing normalization by mean OB<a class="headerlink" href="#forcing-normalization-by-mean-ob" title="Permalink to this headline">¶</a></h2>
-<p>By default, if the number of sample and Ob is the same, each sample is normalized by the equivalent index ob. But
+</section>
+<section id="forcing-normalization-by-mean-ob">
+<h2>Forcing normalization by mean OB<a class="headerlink" href="#forcing-normalization-by-mean-ob" title="Link to this heading"></a></h2>
+<p>By default, if the number of sample and OB is the same, each sample is normalized by the equivalent index ob. But
 it’s possible to force the normalization by the mean OB</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">force_mean_ob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">force_mean_ob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
+<section id="forcing-normalization-by-median-ob">
+<h2>Forcing normalization by median OB<a class="headerlink" href="#forcing-normalization-by-median-ob" title="Link to this heading"></a></h2>
+<p>By default, if the number of sample and OB is the same, each sample is normalized by the equivalent index ob. But
+it’s possible to force the normalization by the median OB</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">force_median_ob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
 </div>
+</section>
+<section id="normalization-by-a-region-defined-within-the-sample-itself">
+<h2>Normalization by a region defined within the sample itself<a class="headerlink" href="#normalization-by-a-region-defined-within-the-sample-itself" title="Link to this heading"></a></h2>
+<p>It’s also possible to normalize the stack of data by using a region of the sample we define as background. In this case
+you need to define a ROI and then use the flag <em>use_only_sample</em> as shown here</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="n">use_only_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>In this case, the program will determine for each image the <em>mean</em> counts of the ROI defined, and will divide each
+pixel counts by this value.</p>
+</section>
+</section>
 
 
-           </div>
-           <div class="articleComments">
-            
            </div>
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="cropping_data.html" class="btn btn-neutral float-right" title="Cropping Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="dark_field_correction.html" class="btn btn-neutral" title="Dark Field Correction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dark_field_correction.html" class="btn btn-neutral float-left" title="Dark Field Correction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cropping_data.html" class="btn btn-neutral float-right" title="Cropping Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, Jean Bilheux.
-
-    </p>
+    <p>&#169; Copyright 2024, Jean Bilheux.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

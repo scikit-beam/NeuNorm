@@ -63,16 +63,14 @@ counts of the entire image. The threshold value can be change by doing
 >>> o_norm.gamma_filter_threshold = 0.2
 
 **WARNING:**
-#1 From this point, any operation on your data will overwrite the inital data loaded. Those
-data can be retrieved at any point by doing
-#2 The program won't let you run the same algorithm twice (normalization, df_correction, 
+
+* #1 From this point, any operation on your data will overwrite the inital data loaded.
+* #2 The program won't let you run the same algorithm twice (normalization, df_correction,
 oscillation, rebin). But it's possible to overwrite this option by making a flag **force**
 equal to True. Use this feature at your own risk!
 
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
-
-
 
 Loading via individual file name
 ################################
@@ -143,9 +141,6 @@ equal to True. Use this feature at your own risk!
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
 
-
-
-
 Loading via list file names
 ###########################
   
@@ -214,8 +209,6 @@ equal to True. Use this feature at your own risk!
 
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
-
-
 
 Loading via arrays
 ##################
@@ -302,7 +295,6 @@ equal to True. Use this feature at your own risk!
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
 
-
 Loading with Auto Gamma Filtering
 #################################
 
@@ -322,7 +314,6 @@ equal or greater to the maximum value provided by this data file format - 5 (mar
 For example, if you are loading an image of type int16, the maximum value provided by this image is 32767. All pixels
 with more counts than 32762 will be replaced by the average of the 8 surrounding pixels.
 
-
 Loading with Manual Gamma Filtering
 ###################################
 
@@ -339,8 +330,3 @@ does, this way
     1. The average value of the entire image is calculated
     2. a copy of the raw image multiply by the threshold value is created
     3. if there is any pixels in this image that is still above the raw image, it is a gamma pixel!
-
-
-
-
-
