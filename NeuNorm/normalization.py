@@ -210,7 +210,7 @@ class Normalization(object):
         """
         if notebook:
             from ipywidgets import widgets
-            from IPython.core.display import display
+            from IPython.display import display
 
         if len(np.shape(data)) > 2:
             if notebook:
@@ -473,8 +473,6 @@ class Normalization(object):
             if roi:
                 b_list_roi = self.check_roi_format(roi)
 
-            if roi:
-
                 if b_list_roi:
                     _sample_corrected_normalized = self.calculate_corrected_normalized(data_type=DataType.sample,
                                                                                        roi=roi)
@@ -500,7 +498,7 @@ class Normalization(object):
             self.data[DataType.sample]['data'] = _sample_corrected_normalized
             self.data[DataType.ob]['data'] = _ob_corrected_normalized
 
-            # if the number of sample and ob do not match, use mean of obs
+            # if the number of sample and ob do not match, use mean or median of obs
             nbr_sample = len(self.data['sample']['file_name'])
             nbr_ob = len(self.data['ob']['file_name'])
             if (nbr_sample != nbr_ob) or force_mean_ob or force_median_ob:  # work with mean ob
@@ -536,8 +534,9 @@ class Normalization(object):
                         w1.value = _index + 1
 
             else:  # 1 ob for each sample
+
                 # produce normalized data
-                sample_ob = zip(self.data['sample']['data'], self.data['ob']['data'])
+                sample_ob = zip(self.data[DataType.sample]['data'], self.data[DataType.ob]['data'])
 
                 if notebook:
                     # turn on progress bar
