@@ -64,10 +64,8 @@ counts of the entire image. The threshold value can be change by doing
 
 **WARNING:**
 
-* #1 From this point, any operation on your data will overwrite the inital data loaded.
-* #2 The program won't let you run the same algorithm twice (normalization, df_correction,
-oscillation, rebin). But it's possible to overwrite this option by making a flag **force**
-equal to True. Use this feature at your own risk!
+ * #1 From this point, any operation on your data will overwrite the inital data loaded.
+ * #2 The program won't let you run the same algorithm twice (normalization, df_correction, oscillation, rebin). But it's possible to overwrite this option by making a flag **force** equal to True. Use this feature at your own risk!
 
 >>> data = o_norm.data['sample']['data']
 >>> ob = o_norm.data['ob']['data']
@@ -173,7 +171,7 @@ Our OB are in the folder **/Users/me/ob/** and named
 - ob001.fits
 - ob002.fits
 
->>> list_ob = [/Users/me/ob/ob001.fits', '/Users/me/ob/ob002.fits']
+>>> list_ob = ['/Users/me/ob/ob001.fits', '/Users/me/ob/ob002.fits']
 >>> o_norm.load(file=list_ob, data_type='ob')
 
 again, all the data can be retrieved as followed

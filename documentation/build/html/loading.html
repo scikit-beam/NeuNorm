@@ -156,12 +156,12 @@ counts of the entire image. The threshold value can be change by doing</p>
 </pre></div>
 </div>
 <p><strong>WARNING:</strong></p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><p>#1 From this point, any operation on your data will overwrite the inital data loaded.</p></li>
-<li><p>#2 The program won’t let you run the same algorithm twice (normalization, df_correction,</p></li>
+<li><p>#2 The program won’t let you run the same algorithm twice (normalization, df_correction, oscillation, rebin). But it’s possible to overwrite this option by making a flag <strong>force</strong> equal to True. Use this feature at your own risk!</p></li>
 </ul>
-<p>oscillation, rebin). But it’s possible to overwrite this option by making a flag <strong>force</strong>
-equal to True. Use this feature at your own risk!</p>
+</div></blockquote>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ob</span> <span class="o">=</span> <span class="n">o_norm</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ob&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
 </pre></div>
@@ -268,7 +268,7 @@ file names to load</p>
 <li><p>ob001.fits</p></li>
 <li><p>ob002.fits</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_ob</span> <span class="o">=</span> <span class="p">[</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">ob</span><span class="o">/</span><span class="n">ob001</span><span class="o">.</span><span class="n">fits</span><span class="s1">&#39;, &#39;</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">ob</span><span class="o">/</span><span class="n">ob002</span><span class="o">.</span><span class="n">fits</span><span class="s1">&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_ob</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/Users/me/ob/ob001.fits&#39;</span><span class="p">,</span> <span class="s1">&#39;/Users/me/ob/ob002.fits&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o_norm</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">list_ob</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
