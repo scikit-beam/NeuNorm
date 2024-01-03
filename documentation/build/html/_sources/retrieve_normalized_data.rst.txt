@@ -19,4 +19,3 @@ or
 >>> ob = o_norm.get_ob_data()
 >>> df = o_norm.get_df_data()
 >>> normalized = o_norm.get_normalized_data()
-
