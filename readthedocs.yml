@@ -3,12 +3,12 @@
 
 # python version
 python:
-   version: 3.5
+   version: 3.10
    pip_install: True
 
 # build a PDF
 formats:
-  - none
+  - htmlzip
 
 # use a conda environment file
 # - https://conda.io/docs/using/envs.html#share-an-environment
