@@ -1,9 +1,11 @@
+"""Normalization module for NeuNorm"""
+#!/usr/bin/env python
 from pathlib import Path
 import numpy as np
 import os
 import copy
-import time
 from scipy.ndimage import convolve
+from tqdm.auto import tqdm
 
 from NeuNorm.loader import load_hdf, load_tiff, load_fits
 from NeuNorm.exporter import make_fits, make_tif
@@ -12,7 +14,7 @@ from NeuNorm._utilities import get_sorted_list_images, average_df
 from NeuNorm import DataType
 
 
-class Normalization(object):
+class Normalization:
     working_data_type = np.float32
 
     def __init__(self):
@@ -80,13 +82,8 @@ class Normalization(object):
         """
 
         list_exec_flag = [_flag for _flag in self.__exec_process_status.values()]
-        box1 = None
         if True in list_exec_flag:
             raise IOError("Operation not allowed as you already worked on this data set!")
-
-        if notebook:
-            from ipywidgets import widgets
-            from IPython.display import display
 
         if not file == '':
             if isinstance(file, str):
@@ -97,57 +94,20 @@ class Normalization(object):
                                manual_gamma_threshold=manual_gamma_threshold,
                                check_shape=check_shape)
             elif isinstance(file, list):
-                if notebook:
-                    # turn on progress bar
-                    _message = "Loading {}".format(data_type)
-                    box1 = widgets.HBox([widgets.Label(_message,
-                                                       layout=widgets.Layout(width='20%')),
-                                         widgets.IntProgress(max=len(file)),
-                                         widgets.Label("Time remaining:",
-                                                       layout=widgets.Layout(width='10%')),
-                                         widgets.Label(" >> calculating << ")])
-                    display(box1)
-                    w1 = box1.children[1]
-                    time_remaining_ui = box1.children[-1]
-
-                start_time = time.time()
-                for _index, _file in enumerate(file):
+                # use tqdm to handle the progress bar
+                for _file in tqdm(file, desc=f'Loading {data_type}', leave=False):
                     self.load_file(file=_file,
                                    data_type=data_type,
                                    auto_gamma_filter=auto_gamma_filter,
                                    manual_gamma_filter=manual_gamma_filter,
                                    manual_gamma_threshold=manual_gamma_threshold,
                                    check_shape=check_shape)
-                    if notebook:
-                        w1.value = _index + 1
-                        end_time = time.time()
-                        takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
-                                                                                            time_it_took_so_far=end_time - start_time,
-                                                                                            total_number_of_loop=len(
-                                                                                                file))
-                        time_remaining_ui.value = "{}".format(takes_its_going_to_take)
-
-                if notebook:
-                    box1.close()
 
         elif not folder == '':
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
-            if notebook:
-                # turn on progress bar
-                _message = "Loading {}".format(data_type)
-                box1 = widgets.HBox([widgets.Label(_message,
-                                                   layout=widgets.Layout(width='20%')),
-                                     widgets.IntProgress(max=len(list_images)),
-                                     widgets.Label("Time remaining:",
-                                                   layout=widgets.Layout(width='10%')),
-                                     widgets.Label(" >> calculating << ")])
-                display(box1)
-                w1 = box1.children[1]
-                time_remaining_ui = box1.children[-1]
-
-            start_time = time.time()
-            for _index, _image in enumerate(list_images):
+            # use tqdm to handle the progress bar
+            for _file in tqdm(list_images, desc=f'Loading {data_type}', leave=False):
                 full_path_image = os.path.join(folder, _image)
                 self.load_file(file=full_path_image,
                                data_type=data_type,
@@ -155,18 +115,6 @@ class Normalization(object):
                                manual_gamma_filter=manual_gamma_filter,
                                manual_gamma_threshold=manual_gamma_threshold,
                                check_shape=check_shape)
-                if notebook:
-                    # update progress bar
-                    w1.value = _index + 1
-                    end_time = time.time()
-                    takes_its_going_to_take = self.calculate_how_long_its_going_to_take(index_we_are=_index + 1,
-                                                                                        time_it_took_so_far=end_time - start_time,
-                                                                                        total_number_of_loop=len(
-                                                                                            list_images))
-                    time_remaining_ui.value = "{}".format(takes_its_going_to_take)
-
-            if notebook:
-                box1.close()
 
         elif not data is None:
             self.load_data(data=data, data_type=data_type)
@@ -208,28 +156,11 @@ class Normalization(object):
             notebook: boolean - turn on this option if you run the library from a
                  notebook to have a progress bar displayed showing you the progress of the loading (default False)
         """
-        if notebook:
-            from ipywidgets import widgets
-            from IPython.display import display
-
         if len(np.shape(data)) > 2:
-            if notebook:
-                _message = "Loading {}".format(data_type)
-                box1 = widgets.HBox([widgets.Label(_message,
-                                                   layout=widgets.Layout(width='20%')),
-                                     widgets.IntProgress(max=len(data))])
-                display(box1)
-                w1 = box1.children[1]
-
-            for _index, _data in enumerate(data):
+            # use tqdm to handle the progress bar
+            for _data in tqdm(data, desc=f'Loading {data_type}', leave=False):
                 _data = _data.astype(self.working_data_type)
                 self.__load_individual_data(data=_data, data_type=data_type)
-                if notebook:
-                    # update progress bar
-                    w1.value = _index + 1
-
-            if notebook:
-                box1.close()
 
         else:
             data = data.astype(self.working_data_type)
