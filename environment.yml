@@ -2,14 +2,22 @@ name: NeuNorm
 channels:
   - conda-forge
 dependencies:
+  # base
+  - python
+  - setuptools
+  - pip
+  # compute
   - astropy
   - numpy
-  - pathlib
   - scipy
-  - setuptools
+  - ipython
+  #
+  - pathlib
+  - tqdm
+  # tests
   - pytest
-  - pip
+  # doc
   - sphinx
   - sphinx_rtd_theme
   - nbsphinx
-  - ipython
+  
