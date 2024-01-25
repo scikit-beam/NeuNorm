@@ -107,7 +107,7 @@ class Normalization:
             # load all files from folder
             list_images = get_sorted_list_images(folder=folder)
             # use tqdm to handle the progress bar
-            for _file in tqdm(list_images, desc=f'Loading {data_type}', leave=False):
+            for _image in tqdm(list_images, desc=f'Loading {data_type}', leave=False):
                 full_path_image = os.path.join(folder, _image)
                 self.load_file(file=full_path_image,
                                data_type=data_type,
